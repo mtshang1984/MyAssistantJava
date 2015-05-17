@@ -38,8 +38,8 @@ public class Requirement {
 
 	public void PrintRequirement() {
 		String string_to_print = requirement_index + "\t" + requirement_content;
-		if(if_be_satisfied)string_to_print+="\t ÒÑÂú×ã";
-		else string_to_print+="\t Î´Âú×ã";
+		if(if_be_satisfied)string_to_print+="\t å·²æ»¡è¶³";
+		else string_to_print+="\t æœªæ»¡è¶³";
 		System.out.println(string_to_print);
 	}
 

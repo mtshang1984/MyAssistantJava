@@ -16,14 +16,14 @@ public class RequirementsAnalysis {
 
 	}
 
-	//ÁĞ¾ÙĞèÇó
+	//åˆ—ä¸¾éœ€æ±‚
 	public void AnalysisRequirement(){
 		LifeRequirement();
 		StartupRequirement();
 	}
 	
 	public void LifeRequirement(){
-		requirement_list.addRequirement(new Requirement("1","¹ıÉÏºÃµÄÉú»î",false));
+		requirement_list.addRequirement(new Requirement("1","è¿‡ä¸Šå¥½çš„ç”Ÿæ´»",false));
 		DecorationRequirement();
 		EntertainmentRequirement();
 		FosterKid();
@@ -32,61 +32,61 @@ public class RequirementsAnalysis {
 
 	public void DecorationRequirement(){
 
-		requirement_list.addRequirement(new Requirement("1.1","°ÑĞÂ·¿×°ĞŞºÃ",false));
-		requirement_list.addRequirement(new Requirement("1.1.1","Ñ¡ÔñºÃµÄ×°ĞŞ¹«Ë¾",false));
-		requirement_list.addRequirement(new Requirement("1.1.1.1","ÕÒ³öÁ½¸öÉè¼ÆÊ¦µÄ´ú±í×÷",false));
-		requirement_list.addRequirement(new Requirement("1.1.1","°ÑÎÕºÃ×°ĞŞÔ¤Ëã",false));
+		requirement_list.addRequirement(new Requirement("1.1","æŠŠæ–°æˆ¿è£…ä¿®å¥½",false));
+		requirement_list.addRequirement(new Requirement("1.1.1","é€‰æ‹©å¥½çš„è£…ä¿®å…¬å¸",false));
+		requirement_list.addRequirement(new Requirement("1.1.1.1","æ‰¾å‡ºä¸¤ä¸ªè®¾è®¡å¸ˆçš„ä»£è¡¨ä½œ",false));
+		requirement_list.addRequirement(new Requirement("1.1.1","æŠŠæ¡å¥½è£…ä¿®é¢„ç®—",false));
 	}
 
 	public void EntertainmentRequirement(){
 
-		requirement_list.addRequirement(new Requirement("1.2","»ñµÃ×ã¹»µÄÓéÀÖ",false));
-		requirement_list.addRequirement(new Requirement("1.2.1","ÔÄ¶ÁÓĞÒâÒåµÄĞÂÎÅ",false));
-		requirement_list.addRequirement(new Requirement("1.2.2","¿´Ò»Ğ©ºÃ¿´µÄÃÀ¾ç",false));
+		requirement_list.addRequirement(new Requirement("1.2","è·å¾—è¶³å¤Ÿçš„å¨±ä¹",false));
+		requirement_list.addRequirement(new Requirement("1.2.1","é˜…è¯»æœ‰æ„ä¹‰çš„æ–°é—»",false));
+		requirement_list.addRequirement(new Requirement("1.2.2","çœ‹ä¸€äº›å¥½çœ‹çš„ç¾å‰§",false));
 	}
 
 	public void FosterKid(){
 
-		requirement_list.addRequirement(new Requirement("1.3","ÅàÑøÒ»¸öĞÒ¸£µÄĞ¡º¢",false));
+		requirement_list.addRequirement(new Requirement("1.3","åŸ¹å…»ä¸€ä¸ªå¹¸ç¦çš„å°å­©",false));
 	}
 
 	public void Shopping(){
 
-		requirement_list.addRequirement(new Requirement("1.4","×¼±¸ºÃÉú»îËùĞèµÄ¶«Î÷",false));
-		requirement_list.addRequirement(new Requirement("1.4.1","¸øÀÏÆÅÑ°ÕÒºÏÊÊµÄÒÂ·ş",false));
-		requirement_list.addRequirement(new Requirement("1.4.2","¼ÒÍ¥ÈÕÓÃÆ·¼°Ê±²É¹º",false));
-		requirement_list.addRequirement(new Requirement("1.4.2.1","¸øÀîçâÂèÂèÂò×ÔÅÄ¸Ë",false));
-		requirement_list.addRequirement(new Requirement("1.4.2.1.1","×ÔÅÄ¸Ë¾ßÓĞÂÁºÏ½ğ²ÄÖÊ£¬´ø±ä½¹£¬´ı»úÊ±¼ä³¤£¬À¶ÑÀ",false));
+		requirement_list.addRequirement(new Requirement("1.4","å‡†å¤‡å¥½ç”Ÿæ´»æ‰€éœ€çš„ä¸œè¥¿",false));
+		requirement_list.addRequirement(new Requirement("1.4.1","ç»™è€å©†å¯»æ‰¾åˆé€‚çš„è¡£æœ",false));
+		requirement_list.addRequirement(new Requirement("1.4.2","å®¶åº­æ—¥ç”¨å“åŠæ—¶é‡‡è´­",false));
+		requirement_list.addRequirement(new Requirement("1.4.2.1","ç»™æç®å¦ˆå¦ˆä¹°è‡ªæ‹æ†",false));
+		requirement_list.addRequirement(new Requirement("1.4.2.1.1","è‡ªæ‹æ†å…·æœ‰é“åˆé‡‘æè´¨ï¼Œå¸¦å˜ç„¦ï¼Œå¾…æœºæ—¶é—´é•¿ï¼Œè“ç‰™",false));
 	}
 	
 	public void StartupRequirement(){
-		requirement_list.addRequirement(new Requirement("2","¿ª´´×Ô¼ºµÄÊÂÒµ",false));
+		requirement_list.addRequirement(new Requirement("2","å¼€åˆ›è‡ªå·±çš„äº‹ä¸š",false));
 		SoftwareDevelopmentRequirement();
 		DroneDevelopmentRequirement();
 	}
 	
 	public  void SoftwareDevelopmentRequirement(){
-		requirement_list.addRequirement(new Requirement("2.1","¿ª·¢Ò»¿éÊĞ³¡»¶Ó­µÄÈí¼ş",false));
-		requirement_list.addRequirement(new Requirement("2.1.1","Èí¼ş¿ÉÒÔÊ¹ÈËÀà¸üºÃÉú»îºÍ¹¤×÷µÄ",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.1","Èí¼ş¿ÉÒÔÊµÏÖÉè¼ÆµÄ×Ô¶¯»¯",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.2","Èí¼ş¿ÉÒÔÊµÏÖ¼ÒÍ¥Éú»îµÄ×Ô¶¯»¯",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.2.1","Èí¼ş¿ÉÒÔÊµÏÖ×Ô¶¯ÅÄ³µÅÆ",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.2.2","Èí¼ş¿ÉÒÔÊµÏÖ×Ô¶¯Âò»ğ³µÆ±",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.2.3","Èí¼ş¿ÉÒÔÊµÏÖ×Ô¶¯¹ºÂòÈÕ³£ÓÃÆ·",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.2.4","Èí¼ş¿ÉÒÔÊµÏÖ¸ĞĞËÈ¤µÄĞÂÎÅµÄ×Ô¶¯ÍÆËÍ",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.2.5","Èí¼ş¿ÉÒÔÊµÏÖÌìÆøµÄ×Ô¶¯ÍÆËÍ",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.2.6","Èí¼ş¿ÉÒÔÊµÏÖºÏÊÊÔ¼»á¶ÔÏóµÄ×Ô¶¯Æ¥Åä",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.2.7","Èí¼ş¿ÉÒÔÊµÏÖ¹ÉÊĞĞĞÇéµÄ×Ô¶¯Ô¤²âºÍ³´¹É",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.2.7","Èí¼ş¿ÉÒÔÊµÏÖÊìÈËÖ®¼äĞÅÏ¢µÄ·ÖÏí",false));
-		requirement_list.addRequirement(new Requirement("2.1.1.3","Èí¼ş¿ÉÒÔÊµÏÖĞÅÏ¢µÄ×Ô¶¯ÕûºÏ",false));
+		requirement_list.addRequirement(new Requirement("2.1","å¼€å‘ä¸€å—å¸‚åœºæ¬¢è¿çš„è½¯ä»¶",false));
+		requirement_list.addRequirement(new Requirement("2.1.1","è½¯ä»¶å¯ä»¥ä½¿äººç±»æ›´å¥½ç”Ÿæ´»å’Œå·¥ä½œçš„",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.1","è½¯ä»¶å¯ä»¥å®ç°è®¾è®¡çš„è‡ªåŠ¨åŒ–",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.2","è½¯ä»¶å¯ä»¥å®ç°å®¶åº­ç”Ÿæ´»çš„è‡ªåŠ¨åŒ–",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.2.1","è½¯ä»¶å¯ä»¥å®ç°è‡ªåŠ¨æ‹è½¦ç‰Œ",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.2.2","è½¯ä»¶å¯ä»¥å®ç°è‡ªåŠ¨ä¹°ç«è½¦ç¥¨",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.2.3","è½¯ä»¶å¯ä»¥å®ç°è‡ªåŠ¨è´­ä¹°æ—¥å¸¸ç”¨å“",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.2.4","è½¯ä»¶å¯ä»¥å®ç°æ„Ÿå…´è¶£çš„æ–°é—»çš„è‡ªåŠ¨æ¨é€",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.2.5","è½¯ä»¶å¯ä»¥å®ç°å¤©æ°”çš„è‡ªåŠ¨æ¨é€",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.2.6","è½¯ä»¶å¯ä»¥å®ç°åˆé€‚çº¦ä¼šå¯¹è±¡çš„è‡ªåŠ¨åŒ¹é…",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.2.7","è½¯ä»¶å¯ä»¥å®ç°è‚¡å¸‚è¡Œæƒ…çš„è‡ªåŠ¨é¢„æµ‹å’Œç‚’è‚¡",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.2.7","è½¯ä»¶å¯ä»¥å®ç°ç†Ÿäººä¹‹é—´ä¿¡æ¯çš„åˆ†äº«",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.3","è½¯ä»¶å¯ä»¥å®ç°ä¿¡æ¯çš„è‡ªåŠ¨æ•´åˆ",false));
 	}
 	
 	public  void DroneDevelopmentRequirement(){
-		requirement_list.addRequirement(new Requirement("2.2","¿ª·¢Ò»ĞÍÊĞ³¡»¶Ó­µÄÎŞÈË»ú",false));
-		requirement_list.addRequirement(new Requirement("2.2.1","Íê³ÉºÃµÄÎŞÈË»ú×ÜÌåÉè¼Æ",false));
-		requirement_list.addRequirement(new Requirement("2.2.2","Íê³ÉºÃµÄÎŞÈË»ú¿ØÖÆÏµÍ³ÑĞÖÆ",false));
-		requirement_list.addRequirement(new Requirement("2.2.3","Íê³ÉºÃµÄÎŞÈË»ú»úĞµÏµÍ³ÑĞÖÆ",false));
-		requirement_list.addRequirement(new Requirement("2.2.4","Íê³ÉºÃµÄÊĞ³¡ÓªÏú",false));
+		requirement_list.addRequirement(new Requirement("2.2","å¼€å‘ä¸€å‹å¸‚åœºæ¬¢è¿çš„æ— äººæœº",false));
+		requirement_list.addRequirement(new Requirement("2.2.1","å®Œæˆå¥½çš„æ— äººæœºæ€»ä½“è®¾è®¡",false));
+		requirement_list.addRequirement(new Requirement("2.2.2","å®Œæˆå¥½çš„æ— äººæœºæ§åˆ¶ç³»ç»Ÿç ”åˆ¶",false));
+		requirement_list.addRequirement(new Requirement("2.2.3","å®Œæˆå¥½çš„æ— äººæœºæœºæ¢°ç³»ç»Ÿç ”åˆ¶",false));
+		requirement_list.addRequirement(new Requirement("2.2.4","å®Œæˆå¥½çš„å¸‚åœºè¥é”€",false));
 	}
 
 
@@ -95,7 +95,7 @@ public class RequirementsAnalysis {
 	}
 
 	
-	//²ÉÓÃÊı×éÀ´ÃèÊöĞèÇó
-	//Á´½ÓĞèÇóÊµÏÖ¹ı³Ì
-	//ÑéÖ¤ĞèÇó
+	//é‡‡ç”¨æ•°ç»„æ¥æè¿°éœ€æ±‚
+	//é“¾æ¥éœ€æ±‚å®ç°è¿‡ç¨‹
+	//éªŒè¯éœ€æ±‚
 }
