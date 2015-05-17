@@ -41,6 +41,7 @@ public class MyAssistant {
 		if (Keyword.isEmpty()) {
 			AssistantLife.Today();
 			AissitantStartup.Today();
+			
 		} else {
 			if (Search_Engine.isEmpty())
 				SearchEngine.BrowseSearchResults("Web", Keyword);
