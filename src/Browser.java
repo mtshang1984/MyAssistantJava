@@ -8,9 +8,12 @@ public class Browser {
 	// 启动chrome浏览器打开网址
 	public static void OpenUrl(String string_url) {
 		try {
-			if (System.getProperty("os.name").contains("Windows")) {
+			String string_command = "";
+			switch (OperatingSystem.getOperatingSystemName()) {
+			default:
+			case "windows":
 				// Windows下启动Chrome浏览器打开网页
-				String string_command = "chrome " + string_url;
+				string_command = "chrome " + string_url;
 				Runtime.getRuntime().exec(string_command);
 				try {
 					if (count_calling == 0) {
@@ -23,9 +26,10 @@ public class Browser {
 				}
 				count_calling++;
 				// System.out.println(string_command);
-			} else if (System.getProperty("os.name").contains("Linux")) {
+				break;
+			case "linux":
+
 				// Linux下启动w3m文本浏览器打开网页
-				String string_command = "";
 				if (string_url != "") {
 					if (count_calling == 0) {
 						string_command = "#!/bin/bash\n";
@@ -71,10 +75,11 @@ public class Browser {
 					System.out.println(string_command);
 					count_calling++;
 				}
-			} else {
+				break;
+			case "android":
 				System.out.println(System.getProperty("os.name"));
+				break;
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
