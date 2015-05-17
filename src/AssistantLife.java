@@ -1,6 +1,6 @@
 public class AssistantLife {
 	public static void Today() {
-		SearchEngine.BrowseSearchResults("web", "eclipse github");
+		SearchEngine.BrowseSearchResults("WEB", "eclipse 中文 UTF8");
 		/*  
 		 *   
 		SearchEngine.BrowseSearchResults("web", "ubuntu 14.04 gitolite 配置Git项目");

@@ -8,16 +8,16 @@ public class AissitantStartup {
 	}
 
 	public static void OldDay() {
-		// SearchEngine.BrowseSearchResults("web", "Æ·µêÍøÉÏ³¬ÊĞ");
-		SearchEngine.BrowseSearchResults("web", "ANDROID ÖĞ¹ú Ó¦ÓÃ ÊÕ·Ñ");
+		// SearchEngine.BrowseSearchResults("web", "å“åº—ç½‘ä¸Šè¶…å¸‚");
+		SearchEngine.BrowseSearchResults("web", "ANDROID ä¸­å›½ åº”ç”¨ æ”¶è´¹");
 		SearchEngine.BrowseSearchResults("download", "aide");
-		SearchEngine.BrowseSearchResults("web", "ÍøÅÌËÑË÷");
-		SearchEngine.BrowseSearchResults("wenda", "android SDK ÏÂÔØÂı");
-		SearchEngine.BrowseSearchResults("shopping", "·¢²¼");
-		SearchEngine.BrowseSearchResults("shopping", "¹È¸è¿ª·¢Õß ÕÊºÅ");
-		SearchEngine.BrowseSearchResults("wenda", "¹È¸è¿ª¿ª·¢Õß ÕÊºÅ ÊÕ·Ñ");
+		SearchEngine.BrowseSearchResults("web", "ç½‘ç›˜æœç´¢");
+		SearchEngine.BrowseSearchResults("wenda", "android SDK ä¸‹è½½æ…¢");
+		SearchEngine.BrowseSearchResults("shopping", "å‘å¸ƒ");
+		SearchEngine.BrowseSearchResults("shopping", "è°·æ­Œå¼€å‘è€… å¸å·");
+		SearchEngine.BrowseSearchResults("wenda", "è°·æ­Œå¼€å¼€å‘è€… å¸å· æ”¶è´¹");
 		/*
-		 * SearchEngine.BrowseSearchResults("web", "eclipse package º¬Òå");
+		 * SearchEngine.BrowseSearchResults("web", "eclipse package å«ä¹‰");
 		 */
 	}
 }
