@@ -1,6 +1,6 @@
 public class AssistantLife {
 	public static void Today() {
-		SearchEngine.BrowseSearchResults("WEB", "git 本地 同步 服务器");
+		SearchEngine.BrowseSearchResults("WEB", "aide 同步 git");
 		/*  
 		 *   
 		SearchEngine.BrowseSearchResults("web", "ubuntu 14.04 gitolite 配置Git项目");

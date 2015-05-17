@@ -77,7 +77,7 @@ public class Browser {
 				}
 				break;
 			case "android":
-				System.out.println(System.getProperty("os.name"));
+				System.out.println(System.getProperty("os.name")+"."+System.getProperty("os.arch")+" is not support");
 				break;
 			}
 		} catch (IOException e) {

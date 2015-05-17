@@ -34,7 +34,6 @@ public class MyAssistant {
 		Keyword = Keyword.trim();
 		Search_Engine = Search_Engine.trim();
 
-		System.out.println(System.getProperty("os.arch"));
 		RequirementsAnalysis requirements_analysis = new RequirementsAnalysis();
 		requirements_analysis.AnalysisRequirement();
 		requirements_analysis.ShowRequirement();
