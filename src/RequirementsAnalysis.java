@@ -48,6 +48,8 @@ public class RequirementsAnalysis {
 	public void FosterKid(){
 
 		requirement_list.addRequirement(new Requirement("1.3","培养一个幸福的小孩",false));
+		requirement_list.addRequirement(new Requirement("1.3.1","搜索一下自然流产的原因",false));
+		requirement_list.addRequirement(new Requirement("1.3.2","搜索一下男女备孕",false));
 	}
 
 	public void Shopping(){

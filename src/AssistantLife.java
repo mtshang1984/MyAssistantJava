@@ -1,22 +1,34 @@
 public class AssistantLife {
 	public static void Today() {
-		SearchEngine.BrowseSearchResults("WEB", "github oschina");
-		/*  
-		 *   
-		SearchEngine.BrowseSearchResults("web", "ubuntu 14.04 gitolite 配置Git项目");
-		SearchEngine.BrowseSearchResults("download", "2015 1080p");
-		SearchEngine.BrowseSearchResults("web", "ubuntu gitolite 使用") ;
+		SearchEngine.BrowseSearchResults("web", "购物 推荐");
+		
+		/*
+		 * 
+		 * SearchEngine.BrowseSearchResults("web", "购物 推荐");
+		 * SearchEngine.BrowseSearchResults("shopping", "自拍杆");
+		 * SearchEngine.BrowseSearchResults("wenda", "备孕");
+		 * SearchEngine.BrowseSearchResults("wenda", "自然流产");
+		 * SearchEngine.BrowseSearchResults("web",
+		 * "ubuntu 14.04 gitolite 配置Git项目");
+		 * SearchEngine.BrowseSearchResults("download", "2015 1080p");
+		 * SearchEngine.BrowseSearchResults("web", "ubuntu gitolite 使用") ;
 		 */
+		
 	}
 
-	
 	public static void OldDay() {
-		SearchEngine.BrowseSearchResults("download", "2015 1080p");
-		/*  
-		 *  
-		SearchEngine.BrowseSearchResults("wenda", "歌唱比赛  选歌 ");
-		SearchEngine.BrowseSearchResults("web", "校园 比赛 歌曲");
-		SearchEngine.BrowseSearchResults("social", "校园 比赛 歌曲");
+		SearchEngine.BrowseSearchResults("WEB", "github oschina");
+		/*
+		 * 
+		 * SearchEngine.BrowseSearchResults("web",
+		 * "ubuntu 14.04 gitolite 配置Git项目");
+		 * SearchEngine.BrowseSearchResults("download", "2015 1080p");
+		 * SearchEngine.BrowseSearchResults("web", "ubuntu gitolite 使用") ;
+		 * SearchEngine.BrowseSearchResults("download", "2015 1080p"); /*
+		 * 
+		 * SearchEngine.BrowseSearchResults("wenda", "歌唱比赛  选歌 ");
+		 * SearchEngine.BrowseSearchResults("web", "校园 比赛 歌曲");
+		 * SearchEngine.BrowseSearchResults("social", "校园 比赛 歌曲");
 		 */
 		SearchEngine.BrowseSearchResults("social", "自拍杆 铝 蓝牙");
 		/*
