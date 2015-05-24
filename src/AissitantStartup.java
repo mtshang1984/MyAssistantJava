@@ -2,6 +2,8 @@ public class AissitantStartup {
 
 	public static void Today() {
 
+
+		System.out.println("2015.05.24.10:30 下载材料设计语言的素材");
 		/*
 		 * 
 		 */
@@ -9,6 +11,7 @@ public class AissitantStartup {
 
 	public static void OldDay() {
 		// SearchEngine.BrowseSearchResults("web", "品店网上超市");
+		SearchEngine.BrowseSearchResults("web", "ANDROID STUDIO GITHUB");
 		SearchEngine.BrowseSearchResults("web", "ANDROID 中国 应用 收费");
 		SearchEngine.BrowseSearchResults("download", "aide");
 		SearchEngine.BrowseSearchResults("web", "网盘搜索");

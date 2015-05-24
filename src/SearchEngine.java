@@ -94,25 +94,26 @@ public class SearchEngine {
 		case "kuandaishan":
 			string_url = "http://s.kdslife.com/search?q=";
 			break;
-		//装修
+
+		// 装修
 		case "liba":
 			string_url = "http://www.libaclub.com/facade.php?act=search&searchAction=submit&keyword=";
 			break;
 		case "qijia":
 			string_url = "http://bbs.jia.com/f_57_0?key_words=";
 			break;
-			
-		//pingjia	
+
+		// pingjia
 		case "dianping":
 			string_url = "http://www.dianping.com/search/keyword/1/0_";
 			break;
-			
+
 		// 购物搜索
-		case "amazon":
-			string_url = "http://www.amazon.com/s/keywords=";
+		case "etao":
+			string_url = "http://s.etao.com/search?sort=sale-desc&all_cities=on&qservice=s12&fseller=%BE%A9%B6%AB%C9%CC%B3%C7%2C%D1%C7%C2%ED%D1%B7%2C%CB%D5%C4%FE%D2%D7%B9%BA%2C1%BA%C5%B5%EA%2C%CC%EC%C3%A8%2C%B9%FA%C3%C0%D4%DA%CF%DF%2C%D0%C2%B5%B0%C9%CC%B3%C7%2C%D2%D7%D1%B8%CD%F8%2C%B5%B1%B5%B1%CD%F8%2C%D7%DF%D0%E3%CD%F8%2C%C8%A4%CC%EC%C2%F3%CD%F8%2C%BA%AB%B9%FAGmarket+%B9%D9%CD%F8%2C%B7%B2%BF%CD%B3%CF%C6%B7%2C%B8%DF%BA%E8%C9%CC%B3%C7%2C%C8%A4%CD%E6%CD%F8%2C%D3%C5%B9%BA%CD%F8%2C%CB%B3%B7%E1%D3%C5%D1%A1%2C%BA%C3%C0%D6%C2%F2%2C%BC%B4%C9%D0%CD%F8%2Cd1%D3%C5%C9%D0%CD%F8%2Cvjia%C9%CC%B3%C7%2C%CD%F2%B1%ED%CD%F8%2Cbabymarket%B9%D9%CD%F8%2C%C7%D7%C7%D7%B1%A6%B1%B4%C9%CC%B3%C7%2C%D5%E4%C6%B7%CD%F8&q=";
 			break;
-		case "amazoncn":
-			string_url = "http://www.amazon.cn/s/sort=popularity-rank&keywords=";
+		case "smzdm":
+			string_url = "http://search.smzdm.com/?s=";
 			break;
 		case "taobao":
 			string_url = "http://s.taobao.com/search?psort=_lw_quantity&sort=sale-desc&q=";
@@ -120,8 +121,29 @@ public class SearchEngine {
 		case "jingdong":
 			string_url = "http://search.jd.com/Search?enc=utf-8&psort=3&keyword=";
 			break;
-		case "smzdm":
-			string_url = "http://search.smzdm.com/?s=";
+		case "yihaodian":
+			string_url = "http://search.yhd.com/c0-0/k";
+			break;
+		case "dangdang":
+			string_url = "http://search.dangdang.com/?sort_type=sort_sale_amt_desc&key=";
+			break;
+		case "amazon":
+			string_url = "http://www.amazon.com/s/keywords=";
+			break;
+		case "amazoncn":
+			string_url = "http://www.amazon.cn/s/sort=popularity-rank&keywords=";
+			break;
+		case "suningyigou":
+			string_url = "http://search.suning.com/";
+			break;
+		case "guomeizaixian":
+			string_url = "http://search.gome.com.cn/search?sort=10&question=";
+			break;
+		case "weipinhui":
+			string_url = "http://search.vip.com/search?searchkw=";
+			break;
+		case "lefeng":
+			string_url = "http://search.lefeng.com/search/search?sos=sd&key=";
 			break;
 
 		// 学术搜索
@@ -164,7 +186,7 @@ public class SearchEngine {
 			string_url = "http://www.360swp.com/s.php?q=";
 			break;
 		}
-		//生成URL
+		// 生成URL
 		try {
 			switch (search_egine_selection.toLowerCase()) {
 			default:
@@ -176,6 +198,14 @@ public class SearchEngine {
 			case "cllj":
 				string_url = string_url + URLEncoder.encode(Keyword, "UTF-8")
 						+ "/1.html";
+				break;
+			case "yihaodian":
+				string_url = string_url + URLEncoder.encode(Keyword, "UTF-8")
+						+ "#page=1&sort=2";
+				break;
+			case "suningyigou":
+				string_url = string_url + URLEncoder.encode(Keyword, "UTF-8")
+						+ "/cityId=9264";
 				break;
 			case "googleplus":
 				string_url = string_url + URLEncoder.encode(Keyword, "UTF-8")
@@ -262,14 +292,21 @@ public class SearchEngine {
 			Browser.OpenUrl("");
 			BrowseASearchResults("Dianping", Keyword);
 			break;
-			
+
 		case "shopping":
 			Browser.OpenUrl("");
+			BrowseASearchResults("SMZDM", Keyword);
+			BrowseASearchResults("etao", Keyword);
 			BrowseASearchResults("Taobao", Keyword);
 			BrowseASearchResults("Jingdong", Keyword);
-			BrowseASearchResults("SMZDM", Keyword);
-			BrowseASearchResults("Amazon", Keyword);
+			BrowseASearchResults("Yihaodian", Keyword);
+			BrowseASearchResults("dangdang", Keyword);
 			BrowseASearchResults("AmazonCN", Keyword);
+			BrowseASearchResults("suningyigou", Keyword);
+			BrowseASearchResults("guomeizaixian", Keyword);
+			BrowseASearchResults("weipinhui", Keyword);
+			BrowseASearchResults("lefeng", Keyword);
+			BrowseASearchResults("Amazon", Keyword);
 			break;
 		case "download":
 			Browser.OpenUrl("");
@@ -278,10 +315,10 @@ public class SearchEngine {
 			BrowseASearchResults("baiduyun", Keyword);
 			BrowseASearchResults("yisou", Keyword);
 			BrowseASearchResults("CLLJ", Keyword);
-			//BrowseASearchResults("panduoduo", Keyword);
-			//BrowseASearchResults("SWP360", Keyword);
-			//BrowseASearchResults("panyisou", Keyword);
-			//BrowseASearchResults("PanSou", Keyword);
+			// BrowseASearchResults("panduoduo", Keyword);
+			// BrowseASearchResults("SWP360", Keyword);
+			// BrowseASearchResults("panyisou", Keyword);
+			// BrowseASearchResults("PanSou", Keyword);
 			break;
 		case "scholar":
 			Browser.OpenUrl("");

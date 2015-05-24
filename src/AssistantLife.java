@@ -1,9 +1,40 @@
 public class AssistantLife {
 	public static void Today() {
-		SearchEngine.BrowseSearchResults("web", "购物 推荐");
-		
+
+		 
+		System.out.println("2015.05.24.9:33 洗碗");
+		System.out.println("2015.05.24.10:30 京东采购");
+		System.out.println("2015.05.24.10:30 1号店采购");
+		System.out.println("2015.05.24.11:00 京东采购");
+		System.out.println("2015.05.24.13:00 休息睡觉");
+		System.out.println("2015.05.24.16:00 出去买菜");
+		System.out.println("2015.05.24.16:00 京东扫帚");
 		/*
 		 * 
+		SearchEngine.BrowseSearchResults("wenda", "香港 转运 iphone 6");
+		SearchEngine.BrowseSearchResults("shopping", "微力达 扫把");
+		SearchEngine.BrowseSearchResults("shopping", "扫把");
+		SearchEngine.BrowseSearchResults("wenda", "扫地 选购");
+		SearchEngine.BrowseSearchResults("wenda", "扫把 选购");
+		 * SearchEngine.BrowseSearchResults("wenda", "查拉图斯特拉如是说 翻译");
+		 * SearchEngine.BrowseSearchResults("web", "尼采 语言");
+		 * SearchEngine.BrowseSearchResults("web", "尼采 希特勒");
+		 * SearchEngine.BrowseSearchResults("web", "nexus 5 LMY48b  root ");
+		 * SearchEngine.BrowseSearchResults("web", "支付宝 生活 缴费");
+		 */
+
+	}
+
+	public static void OldDay() {
+		SearchEngine.BrowseSearchResults("WEB", "github oschina");
+		/*
+		 * public static void Today() {
+		 * SearchEngine.BrowseSearchResults("wenda", "查拉图斯特拉如是说 翻译");
+		 * SearchEngine.BrowseSearchResults("web", "尼采 语言");
+		 * SearchEngine.BrowseSearchResults("web", "尼采 希特勒");
+		 * SearchEngine.BrowseSearchResults("web", "nexus 5 LMY48b  root ");
+		 * SearchEngine.BrowseSearchResults("web", "支付宝 生活 缴费");
+		 * SearchEngine.BrowseSearchResults("web", "购物 推荐");
 		 * SearchEngine.BrowseSearchResults("web", "购物 推荐");
 		 * SearchEngine.BrowseSearchResults("shopping", "自拍杆");
 		 * SearchEngine.BrowseSearchResults("wenda", "备孕");
@@ -11,14 +42,7 @@ public class AssistantLife {
 		 * SearchEngine.BrowseSearchResults("web",
 		 * "ubuntu 14.04 gitolite 配置Git项目");
 		 * SearchEngine.BrowseSearchResults("download", "2015 1080p");
-		 * SearchEngine.BrowseSearchResults("web", "ubuntu gitolite 使用") ;
-		 */
-		
-	}
-
-	public static void OldDay() {
-		SearchEngine.BrowseSearchResults("WEB", "github oschina");
-		/*
+		 * SearchEngine.BrowseSearchResults("web", "ubuntu gitolite 使用") ; /*
 		 * 
 		 * SearchEngine.BrowseSearchResults("web",
 		 * "ubuntu 14.04 gitolite 配置Git项目");

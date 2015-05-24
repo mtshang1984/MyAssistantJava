@@ -81,6 +81,7 @@ public class RequirementsAnalysis {
 		requirement_list.addRequirement(new Requirement("2.1.1.2.7","软件可以实现股市行情的自动预测和炒股",false));
 		requirement_list.addRequirement(new Requirement("2.1.1.2.7","软件可以实现熟人之间信息的分享",false));
 		requirement_list.addRequirement(new Requirement("2.1.1.3","软件可以实现信息的自动整合",false));
+		requirement_list.addRequirement(new Requirement("2.1.1.4","软件可以实现根据关键词显示相关信息链接",false));
 	}
 	
 	public  void DroneDevelopmentRequirement(){
