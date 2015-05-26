@@ -140,7 +140,7 @@ public class SearchEngine {
 			string_url = "http://search.gome.com.cn/search?sort=10&question=";
 			break;
 		case "weipinhui":
-			string_url = "http://search.vip.com/search?searchkw=";
+			string_url = "http://search.vip.com/search?sort=6&searchkw=";
 			break;
 		case "lefeng":
 			string_url = "http://search.lefeng.com/search/search?sos=sd&key=";
@@ -255,15 +255,13 @@ public class SearchEngine {
 			BrowseASearchResults("guokewenda", Keyword);
 			break;
 
-		case "jiankang":
+		case "scholar":
 			Browser.OpenUrl("");
-			BrowseASearchResults("39jiankang", Keyword);
+			BrowseASearchResults("googlescholar", Keyword);
+			BrowseASearchResults("bingacademic", Keyword);
+			BrowseASearchResults("baiduxueshu", Keyword);
 			break;
 
-		case "lvyou":
-			Browser.OpenUrl("");
-			BrowseASearchResults("mafengwowenda", Keyword);
-			break;
 
 		case "baike":
 			Browser.OpenUrl("");
@@ -280,17 +278,6 @@ public class SearchEngine {
 			BrowseASearchResults("Weibo", Keyword);
 			BrowseASearchResults("GooglePlus", Keyword);
 			BrowseASearchResults("KuanDaiShan", Keyword);
-			break;
-
-		case "zhuangxiu":
-			Browser.OpenUrl("");
-			BrowseASearchResults("Liba", Keyword);
-			BrowseASearchResults("Qijia", Keyword);
-			break;
-
-		case "koubei":
-			Browser.OpenUrl("");
-			BrowseASearchResults("Dianping", Keyword);
 			break;
 
 		case "shopping":
@@ -320,12 +307,29 @@ public class SearchEngine {
 			// BrowseASearchResults("panyisou", Keyword);
 			// BrowseASearchResults("PanSou", Keyword);
 			break;
-		case "scholar":
+
+		case "zhuangxiu":
 			Browser.OpenUrl("");
-			BrowseASearchResults("googlescholar", Keyword);
-			BrowseASearchResults("bingacademic", Keyword);
-			BrowseASearchResults("baiduxueshu", Keyword);
+			BrowseASearchResults("Liba", Keyword);
+			BrowseASearchResults("Qijia", Keyword);
 			break;
+
+		case "koubei":
+			Browser.OpenUrl("");
+			BrowseASearchResults("Dianping", Keyword);
+			break;
+			
+		case "lvyou":
+			Browser.OpenUrl("");
+			BrowseASearchResults("mafengwowenda", Keyword);
+			break;
+			
+		case "jiankang":
+			Browser.OpenUrl("");
+			BrowseASearchResults("39jiankang", Keyword);
+			break;
+
 		}
+			
 	}
 }
