@@ -5,9 +5,9 @@ public class AissitantStartup {
 
 	public static void Today() {
 
-		System.out.println("2015.11.6  完成应用提交");
 
 		/*
+		System.out.println("2015.11.6  完成应用提交");
 		SearchEngine.BrowseSearchResults("web", "只是简单的网页剪切、内容聚合器或者罗列链接");
 		 * 
 		 */

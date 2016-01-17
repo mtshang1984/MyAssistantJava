@@ -1,19 +1,26 @@
 package Assistant;
 import CommonEnum.SearchEngineEnum;
+import MindMap.MindMap;
 import SearchEngine.Browser;
 import SearchEngine.SearchEngine;
+import SshConnection.TestSshConnection;
 
 public class AssistantLife {
 	public static void Today() {
-		 SearchEngine.BrowseSearchResults(SearchEngineEnum.web, "java ssh2");
-
+		//TestSshConnection test_ssh_connection = new TestSshConnection();
+		//test_ssh_connection.testSshConnection();
+		MindMap mind_map=new MindMap();
+		mind_map.ShowMindmap();
+		
 		/*
+		 SearchEngine.BrowseSearchResults(SearchEngineEnum.wenda, "eclipse java jar 库使用");
+		 SearchEngine.BrowseSearchResults(SearchEngineEnum.download, "太子妃升职记");
+		 SearchEngine.BrowseSearchResults(SearchEngineEnum.wenda, "java ssh 远程");
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.web, "linux 云盘 私有");
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.web, "eclipse  自动隐藏");
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.web, " shadowsocks 联通4g dns查找失败");
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.wenda, "蓝牙 立体声 麦克风  同时开启");
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.web, "太子妃升职记 33 bt");
-		 SearchEngine.BrowseSearchResults(SearchEngineEnum.download, "太子妃升职记");
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.download, "webstorm 11");
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.download, "photoshop cc");{
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.download, "MyEclipse  Stable 2.0 2015 ");

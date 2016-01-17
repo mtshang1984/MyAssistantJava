@@ -47,10 +47,9 @@ public class MyAssistant {
 		// 搜索信息
 		Keyword = Keyword.trim();
 		Search_Engine = Search_Engine.trim();
-
-		RequirementsAnalysis requirements_analysis = new RequirementsAnalysis();
-		requirements_analysis.AnalysisRequirement();
-		requirements_analysis.ShowRequirement();
+		//RequirementsAnalysis requirements_analysis = new RequirementsAnalysis();
+		//requirements_analysis.AnalysisRequirement();
+		//requirements_analysis.ShowRequirement();
 		
 		if (Keyword.isEmpty()) {
 			File config_file=new File("config.ini");
@@ -84,10 +83,8 @@ public class MyAssistant {
 					e.printStackTrace();
 				}
 			}
-				
 			AssistantLife.Today();
 			AissitantStartup.Today();
-			
 		} else {
 			if (Search_Engine.isEmpty())
 				SearchEngine.BrowseSearchResults("Web", Keyword);
