@@ -12,6 +12,7 @@ public class AssistantLife {
 		MindMap mind_map=new MindMap();
 		mind_map.ShowMindmap();
 		
+		 SearchEngine.BrowseSearchResults(SearchEngineEnum.web, "t450s  后盖  流程");
 		/*
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.wenda, "eclipse java jar 库使用");
 		 SearchEngine.BrowseSearchResults(SearchEngineEnum.download, "太子妃升职记");
