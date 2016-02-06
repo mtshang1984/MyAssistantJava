@@ -6,18 +6,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import Assistant.AissitantStartup;
-import Assistant.AssistantLife;
+import Assistant.AssistantBackup;
+import Assistant.Assistant;
 import Requirement.RequirementsAnalysis;
 import SearchEngine.SearchEngine;
 
 
 public class MyAssistant {
-
 	public static void main(String[] args) {
 		// 分析命令行参数
 		String Keyword = "";
-		String Search_Engine = "";
+		String searchEngineSelection = "";
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equals("-k")) {
 				for (int j = i + 1; j < args.length; j++) {
@@ -32,7 +31,7 @@ public class MyAssistant {
 			} else if (args[i].equals("-s")) {
 				for (int j = i + 1; j < args.length; j++) {
 					if (!args[j].equals("-s") && !args[j].equals("-k")) {
-						Search_Engine = Search_Engine + " " + args[j];
+						searchEngineSelection = searchEngineSelection + " " + args[j];
 						// System.out.println(Search_Engine);
 					} else {
 						// i = j - 1;
@@ -46,30 +45,31 @@ public class MyAssistant {
 		}
 		// 搜索信息
 		Keyword = Keyword.trim();
-		Search_Engine = Search_Engine.trim();
+		searchEngineSelection = searchEngineSelection.trim();
+		SearchEngine searchEngine=new SearchEngine();
 		//RequirementsAnalysis requirements_analysis = new RequirementsAnalysis();
 		//requirements_analysis.AnalysisRequirement();
 		//requirements_analysis.ShowRequirement();
 		
 		if (Keyword.isEmpty()) {
-			File config_file=new File("config.ini");
-			if(!config_file.exists()){
+			File configFile=new File("config.ini");
+			if(!configFile.exists()){
 				System.out.println("找不到config.ini文件！");
 				System.exit(0);
 			}else
 			{
 				try {
-					FileInputStream file_input_stream=new FileInputStream(config_file); 
-					InputStreamReader input_stream_reader;
+					FileInputStream fileInputStream=new FileInputStream(configFile); 
+					InputStreamReader inputStreamReader;
 					try {
-						input_stream_reader = new InputStreamReader(file_input_stream, "GBK");
-						BufferedReader input_stream=new BufferedReader(input_stream_reader);
+						inputStreamReader = new InputStreamReader(fileInputStream, "GBK");
+						BufferedReader inputStream=new BufferedReader(inputStreamReader);
 						String tempString = null;
 						try {
-							while((tempString=input_stream.readLine())!= null){
+							while((tempString=inputStream.readLine())!= null){
 								System.out.println(tempString);
 							}
-							input_stream_reader.close();
+							inputStreamReader.close();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -83,13 +83,14 @@ public class MyAssistant {
 					e.printStackTrace();
 				}
 			}
-			AssistantLife.Today();
-			AissitantStartup.Today();
+
+			Assistant assistant=new Assistant();
+			assistant.runToday();
 		} else {
-			if (Search_Engine.isEmpty())
-				SearchEngine.BrowseSearchResults("Web", Keyword);
+			if (searchEngineSelection.isEmpty())
+				searchEngine.browseSearchResults("Web", Keyword);
 			else
-				SearchEngine.BrowseSearchResults(Search_Engine, Keyword);
+				searchEngine.browseSearchResults(searchEngineSelection, Keyword);
 		}
 
 	}

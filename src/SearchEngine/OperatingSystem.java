@@ -3,7 +3,7 @@ package SearchEngine;
 import CommonEnum.OperatingSystemEnum;
 
 public class OperatingSystem {
-	public static OperatingSystemEnum getOperatingSystemName(){
+	public OperatingSystemEnum getOperatingSystemName(){
 		if (System.getProperty("os.name").contains("Windows")) {
 			return OperatingSystemEnum.windows;
 		} else if (System.getProperty("os.name").contains("Linux")&& System.getProperty("os.arch").contains("arm")==false) {
