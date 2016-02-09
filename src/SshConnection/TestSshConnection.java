@@ -12,7 +12,7 @@ public class TestSshConnection {
 
 	public void testSshConnection() {
 		// TODO Auto-generated constructor stub
-		String hostname = "www.ijushan.com";
+		String hostname = "192.168.1.105";
 		String username = "smt";
 		String password = "ShMT0659";
 

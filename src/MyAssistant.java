@@ -10,7 +10,11 @@ import Assistant.AssistantBackup;
 import Assistant.Assistant;
 import Requirement.RequirementsAnalysis;
 import SearchEngine.SearchEngine;
-
+/**
+ * 
+ * @author smt
+ *
+ */
 
 public class MyAssistant {
 	public static void main(String[] args) {

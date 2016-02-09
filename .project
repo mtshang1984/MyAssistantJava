@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>ganymed-ssh2-build210</name>
+			<type>2</type>
+			<location>D:/01_code_lib/01_java/ganymed-ssh2-build210/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>

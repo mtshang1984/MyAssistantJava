@@ -41,13 +41,13 @@ public class AssistantBackup {
 			windowsAutomation.runCommandWithShow("data");
 			try {
 				Process process=windowsAutomation.runCommand("ftp");
-				windowsAutomation.putTextToProcess(process,"open 192.168.1.101 2121"+"\n");
-				windowsAutomation.putTextToProcess(process,"smt"+"\n");
-				windowsAutomation.putTextToProcess(process,"smt"+"\n");
+				windowsAutomation.putCommandToProcess(process,"open 192.168.1.101 2121"+"\n");
+				windowsAutomation.putCommandToProcess(process,"smt"+"\n");
+				windowsAutomation.putCommandToProcess(process,"smt"+"\n");
 
-				windowsAutomation.putTextToProcess(process,"dir"+"\n");
-				windowsAutomation.putTextToProcess(process,"quit"+"\n").close();
-				windowsAutomation.getProcessOutputText(process,"UTF8");
+				windowsAutomation.putCommandToProcess(process,"dir"+"\n");
+				windowsAutomation.putCommandToProcess(process,"quit"+"\n").close();
+				windowsAutomation.showProcessOutput(process,"UTF8");
 
 				
 			} catch (IOException e) {
