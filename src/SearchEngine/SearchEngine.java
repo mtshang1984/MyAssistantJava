@@ -127,7 +127,8 @@ public class SearchEngine {
 			stringUrl = "http://www.libaclub.com/facade.php?act=search&searchAction=submit&keyword=";
 			break;
 		case kuandaishan:
-			stringUrl = "http://s.kdslife.com/search?q=";
+			//stringUrl = "http://s.kdslife.com/search?q=";
+			stringUrl="http://club.pchome.net/forum_1_15____md__1_";
 			break;
 		case qijia:
 			stringUrl = "http://bbs.jia.com/f_57_0?key_words=";
@@ -249,6 +250,9 @@ public class SearchEngine {
                 break;
             case qijiazhannei:
                 stringUrl = stringUrl + URLEncoder.encode("site:jia.com "+keyword, "UTF-8");
+                break;
+            case kuandaishan:
+                stringUrl = stringUrl + URLEncoder.encode(keyword+".html", "UTF-8");
                 break;
 			}
 		} catch (UnsupportedEncodingException ex) {

@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import Assistant.AssistantBackup;
-import Assistant.Assistant;
-import Requirement.RequirementsAnalysis;
 import SearchEngine.SearchEngine;
 /**
  * 
@@ -75,15 +72,12 @@ public class MyAssistant {
 							}
 							inputStreamReader.close();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} 
 					} catch (UnsupportedEncodingException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} 
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
