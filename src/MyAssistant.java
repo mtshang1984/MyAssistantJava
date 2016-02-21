@@ -82,7 +82,7 @@ public class MyAssistant {
 				}
 			}
 
-			Assistant assistant=new Assistant();
+			AlmightyAssistant assistant=new AlmightyAssistant();
 			assistant.runToday();
 		} else {
 			if (searchEngineSelection.isEmpty())

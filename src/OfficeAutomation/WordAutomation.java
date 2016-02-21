@@ -1,5 +1,7 @@
 package OfficeAutomation;
 
+import java.io.File;
+
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;
@@ -53,8 +55,11 @@ public class WordAutomation {
 	 */
 	public void openDocument(String docPath) {
 		// closeDocument();
-		document = Dispatch.call(documents, "Open", docPath).toDispatch();
-		selection = Dispatch.get(word, "Selection").toDispatch();
+		File file=new File(docPath);
+		if(file.canWrite()==false){
+			document = Dispatch.call(documents, "Open", docPath).toDispatch();
+			selection = Dispatch.get(word, "Selection").toDispatch();
+		}
 	}
 
 	/**
