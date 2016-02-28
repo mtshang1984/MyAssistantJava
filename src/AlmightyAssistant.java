@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import CommonEnum.SearchEngineEnum;
 import LinuxAutomation.HttpServer;
-import LinuxAutomation.LinuxAutomation;
 import LinuxAutomation.PrivateCloud;
 import LinuxAutomation.ScientificBrowsing;
 import LinuxAutomation.VpsServer;
@@ -16,7 +15,7 @@ import OfficeAutomation.WordAutomation;
 import SearchEngine.Browser;
 import SearchEngine.SearchEngine;
 import WindowsAutomation.WindowsAutomation;
-
+import java.util.Properties;
 public class AlmightyAssistant {
 
 	MindMap mindMap;
@@ -28,25 +27,34 @@ public class AlmightyAssistant {
 	}
 
 	public void runToday() {
-
+		makeDecision();
 		// 创建脑图
 		mindMap.addMindData("0", "201602", "");
 		mindMap.addMindData("1", "工作", "0");
 		mindMap.addMindData("1.1", "培训材料制作", "1");
 		mindMap.addMindData("2", "创业", "0");
 		mindMap.addMindData("2.1", "自动配置一台服务器", "2");
-		mindMap.addMindData("2.1.1", "建立网络云盘", "2.1");
-		mindMap.addMindData("2.1.1.1", "查看建立网络云盘的方法", "2.1.1");
-		mindMap.addMindData("2.1.1.2", "执行建立owncloud云盘的命令", "2.1.1");
+//		mindMap.addMindData("2.1.1", "建立网络云盘", "2.1");
+//		mindMap.addMindData("2.1.1.1", "查看建立网络云盘的方法", "2.1.1");
+//		mindMap.addMindData("2.1.1.2", "执行建立owncloud云盘的命令", "2.1.1");
 		mindMap.addMindData("2.1.2", "配置翻墙", "2.1");
-		mindMap.addMindData("2.1.2.1", "配置搬瓦工翻墙服务器", "2.1.2");
-		mindMap.addMindData("2.1.2.2", "修复局域网代理服务器", "2.1.2");
-		mindMap.addMindData("2.1.3", "配置Appahce2服务器", "2.1");
+//		mindMap.addMindData("2.1.2.1", "配置搬瓦工翻墙服务器", "2.1.2");
+//		mindMap.addMindData("2.1.2.2", "修复局域网代理服务器", "2.1.2");
+		mindMap.addMindData("2.1.2.3", "建立新账号", "2.1.2");
+		mindMap.addMindData("2.1.2.3.1", "配置json", "2.1.2.3");
+		mindMap.addMindData("2.1.2.3.2", "配置ini", "2.1.2.3");
+		mindMap.addMindData("2.1.2.3.3", "配置DOM4j", "2.1.2.3");
+		mindMap.addMindData("2.1.2.3.4", "配置snakeyaml", "2.1.2.3");
+		mindMap.addMindData("2.1.2.3.5", "shadowsocks账号管理", "2.1.2.3");
+//		mindMap.addMindData("2.1.3", "配置Appahce2服务器", "2.1");
+		mindMap.addMindData("2.1.3.1", "配置https加密", "2.1");
+		mindMap.addMindData("2.1.4", "配置windows服务器", "2.1");
+		mindMap.addMindData("2.1.4.1", "配置windows服务器", "2.1.4");
 		mindMap.addMindData("3", "生活", "0");
 		mindMap.addMindData("3.1", "生育准备", "3");
 		mindMap.addMindData("3.1.1", "健身", "3.1");
 		mindMap.addMindData("3.2", "父母健康", "3");
-		mindMap.addMindData("3.2.1", "给妈看病买药", "3.1");
+//		mindMap.addMindData("3.2.1", "给妈看病买药", "3.1");
 		mindMap.addMindData("3.3", "装修", "3");
 		mindMap.addMindData("3.3.1", "墙纸", "3.3");
 		mindMap.addMindData("3.3.2", "窗帘", "3.3");
@@ -54,23 +62,12 @@ public class AlmightyAssistant {
 		mindMap.addMindData("3.4.3", "刷机", "3.4");
 		mindMap.addMindData("3.4.4", "下载新电影", "3.4");
 		mindMap.addMindData("3.4.5", "爬山", "3.4");
-		mindMap.addMindData("3.4.6", "情人节活动", "3.4");
+//		mindMap.addMindData("3.4.6", "情人节活动", "3.4");
 		mindMap.addMindData("3.5", "购物", "3");
-		mindMap.addMindData("3.5.3", "买酒", "3.5");
+//		mindMap.addMindData("3.5.3", "买酒", "3.5");
+		mindMap.addMindData("3.6", "汽车", "3");
+		mindMap.addMindData("3.6.1", "车子年审", "3.6");
 		// mindMap.showMindmap();
-
-		decisionMaker.addDecisionData("0", "做什么", "");
-		decisionMaker.addDecisionData("1", "拜年", "0");
-		decisionMaker.addDecisionData("1.1", "爸爸，三姑，大姐，二姐", "1");
-		decisionMaker.addDecisionData("2", "出去玩", "0");
-		decisionMaker.addDecisionData("3", "session是放在SshConnection类中，还是不放在其中", "0");
-		decisionMaker.addDecisionData("3.1", "如果session是放在SshConnection类中，如何处理存在多个session的情况", "3");
-		decisionMaker.addDecisionData("3.2", "如果session不放在SshConnection类中，如何提供根据Connection创建session的方法", "3");
-		decisionMaker.addDecisionData("3.2.1",
-				"在SshConnection类中，提供openSession和closeSession的方法，返回值为Session类型的对象。由于只要有对象的引用存在，对象就不会被收回，返回对象是可行的方法",
-				"3.1");
-		decisionMaker.addDecisionData("0", "做什么", "");
-		// decisionMaker.showDecision();
 
 		String taskNumber;
 		ArrayList<String> parameter = new ArrayList<String>();
@@ -183,6 +180,9 @@ public class AlmightyAssistant {
 			vpsServer.close();
 			break;
 		}
+		case "2.1.2.3.5":{
+			break;
+		}
 		case "2.1.2.2": {
 			/** 配置Shadowsocks客户端 */
 			ScientificBrowsing scientificBrowsing = new ScientificBrowsing("www.ijushan.com",22,"root","ShMT0659","smt","ShMT0659");
@@ -277,5 +277,20 @@ public class AlmightyAssistant {
 		}
 		}
 	}
+	public void makeDecision(){
+ 
+		decisionMaker.addDecisionData("0", "做什么", "");
+		decisionMaker.addDecisionData("1", "拜年", "0");
+		decisionMaker.addDecisionData("1.1", "爸爸，三姑，大姐，二姐", "1");
+		decisionMaker.addDecisionData("2", "出去玩", "0");
+		decisionMaker.addDecisionData("3", "session是放在SshConnection类中，还是不放在其中", "0");
+		decisionMaker.addDecisionData("3.1", "如果session是放在SshConnection类中，如何处理存在多个session的情况", "3");
+		decisionMaker.addDecisionData("3.2", "如果session不放在SshConnection类中，如何提供根据Connection创建session的方法", "3");
+		decisionMaker.addDecisionData("3.2.1",
+				"在SshConnection类中，提供openSession和closeSession的方法，返回值为Session类型的对象。由于只要有对象的引用存在，对象就不会被收回，返回对象是可行的方法",
+				"3.1");
+		decisionMaker.addDecisionData("0", "做什么", "");
+		// decisionMaker.showDecision();
 
+	}
 }

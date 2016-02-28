@@ -465,6 +465,7 @@ public class ScientificBrowsing extends LinuxAutomation {
 	/** 安装科学上网所有软件 */
 	public void installAllSoftware(boolean isClient) {
 		updateAptRepository(true);
+		installPackageByAptget("jq crudini", true);
 		installPackageByAptget("python-gevent", true);
 		installPackageByAptget("python-pip", true);
 		if (isClient) {
@@ -510,5 +511,8 @@ public class ScientificBrowsing extends LinuxAutomation {
 //		installFinalspeed();
 //		uninstallShadowsocksPythonClient();
 //		installShadowsocksPythonClient(true);
+//		installPackageByAptget("jq crudini", true);
+		String shadowsocksConfigFile = ss_shadowsocksPath + "/config.json";
+		addValueToJsonKey(shadowsocksConfigFile, ".port_password", "\"port_password\"", "{\"1080\":\"!abcd1234\"}", true);
 	}
 }

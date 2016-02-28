@@ -298,6 +298,7 @@ public class PrivateCloud extends LinuxAutomation{
 	}
 	/**安装所有私有云相关软件*/
 	public void installAllSoftware()	{
+		installPackageByAptget("jq crudini", true);
 		installTeamViewer();
 		installFtp();
 		installSamba();
@@ -340,9 +341,9 @@ public class PrivateCloud extends LinuxAutomation{
 	public void test_code()
 	{
 //
-////		String configFilePath="/etc/aria2";
-////		String configFile=configFilePath+"/aria2.conf";
-////		modifyConfigFile( configFile,  "enable-rpc",  "true",true);
+//		String configFilePath="/etc/aria2";
+//		String configFile=configFilePath+"/aria2.conf";
+//		modifyConfigFile( configFile,  "enable-rpc",  "true",true);
 //		uninstallFtp();
 //		uninstallSamba();
 //		installSamba();

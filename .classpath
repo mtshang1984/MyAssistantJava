@@ -4,5 +4,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="D:/01_code_lib/01_java/ganymed-ssh2-build210/ganymed-ssh2-build210.jar" sourcepath="ganymed-ssh2-build210"/>
 	<classpathentry kind="lib" path="D:/01_code_lib/01_java/jacob-1.18/jacob.jar"/>
+	<classpathentry kind="lib" path="D:/01_code_lib/01_java/gson-2.6.1.jar" sourcepath="D:/01_code_lib/01_java/gson-2.6.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/D:/01_code_lib/01_java/gson-2.6.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -195,7 +195,7 @@ public class LinuxAutomation {
 
 	/** 运行Ssh带提示的指令并显示输出 */
 	public ArrayList<String> runSshCommand(String stringCommand, String stringCommandPrompt, boolean useSudo) {
-		return runSshCommand(stringCommand, stringCommandPrompt,false, useSudo);
+		return runSshCommand(stringCommand, stringCommandPrompt, false, useSudo);
 	}
 
 	/** 运行Ssh带提示的指令并显示输出 */
@@ -785,15 +785,39 @@ public class LinuxAutomation {
 		changeFilePermission("/etc/cron.daily/" + taskname, "+x", false, useSudo);
 	}
 
+	/** 解压缩文件 */
 	public void unzip(String zipFilename, boolean useSudo) {
 		runSshCommand("unzip -o " + zipFilename, useSudo);
 	}
-	public void unzip(String zipFilename,String targetPath, boolean useSudo) {
-		runSshCommand("unzip -o " + zipFilename+" -d "+targetPath, useSudo);
+
+	/** 解压缩文件 */
+	public void unzip(String zipFilename, String targetPath, boolean useSudo) {
+		runSshCommand("unzip -o " + zipFilename + " -d " + targetPath, useSudo);
 	}
 
-
+	/** 压缩文件 */
 	public void zip(String zipFilename, String filepath, boolean useSudo) {
 		runSshCommand("zip " + zipFilename + " " + filepath, useSudo);
+	}
+
+	/** 删除JSON文件键值 */
+	public void deleteJsonKey(String filename, String key, boolean useSudo) {
+		runSshCommand("jq " + "'del(" + key + ")'" + " " + filename, useSudo);
+	}
+
+	/** 修改JSON文件键值 */
+	public void modifyJsonKey(String filename, String key, String value, boolean useSudo) {
+		runSshCommand("jq " + "'" + key + "=" + value + "' " + filename, useSudo);
+	}
+
+	/** 增加JSON文件键和值 */
+//	public void addJsonKey(String filename, String key, String name, String value, boolean useSudo) {
+//		runSshCommand("jq " + "'select(" + key + "==null)|.+={" + name + "=" + value + "}'" + " " + filename, useSudo);
+//	}
+
+	/** 增加JSON文件键和值 */
+	public void addValueToJsonKey(String filename, String key, String name, String value, boolean useSudo) {
+		runSshCommand("jq " + "' if " + key + "==null then .+={" + name + ":" + value + "} else " + key + "+=" + value
+				+ " end" + "' " + filename, useSudo);
 	}
 }
