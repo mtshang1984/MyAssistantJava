@@ -343,8 +343,10 @@ public class AlmightyAssistant {
 	public void makeDecision(){
 
 		decisionMaker.addDecisionData("1", "事情优先级", "0");
-		decisionMaker.addDecisionData("1.1", "洗碗", "0");
-		decisionMaker.addDecisionData("1.2", "整理装修清单", "0");
+		decisionMaker.addDecisionData("1.1", "20160409", "0");
+		decisionMaker.addDecisionData("1.1.1", "整理装修清单", "0");
+		decisionMaker.addDecisionData("1.1.2", "洗碗", "0");;
+		
 		decisionMaker.addDecisionData("2", "java程序与网页结合", "0");
 
 		// decisionMaker.showDecision();
