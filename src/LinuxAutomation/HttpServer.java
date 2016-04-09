@@ -1,6 +1,10 @@
 package LinuxAutomation;
 
 public class HttpServer extends LinuxAutomation {
+	String pathDrive;
+	String pathHome;
+	String pathWeb;
+	
 	String apache2ConfigPath;
 	String apache2ConfigFile;
 	VirtualHost virtualHostMain;
@@ -13,7 +17,12 @@ public class HttpServer extends LinuxAutomation {
 
 	public HttpServer() {
 		super();
-		publicPathToShare="/home/"+username+"/share";
+		pathDrive="/mnt/usb";
+		pathHome="/home/"+username;
+		pathWeb=pathHome+"/web";
+		
+		publicPathToShare=pathDrive+"/share";
+		
 		apache2ConfigPath = "/etc/apache2";
 		apache2ConfigFile =apache2ConfigPath+"/apache2.conf";
 		String fatherPath = "/home/smt/web";
@@ -28,6 +37,21 @@ public class HttpServer extends LinuxAutomation {
 
 	public HttpServer(String hostname,int port, String rootUsername, String rootPassword, String username, String password) {
 		super(hostname, port,false,rootUsername, rootPassword, username, password);
+		pathDrive="/mnt/usb";
+		pathHome="/home/"+username;
+		pathWeb=pathHome+"/web";
+		publicPathToShare=pathDrive+"/share";
+		
+		apache2ConfigPath = "/etc/apache2";
+		apache2ConfigFile =apache2ConfigPath+"/apache2.conf";
+		String fatherPath = "/home/smt/web";
+		virtualHostMain = new VirtualHost(apache2ConfigPath, "www.ijushan.com", fatherPath);
+		virtualHostPrivate = new VirtualHost(apache2ConfigPath, "my.ijushan.com", fatherPath);
+		virtualHostShare = new VirtualHost(apache2ConfigPath, "share.ijushan.com", publicPathToShare,true);
+		virtualHostData = new VirtualHost(apache2ConfigPath, "data.ijushan.com", fatherPath);
+		virtualHostTest = new VirtualHost(apache2ConfigPath, "test.ijushan.com", fatherPath);
+		virtualHostDefault = new VirtualHost(apache2ConfigPath, "", virtualHostMain.documentRoot,true);
+		virtualHostDefault.configFile=apache2ConfigPath+"/sites-available/000-default.conf";
 	}
 
 	/** 安装Apache2 */
@@ -68,6 +92,11 @@ public class HttpServer extends LinuxAutomation {
 		addTextInFileEnd(" Require all granted", apache2ConfigFile, true);
 		addTextInFileEnd("</Directory>", apache2ConfigFile, true);
 	}
+	/** 删除一个虚拟主机目录 */
+	public void removeWebDirecotry(String path){
+		replaceMultiLineStringInFile("<Directory\\s"+path+">(.|\\n)*?</Directory>" , "", apache2ConfigFile, true);
+	}
+
 
 	/** 增加一个虚拟主机 */
 	public void addVirtualHost(VirtualHost virtualHost) {
@@ -217,5 +246,24 @@ public class HttpServer extends LinuxAutomation {
 
 	/** 测试代码 */
 	public void test_code( ) {
+		pathDrive="/media/smt/yunpan";
+		pathHome="/home/"+username;
+		pathWeb=pathHome+"/web";
+		
+		publicPathToShare=pathHome+"/share";
+		virtualHostShare = new VirtualHost(apache2ConfigPath, "share.ijushan.com", publicPathToShare,true);
+		disableVirtualHost(virtualHostShare);
+		removeVirtualHost(virtualHostShare);
+		removeWebDirecotry(publicPathToShare);	
+
+		pathDrive="/mnt/usb";
+		publicPathToShare=pathDrive+"/share";
+		virtualHostShare = new VirtualHost(apache2ConfigPath, "share.ijushan.com", publicPathToShare,true);
+		
+		addVirtualHost(virtualHostShare, true);	
+		addWebDirecotry(publicPathToShare);	
+		enableVirtualHost(virtualHostShare);
+		
+		restartService("apache2",true);
 	}
 }

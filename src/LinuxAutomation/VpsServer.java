@@ -108,7 +108,7 @@ public class VpsServer extends LinuxAutomation {
 
 	public VpsServer() {
 		super();
-		ss_server = "104.160.34.127";
+		ss_server = "216.189.154.82";
 		ss_server_port = "443";
 		ss_local_address = "0.0.0.0";
 		ss_local_port = "1080";
@@ -128,7 +128,7 @@ public class VpsServer extends LinuxAutomation {
 	public VpsServer(String hostname, int port, String rootUsername, String rootPassword, String username,
 			String password) {
 		super(hostname, port, false, rootUsername, rootPassword, username, password);
-		ss_server = "104.160.34.127";
+		ss_server = "216.189.154.82";
 		ss_server_port = "443";
 		ss_local_address = "0.0.0.0";
 		ss_local_port = "1080";
@@ -149,7 +149,7 @@ public class VpsServer extends LinuxAutomation {
 		this.isCleanVPS = isCleanVPS;
 		this.initialRootPassword = initialRootPassword;
 		this.initialSshPort = initialSshPort;
-		ss_server = "104.160.34.127";
+		ss_server = "216.189.154.82";
 		ss_server_port = "443";
 		ss_local_address = "0.0.0.0";
 		ss_local_port = "1080";
@@ -230,6 +230,8 @@ public class VpsServer extends LinuxAutomation {
 		addTextInFileEnd("\"fastOpen\":\"" + fastOpen + "\",", shadowsocksConfigFile, true);
 		addTextInFileEnd("\"worker\":\"" + worker + "\" ", shadowsocksConfigFile, true);
 		addTextInFileEnd("}", shadowsocksConfigFile, true);
+		addUser(Integer.parseInt(local_port), password);
+		
 		deleteRowInFile("#", "ssserver", "/etc/rc.local", true);
 		insertRowBeforeInFile("#", "exit 0",
 				"nohup /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d start> /etc/shadowsocks/log 2>&1 &",
@@ -247,7 +249,7 @@ public class VpsServer extends LinuxAutomation {
 
 	}
 	public void setIptable(){
-		cleanIptables(true);
+//		cleanIptables(true);
 		//loopback
 		allowLoopbackByIptables(true);
 		//DNS
@@ -280,18 +282,26 @@ public class VpsServer extends LinuxAutomation {
 	}
 	/**安装final speed*/
 	public void installFinalSpeed() {
+		installPackageByAptget("cron", true);
 		deleteFile("install_fs.sh", true);
 		downloadFile("http://fs.d1sm.net/finalspeed/install_fs.sh", true);
 		changeFilePermission("install_fs.sh", "+x", false, true);
 		runSshCommand("./install_fs.sh  2>&1 | tee install.log", true);
 		setAutostart("sh /fs/start.sh",true);
-		addScheduledTask("0 3 * * * ","root","sh  /fs/restart.sh", "finalspeed",true);
+		addScheduledTask("0,15,30,45 * * * * ","root","sh  /fs/restart.sh", "finalspeed",true);
 	}
-	
+
+	/**卸载final speed*/
+	public void uninstallFinalSpeed() {
+		excuteShell("/fs/stop.sh", true);
+		removeScheduledTask("0 3 * * * ", "root","sh  /fs/restart.sh", "finalspeed",true);
+		deleteFile("/fs/", true);
+	}
 	/** 安装科学上网所有软件 */
 	public void installAllSoftware() {
 
 		updateAptRepository(true);
+		installPackageByAptget("jq crudini", true);
 		installPackageByAptget("python-gevent", true);
 		installPackageByAptget("python-pip", true);
 		installShadowsocksPythonServer();
@@ -304,8 +314,45 @@ public class VpsServer extends LinuxAutomation {
 		uninstallShadowsocksPythonServer();
 	}
 
+	public void addUser(int port,String password){
+		String shadowsocksConfigFile = ss_shadowsocksPath + "/config.json";
+		deleteJsonKey(shadowsocksConfigFile, ".server_port", true);
+		deleteJsonKey(shadowsocksConfigFile, ".password", true);
+		addValueToJsonKey(shadowsocksConfigFile, ".port_password", "\"port_password\"", "{\""+port+"\":\""+password+"\"}", true);
+		runSshCommand("ssserver -c /etc/shadowsocks/config.json -d stop", true);
+		excuteShell("/etc/rc.local", true);
+
+		addRuleInIptablesRuleChain("INPUT", "tcp",false, true, String.valueOf(port), "", "ACCEPT", true);
+		addRuleInIptablesRuleChain("INPUT", "tcp",false, false, String.valueOf(port), "", "ACCEPT", true);
+		addRuleInIptablesRuleChain("INPUT", "udp",false, true, String.valueOf(port), "", "ACCEPT", true);
+		addRuleInIptablesRuleChain("INPUT", "udp",false, false, String.valueOf(port), "", "ACCEPT", true);
+		addRuleInIptablesRuleChain("INPUT", "all",false,true, "", "", "DROP", true);
+	}
+	public void delteUser(int port){
+		String shadowsocksConfigFile = ss_shadowsocksPath + "/config.json";
+		delteValueInJsonKey(shadowsocksConfigFile, ".port_password", String.valueOf(port),  true);
+
+		deleteRuleInIptablesRuleChain("INPUT", "tcp",false, true, String.valueOf(port), "", "ACCEPT", true);
+		deleteRuleInIptablesRuleChain("INPUT", "tcp",false, false, String.valueOf(port), "", "ACCEPT", true);
+		deleteRuleInIptablesRuleChain("INPUT", "udp",false, true, String.valueOf(port), "", "ACCEPT", true);
+		deleteRuleInIptablesRuleChain("INPUT", "udp",false, false, String.valueOf(port), "", "ACCEPT", true);
+	}
 	public void testCode() {
-		addScheduledTask("0 3 * * * ","root","sh  /fs/restart.sh", "finalspeed",true);
+//		addScheduledTask("0 3 * * * ","root","sh  /fs/restart.sh", "finalspeed",true);
+//		addUser(443,"!abcd1234");
+//		addUser(444,"chenyuqing");
+//		addUser(445,"liwei");
+//		removeScheduledTask("0 3 * * * ", "root","sh  /fs/restart.sh", "finalspeed",true) ;
+//		removeScheduledTask("* */1 * * * ", "root","sh  /fs/restart.sh", "finalspeed",true) ;
+//		addScheduledTask("0 3 * * * ", "root","sh  /fs/restart.sh", "finalspeed",true) ;
+//		addScheduledTask("0 3 * * * ", "root","sh  /fs/restart.sh", "finalspeed",true) ;
+		removeScheduledTask("", "root","sh  /fs/restart.sh", "finalspeed",true) ;
+		addScheduledTask("0 */1 * * * ","root","sh  /fs/restart.sh", "finalspeed",true);
+//		String shadowsocksConfigFile = ss_shadowsocksPath + "/config.json";
+//		deleteJsonKey(shadowsocksConfigFile, ".server_port", true);
+//		deleteJsonKey(shadowsocksConfigFile, ".password", true);
+//		addValueToJsonKey(shadowsocksConfigFile, ".port_password", "\"port_password\"", "{\"443\":\"!abcd1234\"}", true);
+//		addValueToJsonKey(shadowsocksConfigFile, ".port_password", "\"port_password\"", "{\"444\":\"chenyuqing\"}", true);
 	}
 
 }

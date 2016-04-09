@@ -67,6 +67,22 @@ public class WindowsAutomation {
 		}
 		return null;
 	}
+	public Process runCommand(String stringCommand,boolean showWindows) {
+		try {
+			Process process ;			
+			if(showWindows){
+				process = Runtime.getRuntime().exec("cmd.exe /C start " + stringCommand);
+			}
+			else{
+				process = Runtime.getRuntime().exec("cmd.exe /C " + stringCommand);				
+			}
+			return process;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public Process runCommandWithShow(String stringCommand) {
 		Process process =runCommand(stringCommand);

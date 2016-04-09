@@ -241,6 +241,26 @@ public class LinuxAutomation {
 
 	}
 
+	/** 运行Ssh带提示的指令并显示输出 */
+	public ArrayList<String> runSshCommand(String preCommand, String stringCommand, String stringCommandPrompt,
+			boolean useProxy, boolean showOutput, boolean showError, boolean useSudo) {
+		if (useProxy && http_proxy.isEmpty() != true) {
+			if (useSudo) {
+				return sshConnection.runCommand(preCommand,
+						"http_proxy=\"" + http_proxy + "\" https_proxy=\"" + https_proxy + "\" " + stringCommand,
+						stringCommandPrompt, showOutput, showError, useSudo);
+			} else {
+				return sshConnection.runCommand(
+						preCommand + "&&export http_proxy=\"" + http_proxy + "\"" + "&&" + "export https_proxy=\""
+								+ https_proxy + "\"",
+						stringCommand, stringCommandPrompt, showOutput, showError, useSudo);
+			}
+		} else {
+			return sshConnection.runCommand("", stringCommand, stringCommandPrompt, showOutput, showError, useSudo);
+		}
+
+	}
+
 	/** 更新apt安装源 */
 	public void updateAptRepository(boolean useSudo) {
 		runSshCommand("apt-get update ", useSudo);
@@ -313,7 +333,7 @@ public class LinuxAutomation {
 
 	/** 设置自动启动 */
 	public void setAutostart(String command, String screenOut, boolean useSudo) {
-		insertRowBeforeInFile("#", "exit 0", "nohup  " + command + " > " + screenOut + "2>&1 &", "/etc/rc.local",
+		insertRowBeforeInFile("#", "exit 0", "nohup  " + command + " >> " + screenOut + " 2>&1 &", "/etc/rc.local",
 				useSudo);
 	}
 
@@ -325,6 +345,21 @@ public class LinuxAutomation {
 	/** 自动启动立即生效，限通过/etc/rc.local实现的自启动 */
 	public void takeEffectAutostart(boolean useSudo) {
 		excuteShell("/etc/rc.local", useSudo);
+	}
+
+	/** 设置登录后启动 */
+	public void setRunAfterLogin(String command, boolean useSudo) {
+		addTextInFileEnd(command, "/etc/profile", useSudo);
+	}
+
+	/** 设置登录后启动 */
+	public void setRunAfterLogin(String command, String screenOut, boolean useSudo) {
+		addTextInFileEnd("nohup  " + command + " >> " + screenOut + " 2>&1 & ", "/etc/profile", useSudo);
+	}
+
+	/** 取消登录后启动 */
+	public void cancelRunAfterLogin(String command, boolean useSudo) {
+		deleteRowInFile("#", command, "/etc/profile", useSudo);
 	}
 
 	/** 允许root ssh登录 */
@@ -378,6 +413,12 @@ public class LinuxAutomation {
 
 	}
 
+	/** 移除软链接目录 */
+	public void unlinkPath(String targerPath, boolean useSudo) {
+		runSshCommand("unlink " + targerPath, useSudo);
+
+	}
+
 	/** 修改密码 */
 	public void changePassword(String username, String password, boolean useSudo) {
 		runSshCommand("passwd " + username, password + "\n" + password + "\n", useSudo);
@@ -391,63 +432,81 @@ public class LinuxAutomation {
 		runSshCommand("perl -i -0 -p -e 's/" + stringToBeReplace + "/" + stringForReplace + "/g' " + filename, useSudo);
 	}
 
+	/** 在转义特殊字符串 */
+	public String escapeSpecialString(String string) {
+		String resultString;
+		resultString = string;
+		resultString = resultString.replace("/", "\\/");
+		resultString = resultString.replace("*", "\\*");
+		resultString = resultString.replace("+", "\\+");
+		resultString = resultString.replace("?", "\\?");
+		resultString = resultString.replace("$", "\\$");
+		return resultString;
+	}
+
 	/** 在文件中替换字符串 */
 	public void replaceStringInFile(String stringToBeReplace, String stringForReplace, String filename,
 			boolean useSudo) {
-		stringToBeReplace = stringToBeReplace.replace("/", "\\/");
-		stringForReplace = stringForReplace.replace("/", "\\/");
-		runSshCommand("sed -i.bak 's/" + stringToBeReplace + "/" + stringForReplace + "/' " + filename, useSudo);
+		stringToBeReplace = escapeSpecialString(stringToBeReplace);
+		stringForReplace = escapeSpecialString(stringForReplace);
+		runSshCommand("sed -i.bak 's/" + stringToBeReplace + "/" + stringForReplace + "/g' " + filename, useSudo);
 	}
 
 	/** 在文件中替换字符串，字符前不包含某字符 */
 	public void replaceStringInFile(String charaterNotInclude, String stringToBeReplace, String stringForReplace,
 			String filename, boolean useSudo) {
-		stringToBeReplace = stringToBeReplace.replace("/", "\\/");
-		stringForReplace = stringForReplace.replace("/", "\\/");
+		// stringToBeReplace = stringToBeReplace.replace("/", "\\/");
+		// stringForReplace = stringForReplace.replace("/", "\\/");
+		stringToBeReplace = escapeSpecialString(stringToBeReplace);
+		stringForReplace = escapeSpecialString(stringForReplace);
 		runSshCommand("sed -i.bak  's/\\(^[^" + charaterNotInclude + "]*\\)" + stringToBeReplace + "/\\1"
-				+ stringForReplace + "/' " + filename, useSudo);
+				+ stringForReplace + "/g' " + filename, useSudo);
 	}
 
 	/** 在文件中删除一行 */
 	public void deleteRowInFile(String stringMatch, String filename, boolean useSudo) {
-		stringMatch = stringMatch.replace("/", "\\/");
+		// stringMatch = stringMatch.replace("/", "\\/");
+		stringMatch = escapeSpecialString(stringMatch);
 		runSshCommand("sed -i.bak  '/" + stringMatch + "/d' " + filename, useSudo);
 	}
 
 	/** 在文件中删除一行,字符前不包含某字符 */
 	public void deleteRowInFile(String charaterNotInclude, String stringMatch, String filename, boolean useSudo) {
-		stringMatch = stringMatch.replace("/", "\\/");
+		// stringMatch = stringMatch.replace("/", "\\/");
+		stringMatch = escapeSpecialString(stringMatch);
 		runSshCommand("sed -i.bak  '/^[^" + charaterNotInclude + "]*" + stringMatch + "/d' " + filename, useSudo);
 	}
 
 	/** 在文件中匹配的字符串所在行前插入一行 */
 	public void insertRowBeforeInFile(String stringMatch, String stringForInsert, String filename, boolean useSudo) {
-		stringMatch = stringMatch.replace("/", "\\/");
-		stringForInsert = stringForInsert.replace("/", "\\/");
+		// stringMatch = stringMatch.replace("/", "\\/");
+		// stringForInsert = stringForInsert.replace("/", "\\/");
+		stringMatch = escapeSpecialString(stringMatch);
+		stringForInsert = escapeSpecialString(stringForInsert);
 		runSshCommand("sed -i.bak  '/" + stringMatch + "/i" + stringForInsert + "' " + filename, useSudo);
 	}
 
 	/** 在文件中匹配的字符串所在行前插入一行,字符前不包含某字符 */
 	public void insertRowBeforeInFile(String charaterNotInclude, String stringMatch, String stringForInsert,
 			String filename, boolean useSudo) {
-		stringMatch = stringMatch.replace("/", "\\/");
-		stringForInsert = stringForInsert.replace("/", "\\/");
+		stringMatch = escapeSpecialString(stringMatch);
+		stringForInsert = escapeSpecialString(stringForInsert);
 		runSshCommand("sed -i.bak  '/^[^" + charaterNotInclude + "]*" + stringMatch + "/i" + stringForInsert + "' "
 				+ filename, useSudo);
 	}
 
 	/** 在文件中匹配的字符串所在行后插入一行 */
 	public void insertRowAfterInFile(String stringMatch, String stringForInsert, String filename, boolean useSudo) {
-		stringMatch = stringMatch.replace("/", "\\/");
-		stringForInsert = stringForInsert.replace("/", "\\/");
+		stringMatch = escapeSpecialString(stringMatch);
+		stringForInsert = escapeSpecialString(stringForInsert);
 		runSshCommand("sed -i.bak '/" + stringMatch + "/a" + stringForInsert + "' " + filename, useSudo);
 	}
 
 	/** 在文件中匹配的字符串所在行后插入一行,字符前不包含某字符 */
 	public void insertRowAfterInFile(String charaterNotInclude, String stringMatch, String stringForInsert,
 			String filename, boolean useSudo) {
-		stringMatch = stringMatch.replace("/", "\\/");
-		stringForInsert = stringForInsert.replace("/", "\\/");
+		stringMatch = escapeSpecialString(stringMatch);
+		stringForInsert = escapeSpecialString(stringForInsert);
 		runSshCommand("sed -i.bak  '/^[^" + charaterNotInclude + "]*" + stringMatch + "/a" + stringForInsert + "' "
 				+ filename, useSudo);
 	}
@@ -456,6 +515,7 @@ public class LinuxAutomation {
 	public void addTextInFileEnd(String stringForAdd, String filename, boolean useSudo) {
 		stringForAdd = stringForAdd.replace("\\", "\\0134");
 		stringForAdd = stringForAdd.replace("\"", "\\0042");
+		stringForAdd = stringForAdd.replace("$", "\\0044");
 		if (useSudo) {
 			filename = filename.replace("\"", "");
 			runSshCommand("bash -c \"echo -e \\\"" + stringForAdd + "\\\" >> " + filename + "\"", useSudo);
@@ -537,6 +597,20 @@ public class LinuxAutomation {
 		runSshCommand("wget -N " + url + " -O " + filename, useProxy, useSudo);
 	}
 
+	/** 使用aria2c下载文件 */
+	public void downloadFileByAria2(String url, boolean useSudo) {
+		runSshCommand("aria2c " + url, useSudo);
+	}
+	
+	/** 使用aria2下载文件并重命名 */
+	public void downloadFileByAria2(String url, String filename, boolean useSudo) {
+		runSshCommand("aria2c "+ " -o " + filename +" "+ url, useSudo);
+	}
+
+	/** 使用aria2下载文件并重命名 */
+	public void downloadFileByAria2(String url, String path,String filename, boolean useSudo) {
+		runSshCommand("aria2c "+ " -d " + path+ " -o " + filename +" "+ url, useSudo);
+	}
 	/** 移动文件 */
 	public void moveFile(String fileToMove, String targetFile, boolean useSudo) {
 		runSshCommand("mv -f " + fileToMove + " " + targetFile, useSudo);
@@ -690,7 +764,41 @@ public class LinuxAutomation {
 	 */
 	public void addRuleInIptablesRuleChain(String ruleChain, String protocol, boolean isMultiport, boolean isdport,
 			String port, String ctstate, String policy, boolean useSudo) {
+		for (int i = 0; i <= 1; i++) {
+			deleteRuleInIptablesRuleChain(ruleChain, protocol, isMultiport, isdport, port, ctstate, policy, useSudo);
+		}
 		String command = "iptables -A " + ruleChain;
+		if (protocol.isEmpty() == false) {
+			command += " -p " + protocol;
+		}
+		if (port.isEmpty() == false) {
+			if (isMultiport) {
+				command += " -m multiport ";
+			}
+			if (isdport) {
+				command += " --dport ";
+			} else {
+				command += " --sport ";
+			}
+			command += port;
+		}
+		if (ctstate.isEmpty() == false) {
+			command += " -m conntrack --ctstate " + ctstate;
+		}
+		if (policy.isEmpty() == false) {
+			command += " -j " + policy;
+		} else {
+			return;
+		}
+		runSshCommand(command, useSudo);
+
+	}
+
+	public void deleteRuleInIptablesRuleChain(String ruleChain, String protocol, boolean isMultiport, boolean isdport,
+			String port, String ctstate, String policy, boolean useSudo) {
+		if (port.equals("22"))
+			return;
+		String command = "iptables -D " + ruleChain;
 		if (protocol.isEmpty() == false) {
 			command += " -p " + protocol;
 		}
@@ -781,43 +889,185 @@ public class LinuxAutomation {
 	/** 添加计划任务 */
 	public void addScheduledTask(String Schedule, String username, String command, String taskname, boolean useSudo) {
 
-		addTextInFileEnd(Schedule + " " + username + " " + command, "/etc/cron.daily/" + taskname, useSudo);
-		changeFilePermission("/etc/cron.daily/" + taskname, "+x", false, useSudo);
+		addTextInFileEnd(Schedule + " " + username + " " + command, "/etc/cron.d/" + taskname, useSudo);
+		changeFilePermission("/etc/cron.d/" + taskname, "+x", false, useSudo);
 	}
 
-	/** 解压缩文件 */
+	/** 移除计划任务 */
+	public void removeScheduledTask(String Schedule, String username, String command, String taskname,
+			boolean useSudo) {
+		deleteRowInFile(Schedule + " " + username + " " + command, "/etc/cron.d/" + taskname, useSudo);
+	}
+
+	/** 解压缩zip文件 */
 	public void unzip(String zipFilename, boolean useSudo) {
 		runSshCommand("unzip -o " + zipFilename, useSudo);
 	}
 
-	/** 解压缩文件 */
+	/** 解压缩zip文件 */
 	public void unzip(String zipFilename, String targetPath, boolean useSudo) {
 		runSshCommand("unzip -o " + zipFilename + " -d " + targetPath, useSudo);
 	}
 
-	/** 压缩文件 */
+	/** 压缩zip文件 */
 	public void zip(String zipFilename, String filepath, boolean useSudo) {
 		runSshCommand("zip " + zipFilename + " " + filepath, useSudo);
 	}
 
+	/** 解压缩tgz文件 */
+	public void tar(String tgzFilename, boolean useSudo) {
+		runSshCommand("tar -zxvf " + tgzFilename, useSudo);
+	}
+
 	/** 删除JSON文件键值 */
 	public void deleteJsonKey(String filename, String key, boolean useSudo) {
-		runSshCommand("jq " + "'del(" + key + ")'" + " " + filename, useSudo);
+		// runSshCommand("bash -c \"echo -e \\\"" + "\\\" >> " + filename +
+		// "\"", useSudo);
+		String tempFilename = filename + ".tmp";
+		runSshCommand("bash -c \"jq " + "'del(" + key + ")'" + " " + filename + " > " + tempFilename + "\"", useSudo);
+		moveFile(filename, filename + ".bak", useSudo);
+		moveFile(tempFilename, filename, useSudo);
 	}
 
 	/** 修改JSON文件键值 */
 	public void modifyJsonKey(String filename, String key, String value, boolean useSudo) {
-		runSshCommand("jq " + "'" + key + "=" + value + "' " + filename, useSudo);
+		value = value.replace("\\", "\\\\");
+		value = value.replace("\"", "\\\"");
+		value = value.replace("$", "\\$");
+		value = value.replace("`", "\\`");
+		String tempFilename = filename + ".tmp";
+		runSshCommand("set +H",
+				"bash -c \"jq " + "'" + key + "=" + value + "' " + filename + " > " + tempFilename + "\"", "", false,
+				true, true, useSudo);
+
+		moveFile(filename, filename + ".bak", useSudo);
+		moveFile(tempFilename, filename, useSudo);
 	}
 
 	/** 增加JSON文件键和值 */
-//	public void addJsonKey(String filename, String key, String name, String value, boolean useSudo) {
-//		runSshCommand("jq " + "'select(" + key + "==null)|.+={" + name + "=" + value + "}'" + " " + filename, useSudo);
-//	}
+	// public void addJsonKey(String filename, String key, String name, String
+	// value, boolean useSudo) {
+	// runSshCommand("jq " + "'select(" + key + "==null)|.+={" + name + "=" +
+	// value + "}'" + " " + filename, useSudo);
+	// }
 
 	/** 增加JSON文件键和值 */
 	public void addValueToJsonKey(String filename, String key, String name, String value, boolean useSudo) {
-		runSshCommand("jq " + "' if " + key + "==null then .+={" + name + ":" + value + "} else " + key + "+=" + value
-				+ " end" + "' " + filename, useSudo);
+		name = name.replace("\\", "\\\\");
+		name = name.replace("\"", "\\\"");
+		name = name.replace("$", "\\$");
+		name = name.replace("`", "\\`");
+		value = value.replace("\\", "\\\\");
+		value = value.replace("\"", "\\\"");
+		value = value.replace("$", "\\$");
+		value = value.replace("`", "\\`");
+		String tempFilename = filename + ".tmp";
+		// runSshCommand(preCommand, stringCommand, stringCommandPrompt,
+		// useProxy, showOutput, showError, useSudo)
+		runSshCommand("set +H",
+				"bash -c \"jq " + "' if " + key + "==null then .+={" + name + ":" + value + "} else " + key + "+="
+						+ value + " end" + "' " + filename + " > " + tempFilename + "\"",
+				"", false, true, true, useSudo);
+		moveFile(filename, filename + ".bak", useSudo);
+		moveFile(tempFilename, filename, useSudo);
 	}
+
+	/** 删除JSON文件键的值 */
+	public void delteValueInJsonKey(String filename, String key, String name, boolean useSudo) {
+		name = name.replace("\\", "\\\\");
+		name = name.replace("\"", "\\\"");
+		name = name.replace("$", "\\$");
+		name = name.replace("`", "\\`");
+		String tempFilename = filename + ".tmp";
+		// runSshCommand(preCommand, stringCommand, stringCommandPrompt,
+		// useProxy, showOutput, showError, useSudo)
+		runSshCommand("set +H",
+				"bash -c \"jq " + "' del(" + key + "[\\\"" + name + "\\\"])' " + filename + " > " + tempFilename + "\"",
+				"", false, true, true, useSudo);
+		moveFile(filename, filename + ".bak", useSudo);
+		moveFile(tempFilename, filename, useSudo);
+	}
+
+	/** 增加JSON文件键数组中值 */
+	public void addObjectToJsonKeyArray(String filename, String key, String object, boolean useSudo) {
+		object = object.replace("\\", "\\\\");
+		object = object.replace("\"", "\\\"");
+		object = object.replace("$", "\\$");
+		object = object.replace("`", "\\`");
+		String tempFilename = filename + ".tmp";
+		// runSshCommand(preCommand, stringCommand, stringCommandPrompt,
+		// useProxy, showOutput, showError, useSudo)
+		runSshCommand("set +H",
+				"bash -c \"jq " + "' " + key + "+=[" + object + "] ' " + filename + " > " + tempFilename + "\"", "",
+				false, true, true, useSudo);
+
+		moveFile(filename, filename + ".bak", useSudo);
+		moveFile(tempFilename, filename, useSudo);
+	}
+
+	/** 删除JSON文件键值 */
+	public void deleteObjectInJsonKeyArray(String filename, String key, String condition, boolean useSudo) {
+		condition = condition.replace("\\", "\\\\");
+		condition = condition.replace("\"", "\\\"");
+		condition = condition.replace("$", "\\$");
+		condition = condition.replace("`", "\\`");
+		String tempFilename = filename + ".tmp";
+		runSshCommand("bash -c \"jq " + "'del(" + key + "[]|select (" + condition + "))'" + " " + filename + " > "
+				+ tempFilename + "\"", useSudo);
+
+		moveFile(filename, filename + ".bak", useSudo);
+		moveFile(tempFilename, filename, useSudo);
+	}
+
+	/** 修改JSON文件键值 */
+	public void modifyObjectInJsonKeyArray(String filename, String key, String condition, String object,
+			boolean useSudo) {
+		condition = condition.replace("\\", "\\\\");
+		condition = condition.replace("\"", "\\\"");
+		condition = condition.replace("$", "\\$");
+		condition = condition.replace("`", "\\`");
+		object = object.replace("\\", "\\\\");
+		object = object.replace("\"", "\\\"");
+		object = object.replace("$", "\\$");
+		object = object.replace("`", "\\`");
+		String tempFilename = filename + ".tmp";
+		runSshCommand("set +H",
+				"bash -c \"jq " + "'" + key + "[]|condition=" + object + "' " + filename + " > " + tempFilename + "\"",
+				"", false, true, true, useSudo);
+
+		moveFile(filename, filename + ".bak", useSudo);
+		moveFile(tempFilename, filename, useSudo);
+	}
+
+	/** 增加移动硬盘启动挂载 */
+	public void addMountInFstab(String fileSystem, String mountPoint, String type, String option, String dump,
+			String pass, boolean useSudo) {
+		addTextInFileEnd(fileSystem + "\t" + mountPoint + "\t" + type + "\t" + option + "\t" + dump + "\t" + pass,
+				"/etc/fstab", useSudo);
+	}
+
+	/**
+	 * 运行mysql脚本
+	 * 
+	 * @param mysqlFilename
+	 * @param mysqlRootUsername
+	 * @param mysqlRootPassword
+	 * @param useSudo
+	 */
+	public void runMySqlBatch(String rootUsername,String rootPassword,String mysqlFilename, boolean useSudo) {
+		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " < " + mysqlFilename, useSudo);
+	}
+
+	/**
+	 * 运行mysql命令
+	 * 
+	 * @param command
+	 * @param mysqlRootUsername
+	 * @param mysqlRootPassword
+	 * @param useSudo
+	 */
+	public void runMySqlCommand(String rootUsername,String rootPassword,String command, boolean useSudo) {
+		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " -e\"" + command + "\"", useSudo);
+	}
+
 }

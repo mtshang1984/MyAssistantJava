@@ -111,7 +111,7 @@ public class ScientificBrowsing extends LinuxAutomation {
 
 	public ScientificBrowsing() {
 		super();
-		ss_server = "104.160.34.127";
+		ss_server = "216.189.154.82";
 		ss_server_port = "443";
 		ss_server_speed_port = "4430";
 		ss_local_address = "0.0.0.0";
@@ -127,7 +127,7 @@ public class ScientificBrowsing extends LinuxAutomation {
 	public ScientificBrowsing(String hostname, int port, String rootUsername, String rootPassword, String username,
 			String password) {
 		super(hostname, port, false, rootUsername, rootPassword, username, password);
-		ss_server = "104.160.34.127";
+		ss_server = "216.189.154.82";
 		ss_server_port = "443";
 		ss_server_speed_port = "4430";
 		ss_local_address = "0.0.0.0";
@@ -143,7 +143,7 @@ public class ScientificBrowsing extends LinuxAutomation {
 	public ScientificBrowsing(String hostname, int port, String rootUsername, String rootPassword, String username,
 			String password, String http_proxy) {
 		super(hostname, port, false, rootUsername, rootPassword, http_proxy);
-		ss_server = "104.160.34.127";
+		ss_server = "216.189.154.82";
 		ss_server_port = "443";
 		ss_server_speed_port = "4430";
 		ss_local_address = "0.0.0.0";
@@ -338,7 +338,7 @@ public class ScientificBrowsing extends LinuxAutomation {
 
 	/** 安装AutoProxy2Privoxy */
 	public void installAutoProxy2Privoxy(String socks5proxy) {
-		downloadFile("https://raw.githubusercontent.com/cckpg/autoproxy2privoxy/master/gfw.action", true, true);
+		downloadFile("https://raw.githubusercontent.com/cckpg/autoproxy2privoxy/master/gfw.action", false, true);
 		moveFile("gfw.action", "/etc/privoxy/", true);
 		replaceStringInFile("#", "127.0.0.1:7127", socks5proxy, "/etc/privoxy/gfw.action", true);
 		deleteRowInFile("#", "actionsfile gfw.action", "/etc/privoxy/config", true);
@@ -401,23 +401,28 @@ public class ScientificBrowsing extends LinuxAutomation {
 		deleteFile("/etc/haproxy/haproxy.cfg", true);
 		cancelAutostart("service haproxy start", true);
 	}
-	
-	
+
 	/** 安装Finalspeed */
 	public void installFinalspeed() {
-		downloadFile("https://github.com/zqhong/finalspeed/releases/download/v1.0/FinalSpeed_Client_CLI.zip", true,
-				true);
+		// downloadFile("http://share.ijushan.com/03_software/02_tool/FinalSpeed_Client_CLI.zip",
+		// true,
+		// true);
+		downloadFile("http://share.ijushan.com/03_software/02_tool/finalspeed_client1.0.zip", false, true);
 		String finalspeedPath;
 		finalspeedPath = "/usr/share/finalspeed";
 		makeDirectory(finalspeedPath, true);
 		changeFilePermission(finalspeedPath, "755", false, true);
-		moveFile("FinalSpeed_Client_CLI.zip", finalspeedPath, true);
-		unzip(finalspeedPath + "/FinalSpeed_Client_CLI.zip", finalspeedPath,true);
+		changeFileOwner(finalspeedPath, username, username, true);
+		moveFile("finalspeed_client1.0.zip", finalspeedPath, true);
+		unzip(finalspeedPath + "/finalspeed_client1.0.zip", finalspeedPath, true);
 
+		String prefix_filepath;
+		prefix_filepath = "/finalspeed_client";
 		String clientConfigFile;
-		clientConfigFile = finalspeedPath + "/client_config.json";
+		clientConfigFile = finalspeedPath + prefix_filepath + "/client_config.json";
 		createEmptyFile(clientConfigFile, true);
 		setFileFullPermission(clientConfigFile, false, true);
+		changeFileOwner(clientConfigFile, username, username, true);
 		addTextInFileEnd("{", clientConfigFile, true);
 		addTextInFileEnd("	\"download_speed\":" + String.valueOf(30 * 1024 * 1024 / 8) + ",", clientConfigFile, true);
 		addTextInFileEnd("	\"protocal\":" + "\"" + "udp" + "\"" + ",", clientConfigFile, true);
@@ -428,33 +433,89 @@ public class ScientificBrowsing extends LinuxAutomation {
 		addTextInFileEnd("}", clientConfigFile, true);
 
 		String portMapFile;
-		portMapFile = finalspeedPath + "/port_map.json";
+		portMapFile = finalspeedPath + prefix_filepath + "/port_map.json";
 		createEmptyFile(portMapFile, true);
 		setFileFullPermission(portMapFile, false, true);
+		changeFileOwner(portMapFile, username, username, true);
 		addTextInFileEnd("{", portMapFile, true);
-		addTextInFileEnd("    \"map_list\": [", portMapFile, true);
-		addTextInFileEnd("        {", portMapFile, true);
-		addTextInFileEnd("	        \"dst_port\":" + ss_server_port + ",", portMapFile, true);
-		addTextInFileEnd("	        \"listen_port\":" + ss_server_speed_port + ",", portMapFile, true);
-		addTextInFileEnd("	        \"name\":" + "\"" + "ss" + "\"", portMapFile, true);
-		addTextInFileEnd("        },", portMapFile, true);
-		addTextInFileEnd("        {", portMapFile, true);
-		addTextInFileEnd("	        \"dst_port\":" + port + ",", portMapFile, true);
-		addTextInFileEnd("	        \"listen_port\":" + port+"0" + ",", portMapFile, true);
-		addTextInFileEnd("	        \"name\":" + "\"" + "ssh" + "\"", portMapFile, true);
-		addTextInFileEnd("        }", portMapFile, true);
-		addTextInFileEnd("    ]", portMapFile, true);
 		addTextInFileEnd("}", portMapFile, true);
+		addPortMap("my_ss", 443, 4430);
+		addPortMap("ssh", 22, 220);
 
-		setAutostart("nohup java -jar " + finalspeedPath + "/client.jar> "+finalspeedPath+"/log 2>&1 &",
-				"/etc/rc.local", true);
-		excuteShell("/etc/rc.local", true);
+		String logFile;
+		logFile = finalspeedPath + prefix_filepath + "/log";
+		createEmptyFile(logFile, true);
+		setFileFullPermission(logFile, false, true);
+		changeFileOwner(logFile, username, username, true);
 
+		// setRunAfterLogin("/usr/bin/java -jar " + finalspeedPath +
+		// prefix_filepath+"/finalspeed_client.jar",true);
+		deleteFile(finalspeedPath + prefix_filepath + "/start.sh", true);
+		addTextInFileEnd("cd " + finalspeedPath + prefix_filepath ,
+				finalspeedPath + prefix_filepath + "/start.sh", true);
+		addTextInFileEnd("/usr/bin/java -jar " + finalspeedPath + prefix_filepath + "/finalspeed_client.jar",
+				finalspeedPath + prefix_filepath + "/start.sh", true);
+		changeFileOwner(finalspeedPath + prefix_filepath + "/start.sh", username, username, true);
+
+//		deleteFile(finalspeedPath + prefix_filepath + "/restart.sh", true);
+		// addTextInFileEnd("ps -ef | grep finalspeed_client.jar | grep -v grep
+		// | awk '{print $2}' | xargs kill -s 9", finalspeedPath+"/restart.sh",
+		// true);
+		// addTextInFileEnd("nohup /usr/bin/java -jar "+ finalspeedPath +
+		// prefix_filepath+"/finalspeed_client.jar >> /usr/share/finalspeed/log
+		// 2>&1 &", finalspeedPath+"/restart.sh", true);
+
+		deleteFile(finalspeedPath + prefix_filepath + "/stop.sh", true);
+		addTextInFileEnd("ps -ef | grep finalspeed_client.jar | grep -v grep | awk '{print $2}' | xargs kill -s 9",
+				finalspeedPath +prefix_filepath + "/stop.sh", true);
+		changeFileOwner(finalspeedPath + prefix_filepath + "/stop.sh", username, username, true);
+
+		// addScheduledTask("0 */1 * * * ","smt","sh
+		// "+finalspeedPath+"/restart.sh", "finalspeed",true);
+		// setAutostart("su smt -c \"nohup /usr/bin/java -jar " + finalspeedPath
+		// + "/client.jar >>"+finalspeedPath+"/log 2>&1 &\"" ,true);
+		// excuteShell("/etc/rc.local", true);
+		
+		/**后续通过gnome-session-properties设置finalspeed为开机自启*/
+
+	}
+
+	/** 添加finalSpeed加速的端口映射 */
+	public void addPortMap(String name, int port, int mapPort) {
+
+		String finalspeedPath;
+		finalspeedPath = "/usr/share/finalspeed";
+		String prefix_filepath;
+		prefix_filepath = "/finalspeed_client";
+		String portMapFile;
+		portMapFile = finalspeedPath + prefix_filepath+"/port_map.json";
+
+		addObjectToJsonKeyArray(portMapFile, ".map_list", "{\"name\":\"" + name + "\",\"dst_port\":"
+				+ String.valueOf(port) + ",\"listen_port\":" + String.valueOf(mapPort) + "}", true);
+	}
+
+	/** 添加finalSpeed加速的端口映射 */
+	public void removePortMap(String name) {
+
+		String finalspeedPath;
+		finalspeedPath = "/usr/share/finalspeed";
+		String prefix_filepath;
+		prefix_filepath = "/finalspeed_client";
+		String portMapFile;
+		portMapFile = finalspeedPath + prefix_filepath+"/port_map.json";
+
+		deleteObjectInJsonKeyArray(portMapFile, ".map_list", ".name==\"" + name + "\"", true);
 	}
 
 	/** 卸载Finalspeed */
 	public void uninstallFinalspeed() {
-		cancelAutostart("/client.jar", true);
+		String finalspeedPath;
+		finalspeedPath = "/usr/share/finalspeed";
+		String prefix_filepath;
+		prefix_filepath = "/finalspeed_client";
+		excuteShell(finalspeedPath+prefix_filepath+"/stop.sh",true);
+		deleteFile(finalspeedPath,true);
+//		removeScheduledTask("0 3 * * * ","smt","sh "+finalspeedPath+"/restart.sh", "finalspeed",true);
 	}
 
 	/** 安装科学上网所有软件 */
@@ -469,15 +530,15 @@ public class ScientificBrowsing extends LinuxAutomation {
 		installPackageByAptget("python-gevent", true);
 		installPackageByAptget("python-pip", true);
 		if (isClient) {
-			installShadowsocksPythonClient();
+			// installShadowsocksPythonClient();
 			// installShadowsocksQt5();
-			installGenpac();
-			installPrivoxy();
-			installAutoProxy2Privoxy();
-			installProxyChains();
+			// installGenpac();
+			// installPrivoxy();
+			// installAutoProxy2Privoxy();
+			// installProxyChains();
 			installHaproxy();
 			installFinalspeed();
-			installShadowsocksPythonClient(true);
+			// installShadowsocksPythonClient(true);
 		} else {
 			installShadowsocksPythonServer();
 		}
@@ -493,26 +554,31 @@ public class ScientificBrowsing extends LinuxAutomation {
 		if (isClient) {
 			uninstallFinalspeed();
 			uninstallHaproxy();
-			uninstallAutoProxy2Privoxy();
-			uninstallPrivoxy();
-			uninstallGenpac();
-			uninstallShadowsocksPythonClient();
+			// uninstallAutoProxy2Privoxy();
+			// uninstallPrivoxy();
+			// uninstallGenpac();
+			// uninstallShadowsocksPythonClient();
 			// uninstallShadowsocksQt5(true);
-			uninstallProxyChains();
+			// uninstallProxyChains();
 		} else {
 			uninstallShadowsocksPythonServer();
 		}
 	}
 
 	public void testCode() {
-//		uninstallShadowsocksPythonClient();
-//		uninstallFinalspeed();
-//		installShadowsocksPythonClient(false);
-//		installFinalspeed();
-//		uninstallShadowsocksPythonClient();
-//		installShadowsocksPythonClient(true);
-//		installPackageByAptget("jq crudini", true);
-		String shadowsocksConfigFile = ss_shadowsocksPath + "/config.json";
-		addValueToJsonKey(shadowsocksConfigFile, ".port_password", "\"port_password\"", "{\"1080\":\"!abcd1234\"}", true);
+		// uninstallShadowsocksPythonClient();
+		// uninstallFinalspeed();
+		// installShadowsocksPythonClient(false);
+		// installFinalspeed();
+		// uninstallShadowsocksPythonClient();
+		// installShadowsocksPythonClient(true);
+		// installPackageByAptget("jq crudini", true);
+		// String shadowsocksConfigFile = ss_shadowsocksPath + "/config.json";
+		// addValueToJsonKey(shadowsocksConfigFile, ".port_password",
+		// "\"port_password\"", "{\"1080\":\"!abcd1234\"}", true);
+		// installFinalspeed();
+		uninstallFinalspeed();
+		installFinalspeed();
+
 	}
 }

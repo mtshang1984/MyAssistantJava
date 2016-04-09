@@ -2,7 +2,9 @@ package LinuxAutomation;
 
 
 public class PrivateCloud extends LinuxAutomation{
-
+	String pathDrive;
+	String pathHome;
+	String pathWeb;
 	String pathOwncloudData;
 	String pathToShare; 
 	String shareName; 
@@ -15,40 +17,49 @@ public class PrivateCloud extends LinuxAutomation{
 	VirtualHost virtualHostShare;
 	VirtualHost virtualHostLocal;
 	MySqlServerDatabase mySqlServerDatabase;
+	
 	public PrivateCloud() {
 		super();
-
 		
-		pathToShare="/home/"+username;
+		pathDrive="/mnt/usb";
+		pathHome="/home/"+username;
+		pathWeb="/home/smt/web";
+		
+		pathToShare=pathDrive;
 		shareName="home";	
 		
-		publicPathToShare="/home/"+username+"/share";
+		publicPathToShare=pathDrive+"/share";
 		publicShareName="public"; 
 
 		publicPathAria2=publicPathToShare+"/04_aria2";
 
 		pathOwncloudData=pathToShare+"/SmtOwncloudData";
 		
-		virtualHostMain = new VirtualHost("", "www.ijushan.com", "/home/smt/web");
+		virtualHostMain = new VirtualHost("", "www.ijushan.com", pathWeb);
 		virtualHostShare = new VirtualHost("", "share.ijushan.com", publicPathToShare,true);
 
 		mySqlServerDatabase=new MySqlServerDatabase();
 	}
 
 
-	public PrivateCloud(String hostname,int port, String rootUsername, String rootPassword, String username, String password) {
+	public PrivateCloud(String pathHome,String pathDrive,String pathWeb,String hostname,int port, String rootUsername, String rootPassword, String username, String password) {
 		super(hostname,port,false,rootUsername, rootPassword,  username,  password);
-		pathToShare="/home/"+username;
+//		pathDrive="/media/smt/yunpan";
+//		pathHome="/home/"+username;
+		this.pathHome=pathHome;
+		this.pathDrive=pathDrive;
+		
+		pathToShare=pathDrive;
 		shareName="home";	
 		
-		publicPathToShare="/home/"+username+"/share";
+		publicPathToShare=pathDrive+"/share";
 		publicShareName="public"; 
 
 		publicPathAria2=publicPathToShare+"/04_aria2";
 
 		pathOwncloudData=pathToShare+"/SmtOwncloudData";
 		
-		virtualHostMain = new VirtualHost("", "www.ijushan.com", "/home/smt/web");
+		virtualHostMain = new VirtualHost("", "www.ijushan.com", pathWeb);
 		virtualHostShare = new VirtualHost("", "share.ijushan.com", publicPathToShare,true);
 		
 		mySqlServerDatabase=new MySqlServerDatabase("localhost","SmtOwncloudDataBase",username,password);
@@ -69,7 +80,7 @@ public class PrivateCloud extends LinuxAutomation{
 
 
 		modifyConfigFile( configFile,  "allow_writeable_chroot",  "YES",true);
-		modifyConfigFile( configFile,  "chroot_local_user",  "YES",true);
+		modifyConfigFile( configFile,  "chroot_local_user",  "NO",true);
 		modifyConfigFile( configFile,  "local_umask", "0022",true);
 		modifyConfigFile( configFile,  "file_open_mode", "0777",true);
 		modifyConfigFile( configFile,  "listen_port",  "2121",true);
@@ -162,6 +173,16 @@ public class PrivateCloud extends LinuxAutomation{
 	}
 	/**卸载TeamViewer，后续需测试）*/
 	public void uninstallTeamViewer(){
+		uninstallPackageByDpkg("teamviewer_linux*.deb",true);
+	}
+	/**安装向日葵，后续需测试）*/
+	public void installSunlogin(){
+		deleteFile("sunlogin_remoteclient.tar.gz",true);
+		downloadFile("http://sunlogin.oray.com/zh_CN/download/download?id=16","sunlogin_remoteclient.tar.gz",true);
+		tar("sunlogin_remoteclient.tar.gz",true);
+	}
+	/**卸载向日葵，后续需测试）*/
+	public void uninstallSunlogin(){
 		uninstallPackageByDpkg("teamviewer_linux*.deb",true);
 	}
 	/**安装Aria2*/
@@ -295,9 +316,11 @@ public class PrivateCloud extends LinuxAutomation{
 	/**卸载OwnCloud*/
 	public void uninstallOwnCloud(){
 		uninstallPackageByAptget("ownCloud",true);
+		
 	}
 	/**安装所有私有云相关软件*/
 	public void installAllSoftware()	{
+		addMountInFstab("/dev/sdb1","/mnt/usb","ext4","defaults","0","0",true);
 		installPackageByAptget("jq crudini", true);
 		installTeamViewer();
 		installFtp();
@@ -328,31 +351,37 @@ public class PrivateCloud extends LinuxAutomation{
 //				+ "FLUSH PRIVILEGES;\n"
 //				+ "exit\n",true);
 		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " -e\"" + "CREATE USER '"
-				+ mySqlServerDatabase.owncloudUserName + "'@'" + mySqlServerDatabase.hostname + "' IDENTIFIED BY '"
-				+ mySqlServerDatabase.owncloudUserPassword+"'\"",true);
+				+ mySqlServerDatabase.userName + "'@'" + mySqlServerDatabase.hostname + "' IDENTIFIED BY '"
+				+ mySqlServerDatabase.password+"'\"",true);
+		//为用户创建一个数据库
 		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " -e\"" + "CREATE DATABASE "
-				+ mySqlServerDatabase.owncloudDatabase+"\"",true);
+				+ mySqlServerDatabase.database+"\"",true);
+		//授权用户拥有数据库的所有权限
 		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " -e\"" + "GRANT ALL ON "
-				+ mySqlServerDatabase.owncloudDatabase + ".* TO '" + mySqlServerDatabase.owncloudUserName + "'@'"
+				+ mySqlServerDatabase.database + ".* TO '" + mySqlServerDatabase.userName + "'@'"
 				+ mySqlServerDatabase.hostname+"'\"",true);
+		//刷新系统权限表
 		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " -e\"" + "FLUSH PRIVILEGES\"",true);
 	}
 	/**测试代码*/
 	public void test_code()
 	{
-//
-//		String configFilePath="/etc/aria2";
-//		String configFile=configFilePath+"/aria2.conf";
-//		modifyConfigFile( configFile,  "enable-rpc",  "true",true);
-//		uninstallFtp();
+		uninstallFtp();
 //		uninstallSamba();
+//		uninstallAria2();
+//		uninstallYaaw();
+//		
+		installFtp();
 //		installSamba();
-//		installFtp();
-		uninstallYaaw();
-		uninstallAria2();
-		installAria2();
-		installYaaw();
-
+//		installAria2();
+//		installYaaw();
+		
+//
+//		unlinkPath("/home/smt/SmtOwncloudData/smt/files/share",true);
+////
+//		makeDirectory(pathOwncloudData,"www-data","www-data",true);
+//		setFileFullPermission(pathOwncloudData,true,true);
+//		linkPath(publicPathToShare,pathOwncloudData+"/smt/files",true);
 	}
 
 }

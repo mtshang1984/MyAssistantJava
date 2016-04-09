@@ -42,7 +42,6 @@ public class MyAssistant {
 				}
 
 			}
-
 		}
 		// 搜索信息
 		Keyword = Keyword.trim();
