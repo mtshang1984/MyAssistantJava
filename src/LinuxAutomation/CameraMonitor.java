@@ -39,8 +39,8 @@ public class CameraMonitor extends LinuxAutomation {
 		addAptRepository("ppa:iconnor/zoneminder", true);
 		updateAptRepository(true); 
 		installPackageByAptget("zoneminder", true);		
-		runMySqlBatch(rootUsername, rootPassword,"/usr/share/zoneminder/db/zm_create.sql",  true);
-		runMySqlCommand(rootUsername, rootPassword,"grant select,insert,update,delete,create,alter,index,lock tables on zm.* to 'zmuser'@localhost identified by 'zmpass';",  true);
+		runMySqlBatch(host.rootUsername, host.rootPassword,"/usr/share/zoneminder/db/zm_create.sql",  true);
+		runMySqlCommand(host.rootUsername, host.rootPassword,"grant select,insert,update,delete,create,alter,index,lock tables on zm.* to 'zmuser'@localhost identified by 'zmpass';",  true);
 		runSshCommand("a2enconf zoneminder", true);
 		runSshCommand("a2enmod rewrite", true);
 		runSshCommand("a2enmod cgi", true);

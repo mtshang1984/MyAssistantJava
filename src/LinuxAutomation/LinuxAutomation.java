@@ -6,127 +6,39 @@ import SshConnection.SshConnection;
 import WindowsAutomation.WindowsAutomation;
 
 public class LinuxAutomation {
-
-	String hostname;
-	String rootUsername;
-	String rootPassword;
+	Host host;	
 	String http_proxy;
 	String https_proxy;
 	SshConnection sshConnection;
-	String username;
-	String password;
+	
 	boolean useRoot;
-	int port;
 
 	public LinuxAutomation() {
-		hostname = "192.168.1.105";
-		rootUsername = "root";
-		rootPassword = "ShMT0659";
+		host=new Host();
 		// http_proxy = "192.168.1.101:1080";
-		http_proxy = "http://192.168.1.105:8118";
-		https_proxy = "https://192.168.1.105:8118";
-		username = "smt";
-		password = "ShMT0659";
-		port = 22;
+		http_proxy = "http://192.168.1.107:1080";
+		https_proxy = "https://192.168.1.107:1080";
 		useRoot = false;
-		sshConnection = new SshConnection(hostname, port, useRoot, rootUsername, rootPassword, username, password);
+		sshConnection = new SshConnection(host, useRoot);
 	}
 
-	public LinuxAutomation(String hostname, int port, boolean useRoot, String username, String password) {
-		this.hostname = hostname;
-		if (useRoot) {
-			this.rootUsername = username;
-			this.rootPassword = password;
-			this.username = "smt";
-			this.password = "ShMT0659";
-		} else {
-			this.rootUsername = "root";
-			this.rootPassword = "ShMT0659";
-			this.username = username;
-			this.password = password;
-		}
-		this.port = port;
+
+	public LinuxAutomation(Host host, boolean useRoot) {
+		this.host= (Host) host.clone();		
 		this.useRoot = useRoot;
-		http_proxy = "http://192.168.1.105:8118";
-		https_proxy = "https://192.168.1.105:8118";
-		sshConnection = new SshConnection(hostname, port, useRoot, rootUsername, rootPassword, username, password);
+		http_proxy = "http://192.168.1.107:1080";
+		https_proxy = "https://192.168.1.107:1080";
+		sshConnection = new SshConnection(host, useRoot);
 	}
 
-	public LinuxAutomation(String hostname, int port, boolean useRoot, String rootUsername, String rootPassword,
-			String username, String password) {
-		this.hostname = hostname;
-		this.rootUsername = rootUsername;
-		this.rootPassword = rootPassword;
-		this.username = username;
-		this.password = password;
-		this.port = port;
+	public LinuxAutomation(Host host, boolean useRoot, String http_proxy) {
+		this.host= (Host) host.clone();		
 		this.useRoot = useRoot;
-		http_proxy = "http://192.168.1.105:8118";
-		https_proxy = "https://192.168.1.105:8118";
-		sshConnection = new SshConnection(hostname, port, useRoot, rootUsername, rootPassword, username, password);
-	}
-
-	public LinuxAutomation(String hostname, int port, boolean useRoot, String rootUsername, String rootPassword,
-			String http_proxy) {
-		this.hostname = hostname;
-		this.rootUsername = rootUsername;
-		this.rootPassword = rootPassword;
 		this.http_proxy = http_proxy;
-		username = "smt";
-		password = "ShMT0659";
-		this.port = port;
-		this.useRoot = useRoot;
-		http_proxy = "http://192.168.1.105:8118";
-		https_proxy = "https://192.168.1.105:8118";
-		sshConnection = new SshConnection(hostname, port, useRoot, rootUsername, rootPassword, username, password);
+		this.https_proxy = http_proxy.replace("http", "https");
+		sshConnection = new SshConnection(host, useRoot);
 	}
-
-	public LinuxAutomation(String hostname, int port, boolean useRoot, String rootUsername, String rootPassword,
-			String username, String password, String http_proxy) {
-		this.hostname = hostname;
-		this.rootUsername = rootUsername;
-		this.rootPassword = rootPassword;
-		this.username = username;
-		this.password = password;
-		this.port = port;
-		this.useRoot = useRoot;
-		http_proxy = "http://192.168.1.105:8118";
-		https_proxy = "https://192.168.1.105:8118";
-		sshConnection = new SshConnection(hostname, port, useRoot, rootUsername, rootPassword, username, password);
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public String getHostname() {
-		return hostname;
-	}
-
-	public void setHostname(String hostname) {
-		this.hostname = hostname;
-	}
-
-	public String getRootUsername() {
-		return rootUsername;
-	}
-
-	public void setRootUsername(String rootUsername) {
-		this.rootUsername = rootUsername;
-	}
-
-	public String getRootPassword() {
-		return rootPassword;
-	}
-
-	public void setRootPassword(String rootPassword) {
-		this.rootPassword = rootPassword;
-	}
-
+	
 	public String getHttp_proxy() {
 		return http_proxy;
 	}
@@ -135,29 +47,7 @@ public class LinuxAutomation {
 		this.http_proxy = http_proxy;
 	}
 
-	public SshConnection getSshConnection() {
-		return sshConnection;
-	}
 
-	public void setSshConnection(SshConnection sshConnection) {
-		this.sshConnection = sshConnection;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	/** 初始化 */
 	public void initialize() {
@@ -265,6 +155,10 @@ public class LinuxAutomation {
 	public void updateAptRepository(boolean useSudo) {
 		runSshCommand("apt-get update ", useSudo);
 	}
+	/** 更新apt安装源 */
+	public void updateAptRepository(boolean useProxy,boolean useSudo) {
+		runSshCommand("apt-get update ",useProxy, useSudo);
+	}
 
 	/** 增加apt安装源 */
 	public void addAptRepository(String aptRepository, boolean useSudo) {
@@ -360,6 +254,12 @@ public class LinuxAutomation {
 	/** 取消登录后启动 */
 	public void cancelRunAfterLogin(String command, boolean useSudo) {
 		deleteRowInFile("#", command, "/etc/profile", useSudo);
+	}
+
+
+	/** 取消登录后启动 */
+	public void sourceProfile(String profile) {
+		runSshCommand("source "+profile,false);
 	}
 
 	/** 允许root ssh登录 */
@@ -737,7 +637,7 @@ public class LinuxAutomation {
 		runSshCommand("iptables -F  ", useSudo);
 		runSshCommand("iptables -X  ", useSudo);
 	}
-
+	
 	/**
 	 * 设置iptables规则链的默认策略
 	 * 
@@ -763,15 +663,17 @@ public class LinuxAutomation {
 	 *            ACCEPT,DROP,REJECT,LOG
 	 */
 	public void addRuleInIptablesRuleChain(String ruleChain, String protocol, boolean isMultiport, boolean isdport,
-			String port, String ctstate, String policy, boolean useSudo) {
-		for (int i = 0; i <= 1; i++) {
-			deleteRuleInIptablesRuleChain(ruleChain, protocol, isMultiport, isdport, port, ctstate, policy, useSudo);
+			int port, String ctstate, String policy, boolean useSudo) {
+		if(port!=22){
+			for (int i = 0; i <= 1; i++) {
+				deleteRuleInIptablesRuleChain(ruleChain, protocol, isMultiport, isdport, port, ctstate, policy, useSudo);
+			}				
 		}
 		String command = "iptables -A " + ruleChain;
 		if (protocol.isEmpty() == false) {
 			command += " -p " + protocol;
 		}
-		if (port.isEmpty() == false) {
+		if (port!=0) {
 			if (isMultiport) {
 				command += " -m multiport ";
 			}
@@ -795,14 +697,14 @@ public class LinuxAutomation {
 	}
 
 	public void deleteRuleInIptablesRuleChain(String ruleChain, String protocol, boolean isMultiport, boolean isdport,
-			String port, String ctstate, String policy, boolean useSudo) {
-		if (port.equals("22"))
+			int port, String ctstate, String policy, boolean useSudo) {
+		if (port==22)
 			return;
 		String command = "iptables -D " + ruleChain;
 		if (protocol.isEmpty() == false) {
 			command += " -p " + protocol;
 		}
-		if (port.isEmpty() == false) {
+		if (port!=0) {
 			if (isMultiport) {
 				command += " -m multiport ";
 			}
@@ -825,18 +727,73 @@ public class LinuxAutomation {
 
 	}
 
+	/**iptables 实现nat*/
+	public void addNatInIptables(String protocol, boolean isMultiport, boolean isdport,
+			int port, String policy, boolean useSudo)	{
+		for (int i = 0; i <= 1; i++) {
+			deleteNatInIptables( protocol, isMultiport, isdport, port, policy, useSudo);
+		}
+		String command = "iptables -t nat -A PREROUTING";
+		if (protocol.isEmpty() == false) {
+			command += " -p " + protocol;
+		}
+		if (port!=0) {
+			if (isMultiport) {
+				command += " -m multiport ";
+			}
+			if (isdport) {
+				command += " --dport ";
+			} else {
+				command += " --sport ";
+			}
+			command += port;
+		}
+		if (policy.isEmpty() == false) {
+			command += " -j " + policy;
+		} else {
+			return;
+		}
+		runSshCommand(command, useSudo);
+		
+	}
+
+	/**iptables 实现nat*/
+	public void deleteNatInIptables(String protocol, boolean isMultiport, boolean isdport,
+			int port, String policy, boolean useSudo)	{
+	
+		String command = "iptables -t nat -D PREROUTING";
+		if (protocol.isEmpty() == false) {
+			command += " -p " + protocol;
+		}
+		if (port!=0) {
+			if (isMultiport) {
+				command += " -m multiport ";
+			}
+			if (isdport) {
+				command += " --dport ";
+			} else {
+				command += " --sport ";
+			}
+			command += port;
+		}
+		if (policy.isEmpty() == false) {
+			command += " -j " + policy;
+		} else {
+			return;
+		}
+		runSshCommand(command, useSudo);
+	}
 	/** 记允许被ping */
 	public void allowLoopbackByIptables(boolean useSudo) {
 		runSshCommand("iptables -A INPUT  -i lo -j ACCEPT", useSudo);
-		// runSshCommand("iptables -A INPUT -p icmp --icmp-type echo-reply -j
-		// ACCEPT" , useSudo);
+//		 runSshCommand("iptables -A INPUT -p icmp --icmp-type echo-reply -j
+//		 ACCEPT" , useSudo);
 	}
 
 	/** 允许被ping */
 	public void allowPingByIptables(boolean useSudo) {
 		runSshCommand("iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT", useSudo);
-		// runSshCommand("iptables -A INPUT -p icmp --icmp-type echo-reply -j
-		// ACCEPT" , useSudo);
+		runSshCommand("iptables -A INPUT -p icmp --icmp-type echo-reply -j  ACCEPT" , useSudo);
 	}
 
 	/** 记录被拒绝的访问 */

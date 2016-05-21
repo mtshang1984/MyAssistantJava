@@ -1,5 +1,6 @@
 package BussinessApplication;
 
+import LinuxAutomation.Host;
 import LinuxAutomation.ScientificBrowsing;
 import LinuxAutomation.VpsServer;
 
@@ -9,36 +10,46 @@ public class BussinessApplication {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	/**添加shadowsocks账号*/
-	public void addShadowsocksAccount(int port,String password){
-		VpsServer vpsServer=new VpsServer("proxy.ijushan.com",22 ,"root","ShMT0659","smt","ShMT0659");
+	public void addShadowsocksAccount(Host host,int port,String password){
+		VpsServer vpsServer=new VpsServer(host);
 		vpsServer.initialize();
 		vpsServer.addUser(port, password);
 		vpsServer.close();
 		
 	}
-
 	/**删除shadowsocks账号*/
-	public void deleteShadowsocksAccount(int port){
-		VpsServer vpsServer=new VpsServer("proxy.ijushan.com",22 ,"root","ShMT0659","smt","ShMT0659");
+	public void deleteShadowsocksAccount(Host host,int port){
+		VpsServer vpsServer=new VpsServer(host);
 		vpsServer.initialize();
+		
 		vpsServer.delteUser(port);
 		vpsServer.close();
 		
 	}
+
 	/**提供加速过的shadowsocks账号*/
-	public void addSpeedShadowsocksAccount(String name, int port,int mapPort){
-		ScientificBrowsing scientificBrowsing = new ScientificBrowsing("www.ijushan.com",22,"root","ShMT0659","smt","ShMT0659");
+	public void changeShadowsocksServer(Host vpsSpeedHost, Host vpsHost){
+		ScientificBrowsing scientificBrowsing = new ScientificBrowsing(vpsSpeedHost);
 		scientificBrowsing.initialize();
-		scientificBrowsing.addPortMap(name,port,mapPort);
+		scientificBrowsing.modifyServer(vpsHost.hostname, true);
+		scientificBrowsing.close();
+		
+	}
+	/**提供加速过的shadowsocks账号*/
+	public void addSpeedShadowsocksAccount(Host host,String name, int port,int mapPort){
+		ScientificBrowsing scientificBrowsing = new ScientificBrowsing(host);
+		scientificBrowsing.initialize();
+		scientificBrowsing.addPortMap(name,port,mapPort,true);
 		scientificBrowsing.close();
 		
 	}
 	/**删除提供加速过的shadowsocks账号*/
-	public void deleteSpeedShadowsocksAccount(String name){
-		ScientificBrowsing scientificBrowsing = new ScientificBrowsing("www.ijushan.com",22,"root","ShMT0659","smt","ShMT0659");
+	public void deleteSpeedShadowsocksAccount(Host host,String name){
+		ScientificBrowsing scientificBrowsing = new ScientificBrowsing(host);
 		scientificBrowsing.initialize();
-		scientificBrowsing.removePortMap(name);
+		scientificBrowsing.removePortMap(name,true);
 		scientificBrowsing.close();
 		
 	}
@@ -52,7 +63,8 @@ public class BussinessApplication {
 //		vpsServer.installShadowsocksPythonServer();
 //		vpsServer.close();
 //		addShadowsocksAccount(444, "chenyuqing");
-		addShadowsocksAccount(443, "!abcd1234");
+//		addShadowsocksAccount(443, "!abcd1234");
+//		addShadowsocksAccount(445, "hongqin");
 //		addSpeedShadowsocksAccount("chenyuqing",444,4440);
 //		vpsServer.installShadowsocksPythonServer();
 //		vpsServer.close();

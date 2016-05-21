@@ -32,6 +32,52 @@ public class AlmightyAssistant201603 {
 
 	public void runToday() {
 		makeDecision();
+		excuteDecision();
+	}
+
+	public void makeDecision(){
+ 
+		decisionMaker.addDecisionData("0", "做什么", "");
+		decisionMaker.addDecisionData("1", "拜年", "0");
+		decisionMaker.addDecisionData("1.1", "爸爸，三姑，大姐，二姐", "1");
+		decisionMaker.addDecisionData("2", "出去玩", "0");
+		decisionMaker.addDecisionData("3", "session是放在SshConnection类中，还是不放在其中", "0");
+		decisionMaker.addDecisionData("3.1", "如果session是放在SshConnection类中，如何处理存在多个session的情况", "3");
+		decisionMaker.addDecisionData("3.2", "如果session不放在SshConnection类中，如何提供根据Connection创建session的方法", "3");
+		decisionMaker.addDecisionData("3.2.1",
+				"在SshConnection类中，提供openSession和closeSession的方法，返回值为Session类型的对象。由于只要有对象的引用存在，对象就不会被收回，返回对象是可行的方法",
+				"3.1");
+		
+		decisionMaker.addDecisionData("4", "如何让父母更健康", "0");
+		decisionMaker.addDecisionData("4.1", "把我妈的病治好", "4");
+		decisionMaker.addDecisionData("4.1.1", "血糖药", "4");
+		decisionMaker.addDecisionData("4.1.2", "鼻窦炎", "4");
+		decisionMaker.addDecisionData("4.1.3", "染发剂", "4");
+		decisionMaker.addDecisionData("4.2", "把我爸的病治好", "4");
+		decisionMaker.addDecisionData("4.2.1", "高血压", "4");
+
+		decisionMaker.addDecisionData("5", "内网架设服务器", "0");
+		decisionMaker.addDecisionData("5.1", "云服务器", "0");
+		decisionMaker.addDecisionData("5.2", "网站", "0");
+		decisionMaker.addDecisionData("5.3", "搜索引擎", "0");
+		decisionMaker.addDecisionData("5.4", "git服务器", "0");
+		decisionMaker.addDecisionData("5.5", "共享文件夹", "0");
+		decisionMaker.addDecisionData("5.6", "远程访问", "0");
+
+		decisionMaker.addDecisionData("6", "监控服务器", "0");
+		decisionMaker.addDecisionData("6.1", "树莓派3+1080p高清摄像头,285+298，可以定制各种功能", "0");
+		decisionMaker.addDecisionData("6.2", "小蚁摄像机,399，可以做监控", "0");
+		decisionMaker.addDecisionData("6.3", "树莓派3+现有高清摄像头+zoneminder,285，可以定制各种功能", "0");
+		
+		decisionMaker.addDecisionData("7", "树莓派3购买必要性", "0");
+		decisionMaker.addDecisionData("7.1", "树莓派3购买必要性", "0");
+		
+		
+		// decisionMaker.showDecision();
+
+	}
+	public void excuteDecision(){
+
 		// 创建脑图
 		mindMap.addMindData("0", "201602", "");
 		mindMap.addMindData("1", "工作", "0");
@@ -104,9 +150,7 @@ public class AlmightyAssistant201603 {
 		taskNumber = "3.4.4";
 
 		excuteJob(taskNumber, parameter);
-
 	}
-
 	/**
 	 * @param taskNumber
 	 * @param parameter
@@ -203,11 +247,11 @@ public class AlmightyAssistant201603 {
 //			linuxAutomation.addUserAndDirecotry("smt","ShMT0659", false);
 //			linuxAutomation.appendToGroup("smt", "sudo", false);
 //			linuxAutomation.close();
-			
-			VpsServer vpsServer = new VpsServer("proxy.ijushan.com",22 ,true,"ShMT0659",22,"root","ShMT0659","smt","ShMT0659");
-			vpsServer.initialize();
-			vpsServer.installAllSoftware();
-			vpsServer.close();
+//			
+//			VpsServer vpsServer = new VpsServer("proxy.ijushan.com",22 ,true,"ShMT0659",22,"root","ShMT0659","smt","ShMT0659");
+//			vpsServer.initialize();
+//			vpsServer.installAllSoftware();
+//			vpsServer.close();
 			break;
 		}
 		case "2.1.2.3.5":{
@@ -215,11 +259,11 @@ public class AlmightyAssistant201603 {
 		}
 		case "2.1.2.2": {
 			/** 配置Shadowsocks客户端 */
-			ScientificBrowsing scientificBrowsing = new ScientificBrowsing("www.ijushan.com",22,"root","ShMT0659","smt","ShMT0659");
-			scientificBrowsing.initialize();
-			scientificBrowsing.uninstallAllSoftware(true);
-			scientificBrowsing.installAllSoftware(true);
-			scientificBrowsing.close();
+//			ScientificBrowsing scientificBrowsing = new ScientificBrowsing("www.ijushan.com",22,"root","ShMT0659","smt","ShMT0659");
+//			scientificBrowsing.initialize();
+//			scientificBrowsing.uninstallAllSoftware(true);
+//			scientificBrowsing.installAllSoftware(true);
+//			scientificBrowsing.close();
 			break;
 		}
 		case "2.1.3": {
@@ -327,41 +371,5 @@ public class AlmightyAssistant201603 {
 			break;
 		}
 		}
-	}
-	public void makeDecision(){
- 
-		decisionMaker.addDecisionData("0", "做什么", "");
-		decisionMaker.addDecisionData("1", "拜年", "0");
-		decisionMaker.addDecisionData("1.1", "爸爸，三姑，大姐，二姐", "1");
-		decisionMaker.addDecisionData("2", "出去玩", "0");
-		decisionMaker.addDecisionData("3", "session是放在SshConnection类中，还是不放在其中", "0");
-		decisionMaker.addDecisionData("3.1", "如果session是放在SshConnection类中，如何处理存在多个session的情况", "3");
-		decisionMaker.addDecisionData("3.2", "如果session不放在SshConnection类中，如何提供根据Connection创建session的方法", "3");
-		decisionMaker.addDecisionData("3.2.1",
-				"在SshConnection类中，提供openSession和closeSession的方法，返回值为Session类型的对象。由于只要有对象的引用存在，对象就不会被收回，返回对象是可行的方法",
-				"3.1");
-		
-		decisionMaker.addDecisionData("4", "如何让父母更健康", "0");
-		decisionMaker.addDecisionData("4.1", "把我妈的病治好", "4");
-		decisionMaker.addDecisionData("4.1.1", "血糖药", "4");
-		decisionMaker.addDecisionData("4.1.2", "鼻窦炎", "4");
-		decisionMaker.addDecisionData("4.1.3", "染发剂", "4");
-		decisionMaker.addDecisionData("4.2", "把我爸的病治好", "4");
-		decisionMaker.addDecisionData("4.2.1", "高血压", "4");
-
-		decisionMaker.addDecisionData("5", "内网架设服务器", "0");
-		decisionMaker.addDecisionData("5.1", "云服务器", "0");
-		decisionMaker.addDecisionData("5.2", "网站", "0");
-		decisionMaker.addDecisionData("5.3", "搜索引擎", "0");
-		decisionMaker.addDecisionData("5.4", "git服务器", "0");
-		decisionMaker.addDecisionData("5.5", "共享文件夹", "0");
-		decisionMaker.addDecisionData("5.6", "远程访问", "0");
-
-		decisionMaker.addDecisionData("6", "监控服务器", "0");
-		decisionMaker.addDecisionData("6.1", "树莓派3+1080p高清摄像头,285+298，可以定制各种功能", "0");
-		decisionMaker.addDecisionData("6.2", "小蚁摄像机,399，可以做监控", "0");
-		decisionMaker.addDecisionData("6.3", "树莓派3+现有高清摄像头+zoneminder,285，可以定制各种功能", "0");
-		// decisionMaker.showDecision();
-
 	}
 }

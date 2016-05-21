@@ -22,7 +22,7 @@ public class PrivateCloud extends LinuxAutomation{
 		super();
 		
 		pathDrive="/mnt/usb";
-		pathHome="/home/"+username;
+		pathHome="/home/"+host.username;
 		pathWeb="/home/smt/web";
 		
 		pathToShare=pathDrive;
@@ -42,8 +42,8 @@ public class PrivateCloud extends LinuxAutomation{
 	}
 
 
-	public PrivateCloud(String pathHome,String pathDrive,String pathWeb,String hostname,int port, String rootUsername, String rootPassword, String username, String password) {
-		super(hostname,port,false,rootUsername, rootPassword,  username,  password);
+	public PrivateCloud(Host host,String pathHome,String pathDrive,String pathWeb) {
+		super(host,false);
 //		pathDrive="/media/smt/yunpan";
 //		pathHome="/home/"+username;
 		this.pathHome=pathHome;
@@ -62,7 +62,7 @@ public class PrivateCloud extends LinuxAutomation{
 		virtualHostMain = new VirtualHost("", "www.ijushan.com", pathWeb);
 		virtualHostShare = new VirtualHost("", "share.ijushan.com", publicPathToShare,true);
 		
-		mySqlServerDatabase=new MySqlServerDatabase("localhost","SmtOwncloudDataBase",username,password);
+		mySqlServerDatabase=new MySqlServerDatabase("localhost","SmtOwncloudDataBase",host.username,host.password);
 	}
 	
 	/**安装ftp服务器*/
@@ -70,7 +70,7 @@ public class PrivateCloud extends LinuxAutomation{
 		installPackageByAptget("vsftpd",true);
 		String configFile="/etc/vsftpd.conf";
 		makeDirectory(publicPathToShare,true);
-		changeFileOwner(publicPathToShare, username, username,true);
+		changeFileOwner(publicPathToShare, host.username, host.username,true);
 		setFileFullPermission(publicPathToShare,true,true);
 		changeFilePermission(publicPathToShare,"755",false,true);
 		
@@ -111,19 +111,19 @@ public class PrivateCloud extends LinuxAutomation{
 		installPackageByAptget("samba samba-common python-glade2 system-config-samba",true);
 		//配置私有共享目录				
 //		sshConnection.runCommand("smbpasswd -a "+username,password+"\n"+password+"\n",true);
-		runSshCommand("smbpasswd -a "+username,password+"\n"+password+"\n",true);
+		runSshCommand("smbpasswd -a "+host.username,host.password+"\n"+host.password+"\n",true);
 		addTextInFileEnd("["+shareName+"]", "/etc/samba/smb.conf",true);
 		addTextInFileEnd("	path = "+pathToShare, "/etc/samba/smb.conf",true);
 		addTextInFileEnd("	writable = yes", "/etc/samba/smb.conf",true);
 		addTextInFileEnd(";	browsable = yes", "/etc/samba/smb.conf",true);
 		addTextInFileEnd(";	available = yes", "/etc/samba/smb.conf",true);
 		addTextInFileEnd("	guest ok = no", "/etc/samba/smb.conf",true);
-		addTextInFileEnd("	valid users = "+username, "/etc/samba/smb.conf",true);
+		addTextInFileEnd("	valid users = "+host.username, "/etc/samba/smb.conf",true);
 		addTextInFileEnd("#", "/etc/samba/smb.conf",true);
 						
 		//配置公开共享目录
 		makeDirectory(publicPathToShare,true);
-		changeFileOwner(publicPathToShare, username, username,true);
+		changeFileOwner(publicPathToShare, host.username, host.username,true);
 		setFileFullPermission(publicPathToShare,true,true);
 		changeFilePermission(publicPathToShare,"755",false,true);
 		addTextInFileEnd("["+publicShareName+"]", "/etc/samba/smb.conf",true);
@@ -190,7 +190,7 @@ public class PrivateCloud extends LinuxAutomation{
 
 		addAptRepository("ppa:t-tujikawa/ppa",true);
 		installPackageByAptget("aria2",true);
-		makeDirectory(publicPathAria2, username, username,true);	
+		makeDirectory(publicPathAria2, host.username, host.username,true);	
 
 		String configFilePath="/etc/aria2";
 		String configFile=configFilePath+"/aria2.conf";
@@ -280,7 +280,7 @@ public class PrivateCloud extends LinuxAutomation{
 		installPackageByAptget("mysql-server",true);
 		runSshCommand( "mysql_secure_installation",true);
 		runSshCommand("mysql_secure_installation",
-				rootPassword+"\n"
+				host.rootPassword+"\n"
 				+"n"+"\n"
 				+"y"+"\n"
 				+"y"+"\n"
@@ -350,18 +350,18 @@ public class PrivateCloud extends LinuxAutomation{
 //				+ "GRANT ALL ON "+mySqlServerDatabase.owncloudDatabase+".* TO '"+mySqlServerDatabase.owncloudUserName+"'@'"+mySqlServerDatabase.hostname+"';\n"
 //				+ "FLUSH PRIVILEGES;\n"
 //				+ "exit\n",true);
-		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " -e\"" + "CREATE USER '"
+		runSshCommand("mysql -u" + host.rootUsername + " -p" + host.rootPassword + " -e\"" + "CREATE USER '"
 				+ mySqlServerDatabase.userName + "'@'" + mySqlServerDatabase.hostname + "' IDENTIFIED BY '"
 				+ mySqlServerDatabase.password+"'\"",true);
 		//为用户创建一个数据库
-		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " -e\"" + "CREATE DATABASE "
+		runSshCommand("mysql -u" + host.rootUsername + " -p" + host.rootPassword + " -e\"" + "CREATE DATABASE "
 				+ mySqlServerDatabase.database+"\"",true);
 		//授权用户拥有数据库的所有权限
-		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " -e\"" + "GRANT ALL ON "
+		runSshCommand("mysql -u" + host.rootUsername + " -p" + host.rootPassword + " -e\"" + "GRANT ALL ON "
 				+ mySqlServerDatabase.database + ".* TO '" + mySqlServerDatabase.userName + "'@'"
 				+ mySqlServerDatabase.hostname+"'\"",true);
 		//刷新系统权限表
-		runSshCommand("mysql -u" + rootUsername + " -p" + rootPassword + " -e\"" + "FLUSH PRIVILEGES\"",true);
+		runSshCommand("mysql -u" + host.rootUsername + " -p" + host.rootPassword + " -e\"" + "FLUSH PRIVILEGES\"",true);
 	}
 	/**测试代码*/
 	public void test_code()

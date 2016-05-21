@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import LinuxAutomation.Host;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
@@ -21,76 +22,42 @@ import ch.ethz.ssh2.StreamGobbler;
  *
  */
 public class SshConnection {
+
+	Host host;
 	boolean useRoot;
-	String rootUsername;
-	String rootPassword;
-	String hostname;
-	String username;
-	String password;
-	int port;
 	Connection connection;
 	Session sessionForCommandWithPrompt;
 	OutputStream outputStreamForCommandWithPrompt;
 
 	public SshConnection() {
+
+		host=new Host();
 		useRoot = false;
-		rootUsername = "root";
-		rootPassword = "ShMT0659";
-		hostname = "192.168.1.105";
-		username = "root";
-		password = "ShMT0659";
-		port = 22;
-		connection = new Connection(hostname, port);
+
+		connection = new Connection(host.hostname, host.sshPort);
 		sessionForCommandWithPrompt = null;
 		outputStreamForCommandWithPrompt = null;
 	}
 
-	public SshConnection(String hostname, int port, boolean useRoot, String username, String password) {
+	public SshConnection(Host host, boolean useRoot) {
 		this.useRoot = useRoot;
-		this.hostname = hostname;
-		if (useRoot) {
-			this.rootUsername = username;
-			this.rootPassword = password;
-			this.username = "smt";
-			this.password = "ShMT0659";
-		} else {
-			this.rootUsername = "root";
-			this.rootPassword = "ShMT0659";
-			this.username = username;
-			this.password = password;
-		}
-		this.port = port;
-		connection = new Connection(hostname, port);
+		this.host=(Host) host.clone();
+		connection = new Connection(host.hostname, host.sshPort);
 		sessionForCommandWithPrompt = null;
 		outputStreamForCommandWithPrompt = null;
-
-	}
-
-	public SshConnection(String hostname, int port, boolean useRoot, String rootUsername, String rootPassword,
-			String username, String password) {
-		this.useRoot = useRoot;
-		this.hostname = hostname;
-		this.rootUsername = rootUsername;
-		this.rootPassword = rootPassword;
-		this.username = username;
-		this.password = password;
-		this.port = port;
-		connection = new Connection(hostname, port);
-		sessionForCommandWithPrompt = null;
-		outputStreamForCommandWithPrompt = null;
-
+			
 	}
 
 	/** 打开连接 */
 	public void initialize() {
 		try {
 			connection.connect();
-
+			
 			boolean isAuthenticated;
 			if (useRoot) {
-				isAuthenticated = connection.authenticateWithPassword(rootUsername, rootPassword);
+				isAuthenticated = connection.authenticateWithPassword(host.rootUsername, host.rootPassword);
 			} else {
-				isAuthenticated = connection.authenticateWithPassword(username, password);
+				isAuthenticated = connection.authenticateWithPassword(host.username, host.password);
 			}
 			if (isAuthenticated == false)
 				throw new IOException("Authentication failed.");
@@ -142,9 +109,9 @@ public class SshConnection {
 				}
 				// session.execCommand("sudo "+stringCommand);
 				if (stringCommandPrompt.isEmpty()) {
-					outputStreamOfSessionInput.write((rootPassword + "\n").getBytes());
+					outputStreamOfSessionInput.write((host.rootPassword + "\n").getBytes());
 				} else {
-					outputStreamOfSessionInput.write((rootPassword + "\n" + stringCommandPrompt + "\n").getBytes());
+					outputStreamOfSessionInput.write((host.rootPassword + "\n" + stringCommandPrompt + "\n").getBytes());
 				}
 			} else {
 				session.execCommand(stringCommand);

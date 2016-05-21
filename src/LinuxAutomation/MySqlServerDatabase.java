@@ -3,25 +3,35 @@ package LinuxAutomation;
 public class MySqlServerDatabase extends LinuxAutomation {
 	String hostname;
 	String database;
+	String rootUsername;
+	String rootPassword;
 	String userName;
 	String password;
 
 	public MySqlServerDatabase() {
 		hostname = "localhost";
 		database = "SmtOwnCloudDataBase";
-		userName = super.username;
-		password = super.password;
+		this.rootUsername = host.rootUsername;
+		this.rootPassword = host.rootPassword;
+		userName = host.username;
+		password = host.password;
 
 	}
 	public MySqlServerDatabase(String rootUsername,String rootPassword) {
 		super();
+		hostname = "localhost";
+		database = "SmtOwnCloudDataBase";
 		this.rootUsername = rootUsername;
 		this.rootPassword = rootPassword;
+		userName = host.username;
+		password = host.password;
 	}
 	public MySqlServerDatabase(String hostname, String database, String userName, String password) {
 		super();
 		this.hostname = hostname;
 		this.database = database;
+		this.rootUsername = host.rootUsername;
+		this.rootPassword = host.rootPassword;
 		this.userName = userName;
 		this.password = password;
 	}

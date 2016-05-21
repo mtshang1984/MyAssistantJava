@@ -18,7 +18,7 @@ public class HttpServer extends LinuxAutomation {
 	public HttpServer() {
 		super();
 		pathDrive="/mnt/usb";
-		pathHome="/home/"+username;
+		pathHome="/home/"+host.username;
 		pathWeb=pathHome+"/web";
 		
 		publicPathToShare=pathDrive+"/share";
@@ -35,10 +35,10 @@ public class HttpServer extends LinuxAutomation {
 		virtualHostDefault.configFile=apache2ConfigPath+"/sites-available/000-default.conf";
 	}
 
-	public HttpServer(String hostname,int port, String rootUsername, String rootPassword, String username, String password) {
-		super(hostname, port,false,rootUsername, rootPassword, username, password);
+	public HttpServer(Host host) {
+		super(host,false);
 		pathDrive="/mnt/usb";
-		pathHome="/home/"+username;
+		pathHome="/home/"+host.username;
 		pathWeb=pathHome+"/web";
 		publicPathToShare=pathDrive+"/share";
 		
@@ -101,7 +101,7 @@ public class HttpServer extends LinuxAutomation {
 	/** 增加一个虚拟主机 */
 	public void addVirtualHost(VirtualHost virtualHost) {
 		makeDirectory(virtualHost.documentRoot, true);
-		changeFileOwner(virtualHost.documentRoot, username, username, true);
+		changeFileOwner(virtualHost.documentRoot, host.username, host.username, true);
 
 		deleteFile(virtualHost.configFile, true);
 		addTextInFileEnd("<VirtualHost *:80>", virtualHost.configFile, true);
@@ -139,7 +139,7 @@ public class HttpServer extends LinuxAutomation {
 	/** 增加一个虚拟主机 */
 	public void addVirtualHost(VirtualHost virtualHost, boolean publicIndex) {
 		makeDirectory(virtualHost.documentRoot, true);
-		changeFileOwner(virtualHost.documentRoot, username, username, true);
+		changeFileOwner(virtualHost.documentRoot, host.username, host.username, true);
 
 		deleteFile(virtualHost.configFile, true);
 		addTextInFileEnd("<VirtualHost *:80>", virtualHost.configFile, true);
@@ -247,7 +247,7 @@ public class HttpServer extends LinuxAutomation {
 	/** 测试代码 */
 	public void test_code( ) {
 		pathDrive="/media/smt/yunpan";
-		pathHome="/home/"+username;
+		pathHome="/home/"+host.username;
 		pathWeb=pathHome+"/web";
 		
 		publicPathToShare=pathHome+"/share";
