@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
 	"root": {
 		"id": "0",
@@ -138,3 +139,75 @@
 		]
 	}
 }
+=======
+{
+	"root": {
+		"id": "0",
+		"text": "201605",
+		"children": [
+			{
+				"id": "1",
+				"text": "商业",
+				"children": {
+					"id": "1.1",
+					"text": "出售二手机械",
+					"children": {
+						"id": "1.1.1",
+						"text": "发布出售消息"
+					}
+				}
+			},
+			{
+				"id": "2",
+				"text": "娱乐",
+				"children": {
+					"id": "2.1",
+					"text": "看电影和电视",
+					"children": {
+						"id": "2.1.1",
+						"text": "权力的游戏"
+					}
+				}
+			},
+			{
+				"id": "3",
+				"text": "购物",
+				"children": {
+					"id": "3.1",
+					"text": "京东购物"
+				}
+			},
+			{
+				"id": "4",
+				"text": "配置翻墙",
+				"children": [
+					{
+						"id": "4.1",
+						"text": "配置翻墙服务器"
+					},
+					{
+						"id": "4.2",
+						"text": "翻墙服务器脱离黑名单"
+					}
+				]
+			},
+			{
+				"id": "5",
+				"text": "交流",
+				"children": [
+					{
+						"id": "5.1",
+						"text": "与亲人交流",
+						"children":  [
+							{
+								"id": "5.1.1",
+								"text": "给家里电话"
+							}
+				]
+					}
+				]
+			}
+		]
+	}
+}
+>>>>>>> branch 'master' of https://github.com/mtshang1984/MyAssistant.git
