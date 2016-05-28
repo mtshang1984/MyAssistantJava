@@ -38,6 +38,7 @@ public class AlmightyAssistant {
 		ArrayList<String> parameter = new ArrayList<String>();
 		taskNumber = "1.1.1";
 		taskNumber = "4.1.1";
+		taskNumber = "6.2.1";
 		excuteJob(taskNumber, parameter);
 		
 		
@@ -110,6 +111,15 @@ public class AlmightyAssistant {
 			// "/usr/share/finalspeed"+"/finalspeed_jar" +
 			// "/restart.sh", "finalspeed", true);
 			// linuxAutomation.close();
+			break;
+		}
+		case "6.2.1": {
+			/** 配置Shadowsocks服务器 */
+
+			WordAutomation wordAutomation = new WordAutomation(true);
+			wordAutomation.openDocument("D:\\00_yun_dir\\04_study\\03_paper\\01_my_paper\\06_参数化\\自动参数化数值模拟在燃烧室设计的应用.doc");
+//			wordAutomation.close();
+			//D:\00_yun_dir\04_study\03_paper\01_my_paper\06_参数化
 			break;
 		}
 		default: {

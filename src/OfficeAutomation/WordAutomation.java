@@ -56,7 +56,8 @@ public class WordAutomation {
 	public void openDocument(String docPath) {
 		// closeDocument();
 		File file=new File(docPath);
-		if(file.canWrite()==false){
+//		if(file.canWrite()==false){
+		if(file.exists()){
 			document = Dispatch.call(documents, "Open", docPath).toDispatch();
 			selection = Dispatch.get(word, "Selection").toDispatch();
 		}
