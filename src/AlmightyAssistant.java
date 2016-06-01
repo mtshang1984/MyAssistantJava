@@ -24,12 +24,7 @@ import BussinessApplication.BussinessApplication;
 
 public class AlmightyAssistant {
 
-	MindMap mindMap;
-	DecisionMaker decisionMaker;
-
 	public AlmightyAssistant() {
-		mindMap = new MindMap();
-		decisionMaker = new DecisionMaker();
 	}
 
 	public void runToday() {
