@@ -15,6 +15,7 @@ import MindManager.MindMap;
 import OfficeAutomation.ExcelAutomation;
 import OfficeAutomation.PowerPointAutomation;
 import OfficeAutomation.WordAutomation;
+import ReportGenerator.ParameterizeCFDPaper;
 import SearchEngine.Browser;
 import SearchEngine.SearchEngine;
 import WindowsAutomation.WindowsAutomation;
@@ -109,10 +110,10 @@ public class AlmightyAssistant {
 			break;
 		}
 		case "6.2.1": {
-			/** 配置Shadowsocks服务器 */
-
-			WordAutomation wordAutomation = new WordAutomation(true);
-			wordAutomation.openDocument("D:\\00_yun_dir\\04_study\\03_paper\\01_my_paper\\06_参数化\\自动参数化数值模拟在燃烧室设计的应用.doc");
+			ParameterizeCFDPaper parameterizeCFDPaper=new ParameterizeCFDPaper("D:\\00_yun_dir\\04_study\\03_paper\\01_my_paper\\06_参数化\\自动参数化数值模拟在燃烧室设计的应用20160617.docx");
+			parameterizeCFDPaper.generatePaper();
+			//			WordAutomation wordAutomation = new WordAutomation(true);
+//			wordAutomation.openDocument("D:\\00_yun_dir\\04_study\\03_paper\\01_my_paper\\06_参数化\\自动参数化数值模拟在燃烧室设计的应用.doc");
 //			wordAutomation.close();
 			//D:\00_yun_dir\04_study\03_paper\01_my_paper\06_参数化
 			break;

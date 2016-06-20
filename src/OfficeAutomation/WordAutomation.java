@@ -157,7 +157,8 @@ public class WordAutomation {
 	 *            要插入的新字符串
 	 */
 	public void insertText(String newText) {
-		Dispatch.put(selection, "Text", newText);
+		Dispatch.call(selection, "TypeText", newText);
+//		Dispatch.call(disSelect, “TypeParagraph”);
 	}
 
 	/**
