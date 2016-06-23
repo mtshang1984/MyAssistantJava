@@ -33,8 +33,13 @@ public class ParameterizeCFDPaper {
 		wordAutomation.insertParagraph("参考文献","标题 1");			
 		wordAutomation.insertParagraph("[1] Snyder T S, et al. Application of a CFD-based approach to as turbine combustion design[C]. Proceedings of ASME Turbo Expo, 2001-0062","正文");	
 		wordAutomation.insertParagraph("[1] Mark K.Lai, et al. CFD-Based, Parametric, Design tool for gas turbine combustors from compressor deswirl exit to turbine inlet[C]. Proceedings of ASME Turbo Expo, 2002-30090","正文");	
+		wordAutomation.insertParagraph("[1] Rudolph D, et al. Integrated proces for cfd modeling and optimization of gas turbine combustors[C]. Proceedings of ASME Turbo Expo, 2004-54011","正文");
 		wordAutomation.insertParagraph("[1] Nima P, et al. Development of an automated preliminary combustion chamber design tool[C]. Proceedings of ASME Turbo Expo, 2006-90430","正文");
+		wordAutomation.insertParagraph("[1] Nima P, et al. State-of-the-art combustor design utilizing the preliminary combustor design system precodes[C]. Proceedings of ASME Turbo Expo, 2008-50577","正文");
+		wordAutomation.insertParagraph("[1] 石梦华, 等. 航空发动机燃烧室参数化建模[J]. 航空发动机, 2011,37(5):11-15.","正文");
+		wordAutomation.insertParagraph("[1] 段冬霞, 等. 基于参数化建模方法的双级旋流器流场研究[J]. 燃气轮机技术, 2012,25(2):12-20.","正文");
 		wordAutomation.insertParagraph("[2] Andreas A, et al. Automated combustor preliminary design using tools of different fidelity[C]. Proceedings of ASME Turbo Expo, 2013-944","正文");	
+		wordAutomation.insertParagraph("[1] 段冬霞, 等. 燃气轮机燃烧室参数化CFD设计方法研究[J]. 燃气轮机技术, 2014,27(2):8-22","正文");
 //		wordAutomation.save(filename);	
 		
 //		wordAutomation.close();		
