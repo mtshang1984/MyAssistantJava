@@ -25,13 +25,13 @@ public class ParameterizeCFDPaper {
 		//引言
 		wordAutomation.insertParagraph("传统燃烧室的研制过程需要开展大量的试验研究来确定燃烧室方案。随着燃烧数值模拟技术和计算机技术的不断发展，在筛选和优化试验方案方面数值模拟技术发挥着越来越重要的作用。相对于试验研究，数值模拟可以以较低的成本研究高温高压的运行工况，同时能够获得详细的内部流场信息以对不同的方案进行深入分析。","正文");	
 		wordAutomation.insertParagraph("在燃烧室方案设计阶段，需要对大量的设计参数进行分析以找出最优方案。然而由于传统基于人工操作的数值模拟，难以在短时间内完成规模巨大的算例分析工作。且由于人工操作数值拟的工作质量容易受人员水平的影响而存在差异，使最终分析结果之间容易缺乏可比性。基于参数化数值模拟方法，并结合计算机自动化技术，实现燃烧室设计方案分析自动化，是解决目前燃烧室数值分析效率低和质量不可控的有效手段。","正文");	
-		wordAutomation.insertParagraph("Snyder[1]等人采用参数化数值模拟方法对燃烧室出口温度分布进行了优化。","正文");	
+		wordAutomation.insertParagraph("Robert E M[1]等人采用参数化数值模拟方法对PW6000燃烧室出口温度分布进行了优化。Mark K L等人开发了可用燃烧室详细设计的参数化数值模拟分析工具。石梦华等人尝试了CFD参数化建模方法，段冬霞等人将参数化数值模拟方法就用于旋流器的流场和设计研究中。","正文");	
 		wordAutomation.insertParagraph("实现方法","标题 1");			
 		wordAutomation.insertParagraph("应用","标题 1");					
 		wordAutomation.insertParagraph("结论","标题 1");	
 		//参考文献		
 		wordAutomation.insertParagraph("参考文献","标题 1");			
-		wordAutomation.insertParagraph("[1] Snyder T S, et al. Application of a CFD-based approach to as turbine combustion design[C]. Proceedings of ASME Turbo Expo, 2001-0062","正文");	
+		wordAutomation.insertParagraph("[1] Robert E M, et al. Application of an advanced CFD-based analysis system to the PW6000 Combustor to optimize exit temperature distribution-Part I: Description and validation of the analysis tool[C]. Proceedings of ASME Turbo Expo, 2001-0062","正文");	
 		wordAutomation.insertParagraph("[1] Mark K.Lai, et al. CFD-Based, Parametric, Design tool for gas turbine combustors from compressor deswirl exit to turbine inlet[C]. Proceedings of ASME Turbo Expo, 2002-30090","正文");	
 		wordAutomation.insertParagraph("[1] Rudolph D, et al. Integrated proces for cfd modeling and optimization of gas turbine combustors[C]. Proceedings of ASME Turbo Expo, 2004-54011","正文");
 		wordAutomation.insertParagraph("[1] Nima P, et al. Development of an automated preliminary combustion chamber design tool[C]. Proceedings of ASME Turbo Expo, 2006-90430","正文");
