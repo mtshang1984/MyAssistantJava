@@ -25,10 +25,22 @@ public class ParameterizeCFDPaper {
 		//引言
 		wordAutomation.insertParagraph("传统燃烧室的研制过程需要开展大量的试验研究来确定燃烧室方案。随着燃烧数值模拟技术和计算机技术的不断发展，在筛选和优化试验方案方面数值模拟技术发挥着越来越重要的作用。相对于试验研究，数值模拟可以以较低的成本研究高温高压的运行工况，同时能够获得详细的内部流场信息以对不同的方案进行深入分析。","正文");	
 		wordAutomation.insertParagraph("在燃烧室方案设计阶段，需要对大量的设计参数进行分析以找出最优方案。然而由于传统基于人工操作的数值模拟，难以在短时间内完成规模巨大的算例分析工作。且由于人工操作数值拟的工作质量容易受人员水平的影响而存在差异，使最终分析结果之间容易缺乏可比性。基于参数化数值模拟方法，并结合计算机自动化技术，实现燃烧室设计方案分析自动化，是解决目前燃烧室数值分析效率低和质量不可控的有效手段。","正文");	
-		wordAutomation.insertParagraph("Robert E M[1]等人采用参数化数值模拟方法对PW6000燃烧室出口温度分布进行了优化。Mark K L等人开发了可用燃烧室详细设计的参数化数值模拟分析工具。石梦华等人尝试了CFD参数化建模方法，段冬霞等人将参数化数值模拟方法就用于旋流器的流场和设计研究中。","正文");	
+		wordAutomation.insertParagraph("Robert E M[1]等人采用参数化数值模拟方法对PW6000燃烧室出口温度分布进行了优化。Mark K L等人开发了可用于燃烧室详细设计的参数化数值模拟分析工具。石梦华等人研究用于CFD模拟的燃烧室参数化建模方法，段冬霞等人将参数化数值模拟方法应用于旋流器的流场和设计研究中。然而以上的研究大部分只针对于少数参数可变的情况，应用的场景受到限制。实际上在燃烧室研制中，研究的设计参数非常广泛，需要一种更为通用的参数化数值模拟工具。","正文");	
+		wordAutomation.insertParagraph("本文提出了可用于燃烧室不同设计阶段、不同零组件设计的更为通用的参数化数值模拟方法。首先对燃烧室各种结构构型进行总结并抽象出特征参数进行描述，然后根据这些特征参数，开发出相应的网格生成、计算设置和后处理代码，以处理各种参数的变化。同时开发多算例并发运行控制程序，结合高性能计算平台，同时对优化范围内的选择的参数组合进行计算分析。最后将该方法应用于多种类型燃烧室设计中。","正文");	
 		wordAutomation.insertParagraph("实现方法","标题 1");			
-		wordAutomation.insertParagraph("应用","标题 1");					
-		wordAutomation.insertParagraph("结论","标题 1");	
+		wordAutomation.insertParagraph("思路","标题 2");			
+		wordAutomation.insertParagraph("参数化建模","标题 2");			
+		wordAutomation.insertParagraph("自动网格生成","标题 2");			
+		wordAutomation.insertParagraph("算例设置与计算","标题 2");			
+		wordAutomation.insertParagraph("后处理","标题 2");			
+		wordAutomation.insertParagraph("并发运行控制","标题 2");		
+	
+		wordAutomation.insertParagraph("应用","标题 1");				
+		wordAutomation.insertParagraph("头部方案筛选","标题 2");			
+		wordAutomation.insertParagraph("帽罩优化设计","标题 2");			
+		wordAutomation.insertParagraph("扩压器优化设计","标题 2");			
+		wordAutomation.insertParagraph("结论","标题 1");
+	
 		//参考文献		
 		wordAutomation.insertParagraph("参考文献","标题 1");			
 		wordAutomation.insertParagraph("[1] Robert E M, et al. Application of an advanced CFD-based analysis system to the PW6000 Combustor to optimize exit temperature distribution-Part I: Description and validation of the analysis tool[C]. Proceedings of ASME Turbo Expo, 2001-0062","正文");	
