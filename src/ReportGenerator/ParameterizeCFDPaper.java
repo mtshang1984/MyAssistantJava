@@ -18,11 +18,11 @@ public class ParameterizeCFDPaper {
 		wordAutomation.findText("题  目 （不超过20个字 加粗黑体2号）");
 //		wordAutomation.findText("题  目");
 		wordAutomation.insertParagraph("复杂多构型燃烧室自动参数化数值模拟方法及应用","标题");	
-		wordAutomation.insertParagraph("尚明涛,迟鸿伟,张弛","署名");			
+		wordAutomation.insertParagraph("尚明涛,张弛,迟鸿伟","署名");			
 		wordAutomation.insertParagraph("摘要：本文提出了一种适用于复杂多构型燃烧室的自动参数化数值模拟方法，通过定义燃烧室构型、气动和结构等可变参数，将建立模型、生成网格、设置算例、计算和后处理与此参数关联，实现了CFD过程的参数化。同时利用高性能计算机的并行性，建立一套并发运行大量算例的控制方法。本文方法可以在较短时间内完成多种构型多组参数的分析和优化。最后将此方法应用于燃烧室多种零组件的设计中，充分证明了该方法的重要作用和优势。","关键词");			
 		wordAutomation.insertParagraph("关键词：燃烧室，自动，参数化，数值模拟","关键词");	
 		wordAutomation.insertParagraph("Automated parametric CFD method for complex multi-configuration combustor and its application","标题");	
-		wordAutomation.insertParagraph("Abstract: An automate parametric CFD moethod for complex multi-configuration combustor is presented. By defining variables of combustor configuration, aero dynamics and structure parameter, as well as associating these variables with ug model, mesh generation, case's setting, calculation, post-processing, the parametrization of CFd process could be acheived. A contorl method for a lagre number parallel simulation is created, which is based on high-performance parallel computer. By using this method, analysis and optimization for multi-configuration and parameter can be accomplished in a relatively short period of time. Finally, this method is applied to design process of a varity of combustor components. The important role and advantages of this mothod is fully proved.","关键词");			
+		wordAutomation.insertParagraph("Abstract: An automated parametric CFD method for complex multi-configuration combustor is presented. By defining variables of combustor configuration, aero dynamics and structure parameter, as well as associating these variables with UG model, mesh generation, case's setting, calculation, post-process sing, the parameterization of CFd process s could be achieved. A control method for a large number parallel simulation is created, which is based on high-performance parallel computer. By using this method, analysis and optimization for multi-configuration and parameter can be accomplished in a relatively short period of time. Finally, this method is applied to design process s of a variety of combustor components. The important role and advantages of this method  is fully proved.","关键词");			
 		//引言
 		wordAutomation.insertParagraph("关键词：Combustor，Automated，parametric，CFD","关键词");	
 		wordAutomation.insertParagraph("传统燃烧室的研制过程需要开展大量的试验研究来确定燃烧室方案。随着燃烧数值模拟技术和计算机技术的不断发展，在筛选和优化试验方案方面数值模拟技术发挥着越来越重要的作用。相对于试验研究，数值模拟可以以较低的成本研究高温高压的运行工况，同时能够获得详细的内部流场信息以对不同的方案进行深入分析。","正文");	
@@ -48,16 +48,15 @@ public class ParameterizeCFDPaper {
 		wordAutomation.insertParagraph("参数化建模","标题 2");			
 		wordAutomation.insertParagraph("实际的燃烧室结构模型是非常复杂的，包含了大量的细节结构：例如螺栓、安装座和支板等。这些结构细节对于流场的影响是有限的，却给网格生成带来非常大的麻烦，在建模时这些结构必须被移除掉。用于CFD分析的参数化建模主要基于气动设计的燃烧室流道及各零组件的设计获得的气体通道进行参数化建模。为了后期的优化设计，所有的设计参数应能体现在模型的可变参数中。提前建立几种不同构型的燃烧室流道、扩压器、旋流器、帽罩和喷油杆等参数化模型，以便根据设计结果组合形成算例所需的模型。由于这些模型可重用，大大缩短以往用于几何模型简化的时间。例如下图所示，根据流道设计结果的23个设计参数来驱动燃烧室的流道模型。其它的零组件通过与流道之间的位置关系，定位安装至燃烧室流道上。这些零组件模型本身也是设计结果全部关联，并被其驱动的。这样就将燃烧室气动热力及CFD模型耦合起来了。","正文");
 		wordAutomation.insertParagraph("参数化基准模型的变化可以通过两种方式，一种是基于表达式方式，通过更新表达式参数的值来生成新模型。这种方式需要在UG中建立若干约束充分且合理的草图，将可变尺寸与表达参数关联起来，三维模型再通过这些草图进一步生成。另外一种是基于样条曲线的控制点坐标更新方式。像扩压器等通过样条曲线造型的结构，单独给其建立包含样条曲线的草图，并对每一条曲线进行命名，以例程序通过名称找到相应的线条进行更新。","正文");
-		wordAutomation.insertParagraph("另外还有非常重要的一步是给几何体的面进行标记，以便被ICEM CFD识别出来。以往采用Parasolid等中间格式导入ICEM CFD时，需要在ICEM CFD中进行面的分组命名。模型更新后，命名要重新来过，效率十分低下，且无法自动化。本文采用Ansys的UG命名插件，在UG中标记所有的面名称,这些名称在基准模型的参数变化后仍然会保留下来。因些在建立流道和零组件参数化基准模型时，一并完成面命名，即可使衍生模型自动完成命名。","正文");
+		wordAutomation.insertParagraph("另外还有非常重要的一步是给几何体的面进行标记，以便被ICEM CFD识别出来。以往采用Parasolid等中间格式导入ICEM CFD时，需要在ICEM CFD中进行面的分组命名。模型更新后，命名要重新来过，效率十分低下，且无法自动化。本文采用Ansys的UG命名插件，在UG中标记所有的面名称,这些名称在基准模型的参数变化后仍然会保留下来。因此在建立流道和零组件参数化基准模型时，一并完成面命名，即可使衍生模型自动完成命名。","正文");
 		
 		wordAutomation.insertParagraph("自动网格生成","标题 2");			
 		wordAutomation.insertParagraph("相对于四面体网格，采用六面体划分网格可以在减少网格数量的同时，保持离散的精度。但对于复杂的结构，六面体是非常难以生成的。因此对于结构特征比较规律的扩压器、火焰筒和环腔区域采用六面体网格，对于头部等构型较为复杂的区域采用四面体网格。不同区域之间采用交界面连接起来。","正文");
-		wordAutomation.insertParagraph("建立一系列六面体网格生成的模板，这样对于采用六面体网格的区域，根据其构型选择合适的模板即可自动生成网可靠。对于采用四面体网格的区域，根据网格面的名称，自动选择合适的网格尺度和变化规律，便可进行网格生成。网格模板和网格尺度控制算法决定了网格的质量，需要不断根据计算结果积累数据改进方法。","正文");
+		wordAutomation.insertParagraph("建立一系列六面体网格生成的模板，这样对于采用六面体网格的区域，根据其构型选择合适的模板即可自动生成网格。对于采用四面体网格的区域，根据网格面的名称，自动选择合适的网格尺度和变化规律，便可进行网格生成。网格模板和网格尺度控制算法决定了网格的质量，需要不断根据计算结果积累数据改进方法。","正文");
 		wordAutomation.insertParagraph("算例设置与计算","标题 2");			
 		wordAutomation.insertParagraph("对燃烧室的流场分析，RANS方法在方案设计阶段仍占据主导作用。本文湍流模型选用Realizable k-e模型，壁面采用增强壁面处理。同时对于涉及到扩压器流动离的分析，补充采用SST模型进行对比。两相流模型采用颗粒随机轨道模型，对于不同形式的喷嘴，选择不同的模型给定雾化边界条件。燃烧模型采用部分预混燃烧模型，根据不同的工况参数，基于航空煤油23步化学反应机理生成小火焰数据库。避免了以往预先生成的数据库，因为工况参数变化而不适用的问题。排放模型采用热力型NOx模型，并考虑温度脉动对于排放生成的影响。","正文");
 		wordAutomation.insertParagraph("求解过程分两个步骤，首先采用SIMPLE算法和一阶迎风离散格式进行计算，利用其稳定性快速获得初始场。然后采用COUPLE方法和二阶迎风格式以较少的步数获得较高精度的收敛结果。","正文");
-		wordAutomation.insertParagraph("后处理","标题 2");			
-		wordAutomation.insertParagraph("对于计算所关心的定量结果，统计流量分配、压力损失、旋流数、特征速度、回流区尺寸、出口排放、温度分布等参数，根据燃烧室构型和结构参数，生成对应的脚本文件进行统计。其它的后处理软件虽然也可以进行定量的统计，但由于统计方法可能与Fluent不同，会造结果存在差异，所以没有被采用。","正文");
+		wordAutomation.insertParagraph("对于计算所关心的定量结果，统计流量分配、压力损失、旋流数、特征速度、回流区尺寸、出口排放、温度分布等参数，根据燃烧室构型和结构参数，生成对应的脚本文件进行统计。其它的后处理软件虽然也可以进行定量的统计，但由于统计方法可能与Fluent不同，会造成结果存在差异，所以没有被采用。","正文");
 		wordAutomation.insertParagraph("采用CFD Post，根据燃烧室的构型和结构参数创建相应的截面位置，建立该位置的压力、速度、温度、组分场的云图，同时建立流线、颗粒迹线等显示图片。为了获得较好的显示效果，根据构型的参数的变化，自动设置合适的视角和显示比例。最后将所有的图片加入CFD Post模板中一同导出。","正文");
     wordAutomation.insertParagraph("并发运行控制","标题 2");
 	
@@ -86,7 +85,7 @@ public class ParameterizeCFDPaper {
 		wordAutomation.insertParagraph("参考文献","标题 1");			
 		wordAutomation.insertParagraph("[1] Robert E M, et al. Application of an advanced CFD-based analysis system to the PW6000 Combustor to optimize exit temperature distribution-Part I: Description and validation of the analysis tool[C]. Proceedings of ASME Turbo Expo, 2001-0062","正文");	
 		wordAutomation.insertParagraph("[1] Mark K.Lai, et al. CFD-Based, Parametric, Design tool for gas turbine combustors from compressor deswirl exit to turbine inlet[C]. Proceedings of ASME Turbo Expo, 2002-30090","正文");	
-		wordAutomation.insertParagraph("[1] Rudolph D, et al. Integrated proces for cfd modeling and optimization of gas turbine combustors[C]. Proceedings of ASME Turbo Expo, 2004-54011","正文");
+		wordAutomation.insertParagraph("[1] Rudolph D, et al. Integrated process  for cfd modeling and optimization of gas turbine combustors[C]. Proceedings of ASME Turbo Expo, 2004-54011","正文");
 		wordAutomation.insertParagraph("[1] Nima P, et al. Development of an automated preliminary combustion chamber design tool[C]. Proceedings of ASME Turbo Expo, 2006-90430","正文");
 		wordAutomation.insertParagraph("[1] Nima P, et al. State-of-the-art combustor design utilizing the preliminary combustor design system precodes[C]. Proceedings of ASME Turbo Expo, 2008-50577","正文");
 		wordAutomation.insertParagraph("[1] 石梦华, 等. 航空发动机燃烧室参数化建模[J]. 航空发动机, 2011,37(5):11-15.","正文");
