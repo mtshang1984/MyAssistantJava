@@ -260,9 +260,8 @@ public class WordAutomation {
 	 * 
 	 */
 	public void setStyles(String style) {
-		Dispatch.put(selection, "Style",style);
+		Dispatch.put(selection, "Style", style);
 	}
-	
 
 	/**
 	 * 设置整段格式
@@ -271,8 +270,9 @@ public class WordAutomation {
 	public void setParagraphStyles(String style) {
 		selectParagraph();
 		clearFormatting();
-		Dispatch.put(selection, "Style",style);
+		Dispatch.put(selection, "Style", style);
 	}
+
 	/**
 	 * 设置段落开头到光标位置格式
 	 * 
@@ -280,11 +280,13 @@ public class WordAutomation {
 	public void setParagraphStyles2(String style) {
 		selectParagraph2();
 		clearFormatting();
-//		Dispatch activeDocument=Dispatch.get(word, "ActiveDocument").toDispatch();
-//		Dispatch style2=Dispatch.call(activeDocument,"Styles",style).toDispatch();
-		Dispatch.put(selection, "Style",style);
+		// Dispatch activeDocument=Dispatch.get(word,
+		// "ActiveDocument").toDispatch();
+		// Dispatch
+		// style2=Dispatch.call(activeDocument,"Styles",style).toDispatch();
+		Dispatch.put(selection, "Style", style);
 	}
-	
+
 	/**
 	 * 在当前插入点插入字符串
 	 * 
@@ -301,11 +303,12 @@ public class WordAutomation {
 	 * @param newText
 	 *            要插入的新字符串
 	 */
-	public void insertText(String newText,String style) {
+	public void insertText(String newText, String style) {
 		Dispatch.call(selection, "TypeText", newText);
 		setParagraphStyles2(style);
 		moveRight(1);
 	}
+
 	/**
 	 * 在当前插入点插入换行符
 	 * 
@@ -330,12 +333,13 @@ public class WordAutomation {
 	 * 
 	 * @param newText
 	 */
-	public void insertParagraph(String newText,String style) {
+	public void insertParagraph(String newText, String style) {
 		Dispatch.call(selection, "TypeText", newText);
 		setParagraphStyles2(style);
 		moveRight(1);
 		insertParagraphSpliter();
 	}
+
 	/**
 	 * 把选定选定内容设定为替换文本
 	 * 
@@ -367,7 +371,6 @@ public class WordAutomation {
 		}
 	}
 
-
 	/**
 	 * 插入图片
 	 * 
@@ -390,12 +393,21 @@ public class WordAutomation {
 		// Dispatch.call(Dispatch.call(word, "WordBasic").getDispatch(),
 		// "FileSaveAs", savePath);
 		// Dispatch.call(document, "SaveAs",savePath);
-		document = Dispatch.invoke(document, "SaveAS2", Dispatch.Method,
+		// document = Dispatch.invoke(document, "SaveAS2", Dispatch.Method,
+		// new Object[] { filename, new Variant(16), new Variant(false), new
+		// Variant(""), new Variant(true),
+		// new Variant(""), new Variant(false), new Variant(false), new
+		// Variant(false), new Variant(false),
+		// new Variant(false), new Variant(936), new Variant(false), new
+		// Variant(false), new Variant(0),
+		// new Variant(false), new Variant(14) },
+		// new int[0]).toDispatch();
+		 Dispatch.invoke(document, "SaveAS2", Dispatch.Method,
 				new Object[] { filename, new Variant(16), new Variant(false), new Variant(""), new Variant(true),
 						new Variant(""), new Variant(false), new Variant(false), new Variant(false), new Variant(false),
 						new Variant(false), new Variant(936), new Variant(false), new Variant(false), new Variant(0),
 						new Variant(false), new Variant(14) },
-				new int[1]).toDispatch();
+				new int[1]);
 	}
 
 	/**
@@ -457,6 +469,7 @@ public class WordAutomation {
 		// ComThread.Release();// 释放com线程。根据jacob的帮助文档，com的线程回收不由java的垃圾回收器处理
 
 	}
+
 	/**
 	 * 
 	 * @param toFindText
@@ -1092,7 +1105,6 @@ public class WordAutomation {
 		}
 		return "";
 	}
-
 
 	/**
 	 * 打印当前word文档

@@ -110,7 +110,7 @@ public class AlmightyAssistant {
 			break;
 		}
 		case "6.2.1": {
-			ParameterizeCFDPaper parameterizeCFDPaper=new ParameterizeCFDPaper("D:\\00_yun_dir\\04_study\\03_paper\\01_my_paper\\06_参数化\\自动参数化数值模拟在燃烧室设计的应用20160617.docx");
+			ParameterizeCFDPaper parameterizeCFDPaper=new ParameterizeCFDPaper("D:\\00_yun_dir\\04_study\\03_paper\\03_my_paper\\06_参数化\\复杂多构型燃烧室自动参数化数值模拟方法及应用20160626.docx");
 			parameterizeCFDPaper.generatePaper();
 			//			WordAutomation wordAutomation = new WordAutomation(true);
 //			wordAutomation.openDocument("D:\\00_yun_dir\\04_study\\03_paper\\01_my_paper\\06_参数化\\自动参数化数值模拟在燃烧室设计的应用.doc");

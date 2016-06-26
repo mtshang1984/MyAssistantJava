@@ -18,11 +18,13 @@ public class ParameterizeCFDPaper {
 		wordAutomation.findText("题  目 （不超过20个字 加粗黑体2号）");
 //		wordAutomation.findText("题  目");
 		wordAutomation.insertParagraph("复杂多构型燃烧室自动参数化数值模拟方法及应用","标题");	
-		wordAutomation.insertParagraph("尚明涛,迟鸿伟,王波,张弛,林宇震","署名");			
-		wordAutomation.insertParagraph("摘要：本文提出了一种适用于复杂多构型燃烧室的自动参数化数值模拟方法，"
-				+ "将成功将此方法应用于燃烧室零组件的设计中","关键词");			
+		wordAutomation.insertParagraph("尚明涛,迟鸿伟,张弛","署名");			
+		wordAutomation.insertParagraph("摘要：本文提出了一种适用于复杂多构型燃烧室的自动参数化数值模拟方法，通过定义燃烧室构型、气动和结构等可变参数，将建立模型、生成网格、设置算例、计算和后处理与此参数关联，实现了CFD过程的参数化。同时利用高性能计算机的并行性，建立一套并发运行大量算例的控制方法。本文方法可以在较短时间内完成多种构型多组参数的分析和优化。最后将此方法应用于燃烧室多种零组件的设计中，充分证明了该方法的重要作用和优势。","关键词");			
 		wordAutomation.insertParagraph("关键词：燃烧室，自动，参数化，数值模拟","关键词");	
+		wordAutomation.insertParagraph("Automated parametric CFD method for complex multi-configuration combustor and its application","标题");	
+		wordAutomation.insertParagraph("Abstract: An automate parametric CFD moethod for complex multi-configuration combustor is presented. By defining variables of combustor configuration, aero dynamics and structure parameter, as well as associating these variables with ug model, mesh generation, case's setting, calculation, post-processing, the parametrization of CFd process could be acheived. A contorl method for a lagre number parallel simulation is created, which is based on high-performance parallel computer. By using this method, analysis and optimization for multi-configuration and parameter can be accomplished in a relatively short period of time. Finally, this method is applied to design process of a varity of combustor components. The important role and advantages of this mothod is fully proved.","关键词");			
 		//引言
+		wordAutomation.insertParagraph("关键词：Combustor，Automated，parametric，CFD","关键词");	
 		wordAutomation.insertParagraph("传统燃烧室的研制过程需要开展大量的试验研究来确定燃烧室方案。随着燃烧数值模拟技术和计算机技术的不断发展，在筛选和优化试验方案方面数值模拟技术发挥着越来越重要的作用。相对于试验研究，数值模拟可以以较低的成本研究高温高压的运行工况，同时能够获得详细的内部流场信息以对不同的方案进行深入分析。","正文");	
 		wordAutomation.insertParagraph("在燃烧室方案设计阶段，需要对大量的设计参数进行分析以找出最优方案。然而由于传统基于人工操作的数值模拟，难以在短时间内完成规模巨大的算例分析工作。且由于人工操作数值拟的工作质量容易受人员水平的影响而存在差异，使最终分析结果之间容易缺乏可比性。基于参数化数值模拟方法，并结合计算机自动化技术，实现燃烧室设计方案分析自动化，是解决目前燃烧室数值分析效率低和质量不可控的有效手段。","正文");	
 		wordAutomation.insertParagraph("Robert E M[1]等人采用参数化数值模拟方法对PW6000燃烧室出口温度分布进行了优化。Mark K L等人开发了可用于燃烧室详细设计的参数化数值模拟分析工具。石梦华等人研究用于CFD模拟的燃烧室参数化建模方法，段冬霞等人将参数化数值模拟方法应用于旋流器的流场和设计研究中。然而以上的研究大部分只针对于少数参数可变的情况，应用的场景受到限制。实际上在燃烧室研制中，研究的设计参数非常广泛，需要一种更为通用的参数化数值模拟工具。","正文");	
@@ -62,11 +64,24 @@ public class ParameterizeCFDPaper {
 		wordAutomation.insertParagraph("本机采用单核执行运行控制，然而同时控制大量的并行算例，因此串行的方式轮流执行各个算例。算例的每个步骤都需要时间，所处于的运行状态也不同。因此采用流水线设立检查点的方法来进行控制。程序不断访问检查点，检查任务的状态是否满足通过的条件，一旦通过就立即放行进入到下一个工作步骤。","正文");
 		wordAutomation.insertParagraph("检查点是程序正常运行的关键，在这里要不光要检查任务是否在运行或者获得计算结果，重要的是检查计算过程和结果是否合理正常。因为当算例数量巨大的情况，难以靠人工的方法去监控算例。对于高性能计算机硬件或软件造成的异常以及其它程序可以处理的异常，应立即进行处理。对于程序无法处理的异常，提示设计人员进行人工处理。","正文");
 		wordAutomation.insertParagraph("应用","标题 1");				
+		wordAutomation.insertParagraph("本文所提出的参数化数值模拟方法，每一步骤均匀考虑了由于构型和参数变化所需的处理方法的不同，可以适用燃烧室设计中的各种应用场景。本文以燃烧室方案设计阶段开展的头部方案筛选和帽罩优化设计为例介绍应用情况。","正文");
 		wordAutomation.insertParagraph("头部方案筛选","标题 2");			
+		wordAutomation.insertParagraph("在方案设计阶段，低排放燃烧室设计最核心的任务便是头部方案的设计。如果采用一种全新的头部构型，往往需要进行大量的头部方案筛选试验，以确定最终的方案。由于开展试验需要大量的时间和经费，特别是高温高压试验成本非常高昂，试验所能研究的设计参数变化范围较为受限。如果在试验前，通过CFD方法对这种新构型头部方案进行大范围的参数化研究，找到设计参数变化影响的规律，获得CFD所评估综合性能较优的方案，再确定最终的试验的方案，将能大大减少试验次数，缩短试验周期和经费","正文");
+		wordAutomation.insertParagraph("本文设计了两种构型的燃烧室头部，头部采用中心分级的贫油预混预蒸发组织燃烧模式。中心为预燃级，以非预混燃烧形式为主，在小状态下起到稳定火焰的作用。外围为同心的主燃级，燃油和空气在进入火焰筒前进行预先混合，以使燃烧处于贫油状态，降低污染排放。头部构型一预燃级采用两级径向旋流器，一级旋流器下游为文氏管，预燃出口处为一扩张的套筒。头部构型二预燃级采用两级轴向旋流器，其出口为收敛通道。两种方案主燃级采用相同的构型。两种旋流器预燃级两级旋流器的旋流数及旋向对燃烧室的流场和性能均有较大的影响，因此需要通过CFD计算找到较佳的旋流数、旋向和预燃级出口速度的组合。","正文");
+		wordAutomation.insertParagraph("CFD计算共分为三轮完成；第一轮计算的目的是通过CFD计算修正旋流器的一维设计方法；第二轮根据所需研究的旋流器数、预燃级出口速度范围建立算例矩阵，筛选确定较优的若干个方案；第三轮对上一轮确定的方案变化旋向组合，最终确定方案的参数。","正文");
+		wordAutomation.insertParagraph("如下表所示为第二轮计算的算例矩阵，共考查了18个方案。每个算例采用40核计算3天左右时间，一周时间完成了完成所有54个算例的计算。","正文");
+		wordAutomation.insertParagraph("如下表所示为第三轮计算的算列矩阵，共考查了12个方案。","正文");
 		wordAutomation.insertParagraph("帽罩优化设计","标题 2");			
-		wordAutomation.insertParagraph("扩压器优化设计","标题 2");			
+		wordAutomation.insertParagraph("与传统燃烧不同，贫油预混预蒸发组织燃烧形式，为了降低头部当量比，头部进气量较大，导致火焰筒头部高度也通常较大，想让突扩扩压器的气流均匀地流入头部是非常的困难的，然而头部的进气均匀性对于降低排放和出口温度分布以及保证燃烧室的安全运行都是非常重要的。通过在头部外设计帽罩以引导头部的进气，可以改善进气均匀性。","正文");
+		wordAutomation.insertParagraph("本文设计了两种构型的帽罩，通过研究不同帽罩的型面参数，找到对于改头部进气均匀性最佳的方案。头部主燃级旋流器为轴向旋流器，设计的帽罩一种构型为分开式帽罩，内外帽罩为各自独立的环形，型面采用多段圆弧和直线造型。另一种构型为整体式帽罩方案，内外帽罩连为一体，通过中心开孔以使气流进入头部。型面同样采用多段圆弧和直线，开孔形状采用圆形或椭圆形状态，以调节周向不同位置的进气面积。","正文");
+		wordAutomation.insertParagraph("计算分为两轮进行，第一轮对分开式帽罩不同方案进行分析，分析其对进气均匀性的影响；第二轮对整体式帽罩的不同方案进行分析，确定最佳的方案。","正文");
+		wordAutomation.insertParagraph("如下图所示为分开式的帽罩方案，如下表为分析结果","正文");
+		wordAutomation.insertParagraph("如下图所示为整体式的帽罩方案，如下表为分析结果","正文");
 		wordAutomation.insertParagraph("结论","标题 1");
-	
+		wordAutomation.insertParagraph("本文展示了一种适用多构型燃烧室复杂详细结构的参数化数值模拟分析方法，将整个分析过程细分为12个模块，自动化完成网格生成、计算和后处理分析任务，通过对每个模块设置检查点控制计算流程，使计算任务可借助于高性能计算机并发运行，使总体的工作效率远远超过以往人工操作的方式。","正文");
+		wordAutomation.insertParagraph("本文开发的方法由于可根据构型的变化，生成相应的自动化脚本，使其具有较强的通用性，可适用于不同设计阶段和燃烧室不同零组件的优化设计，避免了传统的参数化数值模拟方法和工具只适用特定构型的问题。","正文");
+		wordAutomation.insertParagraph("通过在头部方案筛选和帽罩设计中应用本文参数化数值数值模拟方法，证明了本文的方法在燃烧室设计的重要作用和优势。","正文");
+		wordAutomation.insertParagraph("","正文");
 		//参考文献		
 		wordAutomation.insertParagraph("参考文献","标题 1");			
 		wordAutomation.insertParagraph("[1] Robert E M, et al. Application of an advanced CFD-based analysis system to the PW6000 Combustor to optimize exit temperature distribution-Part I: Description and validation of the analysis tool[C]. Proceedings of ASME Turbo Expo, 2001-0062","正文");	
@@ -78,7 +93,7 @@ public class ParameterizeCFDPaper {
 		wordAutomation.insertParagraph("[1] 段冬霞, 等. 基于参数化建模方法的双级旋流器流场研究[J]. 燃气轮机技术, 2012,25(2):12-20.","正文");
 		wordAutomation.insertParagraph("[2] Andreas A, et al. Automated combustor preliminary design using tools of different fidelity[C]. Proceedings of ASME Turbo Expo, 2013-944","正文");	
 		wordAutomation.insertParagraph("[1] 段冬霞, 等. 燃气轮机燃烧室参数化CFD设计方法研究[J]. 燃气轮机技术, 2014,27(2):8-22","正文");
-//		wordAutomation.save(filename);	
+		wordAutomation.save(filename);	
 		
 //		wordAutomation.close();		
 	}
