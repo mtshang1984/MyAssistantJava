@@ -167,9 +167,9 @@ public class PrivateCloud extends LinuxAutomation{
 	}
 	/**安装TeamViewer，后续需测试）*/
 	public void installTeamViewer(){
-		deleteFile("teamviewer_linux*.deb",true);
+		deleteFile("teamviewer_*.deb",true);
 		downloadFile("http://download.teamviewer.com/download/teamviewer_i386.deb",true);
-		runSshCommand("yes | dpkg -i teamviewer_linux*.deb && yes | apt-get -f install ",true);
+		runSshCommand("yes | dpkg -i teamviewer_*.deb && yes | apt-get -f install ",true);
 	}
 	/**卸载TeamViewer，后续需测试）*/
 	public void uninstallTeamViewer(){
@@ -264,6 +264,7 @@ public class PrivateCloud extends LinuxAutomation{
 	}
 	/**安装Yaaw*/
 	public void installYaaw(){
+		installPackageByAptget("git build-essential devscripts",true);
 		gitClone("https://github.com/binux/yaaw.git",true);
 		copyFile("yaaw", virtualHostMain.documentRoot+"/",true);
 		copyFile("yaaw", virtualHostShare.documentRoot+"/",true);		
@@ -277,7 +278,7 @@ public class PrivateCloud extends LinuxAutomation{
 	}
 	/**安装MySql-Server*/
 	public void installMySqlServer(){
-		installPackageByAptget("mysql-server",true);
+//		installPackageByAptget("mysql-server",true);
 		runSshCommand( "mysql_secure_installation",true);
 		runSshCommand("mysql_secure_installation",
 				host.rootPassword+"\n"
@@ -296,16 +297,16 @@ public class PrivateCloud extends LinuxAutomation{
 	/**安装OwnCloud*/
 	public void installOwnCloud(){
 		//installPackageByAptget("apache2",true);
-		installPackageByAptget("php5 php5-mysql",true);
-		installPackageByAptget("php5-gd php5-json php5-curl php5-intl php5-mcrypt php5-imagick",true);
+		installPackageByAptget("php7.0 php7.0-mysql",true);
+		installPackageByAptget("php7.0-gd php7.0-json php7.0-curl php7.0-intl php7.0-mcrypt php-imagick",true);
 
 
 		addMySqlServerDatabase(mySqlServerDatabase);
 
-		downloadFile("http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_14.04/Release.key",true);
+		downloadFile("http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_16.04/Release.key",true);
 		addAptKey("Release.key",true);
 		createEmptyFile("/etc/apt/sources.list.d/owncloud.list",true);
-		addTextInFileEnd("deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_14.04/ /", "/etc/apt/sources.list.d/owncloud.list",true);
+		addTextInFileEnd("deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_16.04/ /", "/etc/apt/sources.list.d/owncloud.list",true);
 
 		installPackageByAptget("ownCloud",true);		
 		
@@ -320,25 +321,28 @@ public class PrivateCloud extends LinuxAutomation{
 	}
 	/**安装所有私有云相关软件*/
 	public void installAllSoftware()	{
-		addMountInFstab("/dev/sdb1","/mnt/usb","ext4","defaults","0","0",true);
-		installPackageByAptget("jq crudini", true);
-		installTeamViewer();
-		installFtp();
-		installSamba();
+//		addMountInFstab("/dev/sda1","/mnt/usb","ext4","defaults","0","0",true);
+//		installPackageByAptget("jq crudini", true);
+////		installTeamViewer();
+//		installFtp();
+//		installSamba();
 		installAria2();
-		installYaaw();
-		installXware();
-		installOwnCloud();
+//		installYaaw();
+//		installXware();
+//		installMySqlServer();
+		//手动安装mysqlserver
+//		installOwnCloud();
 
 	}
 	/**卸载所有私有云相关软件*/
 	public void uninstallAllSoftware(){
-		uninstallTeamViewer();
+//		uninstallTeamViewer();
 		uninstallFtp();
 		uninstallSamba();
 		uninstallAria2();
 		uninstallYaaw();
 		uninstallXware();
+//		uninstallMySqlServer();
 		uninstallOwnCloud();
 
 	}

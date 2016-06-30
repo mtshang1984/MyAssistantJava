@@ -168,7 +168,7 @@ public class LinuxAutomation {
 
 	/** 增加apt安装源 */
 	public void addAptKey(String aptKey, boolean useSudo) {
-		runSshCommand("apt-key add - < " + aptKey, useSudo);
+		runSshCommand("apt-key add " + aptKey, useSudo);
 	}
 
 	/** 通过apt-get安装包 */

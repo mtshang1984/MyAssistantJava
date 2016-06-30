@@ -15,6 +15,7 @@ import MindManager.MindMap;
 import OfficeAutomation.ExcelAutomation;
 import OfficeAutomation.PowerPointAutomation;
 import OfficeAutomation.WordAutomation;
+import ReportGenerator.OGVCFDReport;
 import ReportGenerator.ParameterizeCFDPaper;
 import SearchEngine.Browser;
 import SearchEngine.SearchEngine;
@@ -35,6 +36,8 @@ public class AlmightyAssistant {
 		taskNumber = "1.1.1";
 		taskNumber = "4.1.1";
 		taskNumber = "6.2.1";
+		taskNumber = "1.2.1.3";
+		taskNumber = "6.3";
 		excuteJob(taskNumber, parameter);
 		
 		
@@ -52,6 +55,21 @@ public class AlmightyAssistant {
 			Browser browser = new Browser();
 			browser.openUrl("http://da.fengj.com/ggao-list-2-0-0-0-0-0-0-1.html");
 			browser.openUrl("http://atomurl.net/torrent/");
+			break;
+		}
+		case "1.2.1.3": {
+
+			PrivateCloud privateCloud = new PrivateCloud();
+			privateCloud.initialize();
+			privateCloud.installAllSoftware();
+			privateCloud.close();
+
+//			HttpServer httpServer = new HttpServer();
+//			httpServer.initialize();
+//
+//			httpServer.installAllSoftware();
+//			httpServer.close();
+			
 			break;
 		}
 		case "2.1.1": {
@@ -112,6 +130,15 @@ public class AlmightyAssistant {
 		case "6.2.1": {
 			ParameterizeCFDPaper parameterizeCFDPaper=new ParameterizeCFDPaper("D:\\00_yun_dir\\04_study\\03_paper\\03_my_paper\\06_参数化\\复杂多构型燃烧室自动参数化数值模拟方法及应用20160626.docx");
 			parameterizeCFDPaper.generatePaper();
+			//			WordAutomation wordAutomation = new WordAutomation(true);
+//			wordAutomation.openDocument("D:\\00_yun_dir\\04_study\\03_paper\\01_my_paper\\06_参数化\\自动参数化数值模拟在燃烧室设计的应用.doc");
+//			wordAutomation.close();
+			//D:\00_yun_dir\04_study\03_paper\01_my_paper\06_参数化
+			break;
+		}
+		case "6.3": {
+			OGVCFDReport ogvCFDReport=new OGVCFDReport("D:\\00_yun_dir\\04_study\\05_paper\\带OGV扩压器数值模拟项目中期报告.docx");
+			ogvCFDReport.generatePaper();
 			//			WordAutomation wordAutomation = new WordAutomation(true);
 //			wordAutomation.openDocument("D:\\00_yun_dir\\04_study\\03_paper\\01_my_paper\\06_参数化\\自动参数化数值模拟在燃烧室设计的应用.doc");
 //			wordAutomation.close();

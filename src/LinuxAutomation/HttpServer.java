@@ -56,7 +56,7 @@ public class HttpServer extends LinuxAutomation {
 
 	/** 安装Apache2 */
 	public void installApache2(){
-		installPackageByAptget("apache2",true);
+//		installPackageByAptget("apache2",true);
 		disableVirtualHost(virtualHostMain);
 		disableVirtualHost(virtualHostPrivate);
 		disableVirtualHost(virtualHostShare);
@@ -70,7 +70,8 @@ public class HttpServer extends LinuxAutomation {
 		addVirtualHost(virtualHostData);
 		addVirtualHost(virtualHostTest);
 		addVirtualHost(virtualHostDefault);
-		
+
+		addWebDirecotry(pathWeb);
 		addWebDirecotry(publicPathToShare);
 		
 		modifyConfigFile(apache2ConfigFile," ", "ServerName", "localhost", true);
@@ -119,10 +120,10 @@ public class HttpServer extends LinuxAutomation {
 
 		addTextInFileEnd(" <Directory " + virtualHost.documentRoot + ">", virtualHost.configFile, true);
 		addTextInFileEnd("  Options FollowSymLinks", virtualHost.configFile, true);
-		addTextInFileEnd("  RewriteEngine On", virtualHost.configFile, true);
-		addTextInFileEnd("  RewriteCond %{REQUEST_FILENAME} !-f", virtualHost.configFile, true);
-		addTextInFileEnd("  RewriteCond %{REQUEST_FILENAME} !-d", virtualHost.configFile, true);
-		addTextInFileEnd("  RewriteRule . index.php", virtualHost.configFile, true);
+//		addTextInFileEnd("  RewriteEngine On", virtualHost.configFile, true);
+//		addTextInFileEnd("  RewriteCond %{REQUEST_FILENAME} !-f", virtualHost.configFile, true);
+//		addTextInFileEnd("  RewriteCond %{REQUEST_FILENAME} !-d", virtualHost.configFile, true);
+//		addTextInFileEnd("  RewriteRule . index.php", virtualHost.configFile, true);
 		addTextInFileEnd("  AllowOverride All", virtualHost.configFile, true);
 		addTextInFileEnd("  Order allow,deny", virtualHost.configFile, true);
 		addTextInFileEnd("  allow from all", virtualHost.configFile, true);
@@ -161,10 +162,10 @@ public class HttpServer extends LinuxAutomation {
 		} else {
 			addTextInFileEnd("  Options FollowSymLinks", virtualHost.configFile, true);
 		}
-		addTextInFileEnd("  RewriteEngine On", virtualHost.configFile, true);
-		addTextInFileEnd("  RewriteCond %{REQUEST_FILENAME} !-f", virtualHost.configFile, true);
-		addTextInFileEnd("  RewriteCond %{REQUEST_FILENAME} !-d", virtualHost.configFile, true);
-		addTextInFileEnd("  RewriteRule . index.php", virtualHost.configFile, true);
+//		addTextInFileEnd("  RewriteEngine On", virtualHost.configFile, true);
+//		addTextInFileEnd("  RewriteCond %{REQUEST_FILENAME} !-f", virtualHost.configFile, true);
+//		addTextInFileEnd("  RewriteCond %{REQUEST_FILENAME} !-d", virtualHost.configFile, true);
+//		addTextInFileEnd("  RewriteRule . index.php", virtualHost.configFile, true);
 		addTextInFileEnd("  AllowOverride All", virtualHost.configFile, true);
 		addTextInFileEnd("  Order allow,deny", virtualHost.configFile, true);
 		addTextInFileEnd("  allow from all", virtualHost.configFile, true);
@@ -219,28 +220,28 @@ public class HttpServer extends LinuxAutomation {
 
 	/** 安装Php支持 */
 	public void installPhpSupprot( ) {
-		installPackageByAptget("libapache2-mod-php5 php5 php-pear php5-xcache",true);
+		installPackageByAptget("libapache2-mod-php7.0 php7.0 php-pear php-xcache",true);
 	}
 
 	/** 卸载Php支持 */
 	public void uninstallPhpSupprot( ) {
-		uninstallPackageByAptget("libapache2-mod-php5 php5 php-pear php5-xcache",true);
+		uninstallPackageByAptget("libapache2-mod-php7.0 php7.0 php-pear php-xcache",true);
 	}
 
 	/** 安装Http服务器所有软件 */
 	public void installAllSoftware( ) {
 		installApache2( );
-		installPerlSupprot( );
-		installPhpSupprot( );
-		installPythonSupprot( );
+//		installPerlSupprot( );
+//		installPhpSupprot( );
+//		installPythonSupprot( );
 	}
 
 	/** 卸载Http服务器所有软件 */
 	public void uninstallAllSoftware( ) {
 		uninstallApache2();
-		uninstallPerlSupprot();
-		uninstallPhpSupprot();
-		uninstallPythonSupprot();
+//		uninstallPerlSupprot();
+//		uninstallPhpSupprot();
+//		uninstallPythonSupprot();
 
 	}
 
