@@ -36,8 +36,8 @@ public class AlmightyAssistant {
 		taskNumber = "1.1.1";
 		taskNumber = "4.1.1";
 		taskNumber = "6.2.1";
-		taskNumber = "1.2.1.3";
 		taskNumber = "6.3";
+		taskNumber = "1.2.1.3";
 		excuteJob(taskNumber, parameter);
 		
 		
@@ -61,14 +61,20 @@ public class AlmightyAssistant {
 
 			PrivateCloud privateCloud = new PrivateCloud();
 			privateCloud.initialize();
-			privateCloud.installAllSoftware();
+//			privateCloud.installAllSoftware();
+//			privateCloud.uninstallAria2();
+//			privateCloud.installAria2();
+//			privateCloud.uninstallOwnCloud();
+//			privateCloud.installOwnCloud();
+//			privateCloud.test_code();
 			privateCloud.close();
 
-//			HttpServer httpServer = new HttpServer();
-//			httpServer.initialize();
+			HttpServer httpServer = new HttpServer();
+			httpServer.initialize();
 //
 //			httpServer.installAllSoftware();
-//			httpServer.close();
+			httpServer.test_code();
+			httpServer.close();
 			
 			break;
 		}

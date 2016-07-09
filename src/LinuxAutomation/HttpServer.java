@@ -10,27 +10,30 @@ public class HttpServer extends LinuxAutomation {
 	VirtualHost virtualHostMain;
 	VirtualHost virtualHostPrivate;
 	VirtualHost virtualHostShare;
+	VirtualHost virtualHostOwncloud;
 	VirtualHost virtualHostData;
 	VirtualHost virtualHostTest;	
 	VirtualHost virtualHostDefault;
 	String publicPathToShare; 
-
+	
 	public HttpServer() {
 		super();
 		pathDrive="/mnt/usb";
 		pathHome="/home/"+host.username;
-		pathWeb=pathHome+"/web";
+		pathWeb=pathDrive+"/html";
+//		pathWeb=pathHome+"/web";
 		
 		publicPathToShare=pathDrive+"/share";
 		
 		apache2ConfigPath = "/etc/apache2";
 		apache2ConfigFile =apache2ConfigPath+"/apache2.conf";
-		String fatherPath = "/home/smt/web";
-		virtualHostMain = new VirtualHost(apache2ConfigPath, "www.ijushan.com", fatherPath);
-		virtualHostPrivate = new VirtualHost(apache2ConfigPath, "my.ijushan.com", fatherPath);
+
+		virtualHostMain = new VirtualHost(apache2ConfigPath, "www.ijushan.com", pathWeb);
+		virtualHostPrivate = new VirtualHost(apache2ConfigPath, "my.ijushan.com", pathWeb);
 		virtualHostShare = new VirtualHost(apache2ConfigPath, "share.ijushan.com", publicPathToShare,true);
-		virtualHostData = new VirtualHost(apache2ConfigPath, "data.ijushan.com", fatherPath);
-		virtualHostTest = new VirtualHost(apache2ConfigPath, "test.ijushan.com", fatherPath);
+		virtualHostOwncloud = new VirtualHost(apache2ConfigPath, "owncloud.ijushan.com", pathWeb);
+		virtualHostData = new VirtualHost(apache2ConfigPath, "data.ijushan.com", pathWeb);
+		virtualHostTest = new VirtualHost(apache2ConfigPath, "test.ijushan.com", pathWeb);
 		virtualHostDefault = new VirtualHost(apache2ConfigPath, "", virtualHostMain.documentRoot,true);
 		virtualHostDefault.configFile=apache2ConfigPath+"/sites-available/000-default.conf";
 	}
@@ -39,17 +42,18 @@ public class HttpServer extends LinuxAutomation {
 		super(host,false);
 		pathDrive="/mnt/usb";
 		pathHome="/home/"+host.username;
-		pathWeb=pathHome+"/web";
+		pathWeb=pathDrive+"/html";
 		publicPathToShare=pathDrive+"/share";
 		
 		apache2ConfigPath = "/etc/apache2";
 		apache2ConfigFile =apache2ConfigPath+"/apache2.conf";
-		String fatherPath = "/home/smt/web";
-		virtualHostMain = new VirtualHost(apache2ConfigPath, "www.ijushan.com", fatherPath);
-		virtualHostPrivate = new VirtualHost(apache2ConfigPath, "my.ijushan.com", fatherPath);
+
+		virtualHostMain = new VirtualHost(apache2ConfigPath, "www.ijushan.com", pathWeb);
+		virtualHostPrivate = new VirtualHost(apache2ConfigPath, "my.ijushan.com", pathWeb);
 		virtualHostShare = new VirtualHost(apache2ConfigPath, "share.ijushan.com", publicPathToShare,true);
-		virtualHostData = new VirtualHost(apache2ConfigPath, "data.ijushan.com", fatherPath);
-		virtualHostTest = new VirtualHost(apache2ConfigPath, "test.ijushan.com", fatherPath);
+		virtualHostOwncloud = new VirtualHost(apache2ConfigPath, "owncloud.ijushan.com", pathWeb);
+		virtualHostData = new VirtualHost(apache2ConfigPath, "data.ijushan.com", pathWeb);
+		virtualHostTest = new VirtualHost(apache2ConfigPath, "test.ijushan.com", pathWeb);
 		virtualHostDefault = new VirtualHost(apache2ConfigPath, "", virtualHostMain.documentRoot,true);
 		virtualHostDefault.configFile=apache2ConfigPath+"/sites-available/000-default.conf";
 	}
@@ -60,6 +64,7 @@ public class HttpServer extends LinuxAutomation {
 		disableVirtualHost(virtualHostMain);
 		disableVirtualHost(virtualHostPrivate);
 		disableVirtualHost(virtualHostShare);
+		disableVirtualHost(virtualHostOwncloud);
 		disableVirtualHost(virtualHostTest);
 		disableVirtualHost(virtualHostData);
 		disableVirtualHost(virtualHostDefault);
@@ -67,6 +72,9 @@ public class HttpServer extends LinuxAutomation {
 		addVirtualHost(virtualHostMain);
 		addVirtualHost(virtualHostPrivate);
 		addVirtualHost(virtualHostShare, true);
+		addVirtualHost(virtualHostOwncloud);
+		changeFileOwner(virtualHostOwncloud.documentRoot, "www-data", "www-data", true);
+		linkPath(publicPathToShare,virtualHostOwncloud.documentRoot+"/data/smt/files",true);
 		addVirtualHost(virtualHostData);
 		addVirtualHost(virtualHostTest);
 		addVirtualHost(virtualHostDefault);
@@ -79,6 +87,7 @@ public class HttpServer extends LinuxAutomation {
 		enableVirtualHost(virtualHostMain);
 		enableVirtualHost(virtualHostPrivate);
 		enableVirtualHost(virtualHostShare);
+		enableVirtualHost(virtualHostOwncloud);
 		enableVirtualHost(virtualHostData);
 		enableVirtualHost(virtualHostTest);
 		enableVirtualHost(virtualHostDefault);
@@ -220,51 +229,54 @@ public class HttpServer extends LinuxAutomation {
 
 	/** 安装Php支持 */
 	public void installPhpSupprot( ) {
-		installPackageByAptget("libapache2-mod-php7.0 php7.0 php-pear php-xcache",true);
+		installPackageByAptget("libapache2-mod-php php php-pear php-xcache",true);
+		installPackageByAptget("php-zip php-xml php-mbstring",true);
 	}
 
 	/** 卸载Php支持 */
 	public void uninstallPhpSupprot( ) {
-		uninstallPackageByAptget("libapache2-mod-php7.0 php7.0 php-pear php-xcache",true);
+		uninstallPackageByAptget("libapache2-mod-php php php-pear php-xcache",true);
 	}
 
 	/** 安装Http服务器所有软件 */
 	public void installAllSoftware( ) {
 		installApache2( );
-//		installPerlSupprot( );
-//		installPhpSupprot( );
-//		installPythonSupprot( );
+		installPerlSupprot( );
+		installPhpSupprot( );
+		installPythonSupprot( );
 	}
 
 	/** 卸载Http服务器所有软件 */
 	public void uninstallAllSoftware( ) {
 		uninstallApache2();
-//		uninstallPerlSupprot();
-//		uninstallPhpSupprot();
-//		uninstallPythonSupprot();
+		uninstallPerlSupprot();
+		uninstallPhpSupprot();
+		uninstallPythonSupprot();
 
 	}
 
 	/** 测试代码 */
 	public void test_code( ) {
-		pathDrive="/media/smt/yunpan";
-		pathHome="/home/"+host.username;
-		pathWeb=pathHome+"/web";
-		
-		publicPathToShare=pathHome+"/share";
-		virtualHostShare = new VirtualHost(apache2ConfigPath, "share.ijushan.com", publicPathToShare,true);
-		disableVirtualHost(virtualHostShare);
-		removeVirtualHost(virtualHostShare);
-		removeWebDirecotry(publicPathToShare);	
 
-		pathDrive="/mnt/usb";
-		publicPathToShare=pathDrive+"/share";
-		virtualHostShare = new VirtualHost(apache2ConfigPath, "share.ijushan.com", publicPathToShare,true);
-		
-		addVirtualHost(virtualHostShare, true);	
-		addWebDirecotry(publicPathToShare);	
-		enableVirtualHost(virtualHostShare);
-		
-		restartService("apache2",true);
+		linkPath(publicPathToShare,virtualHostOwncloud.documentRoot+"/data/smt/files",true);
+//		pathDrive="/media/smt/yunpan";
+//		pathHome="/home/"+host.username;
+//		pathWeb=pathHome+"/web";
+//		
+//		publicPathToShare=pathHome+"/share";
+//		virtualHostShare = new VirtualHost(apache2ConfigPath, "share.ijushan.com", publicPathToShare,true);
+//		disableVirtualHost(virtualHostShare);
+//		removeVirtualHost(virtualHostShare);
+//		removeWebDirecotry(publicPathToShare);	
+//
+//		pathDrive="/mnt/usb";
+//		publicPathToShare=pathDrive+"/share";
+//		virtualHostShare = new VirtualHost(apache2ConfigPath, "share.ijushan.com", publicPathToShare,true);
+//		
+//		addVirtualHost(virtualHostShare, true);	
+//		addWebDirecotry(publicPathToShare);	
+//		enableVirtualHost(virtualHostShare);
+//		
+//		restartService("apache2",true);
 	}
 }

@@ -33,7 +33,7 @@ public class PrivateCloud extends LinuxAutomation{
 
 		publicPathAria2=publicPathToShare+"/04_aria2";
 
-		pathOwncloudData=pathToShare+"/SmtOwncloudData";
+		pathOwncloudData=pathWeb+"/owncloud.ijushan.com/data";
 		
 		virtualHostMain = new VirtualHost("", "www.ijushan.com", pathWeb);
 		virtualHostShare = new VirtualHost("", "share.ijushan.com", publicPathToShare,true);
@@ -57,7 +57,7 @@ public class PrivateCloud extends LinuxAutomation{
 
 		publicPathAria2=publicPathToShare+"/04_aria2";
 
-		pathOwncloudData=pathToShare+"/SmtOwncloudData";
+		pathOwncloudData=pathWeb+"/owncloud.ijushan.com/data";
 		
 		virtualHostMain = new VirtualHost("", "www.ijushan.com", pathWeb);
 		virtualHostShare = new VirtualHost("", "share.ijushan.com", publicPathToShare,true);
@@ -194,20 +194,26 @@ public class PrivateCloud extends LinuxAutomation{
 
 		String configFilePath="/etc/aria2";
 		String configFile=configFilePath+"/aria2.conf";
-		String removeAria2Shell=configFilePath+"/remove_aria2_file.sh";
 		makeDirectory(configFilePath,true);
-		setFileFullPermission(configFilePath,true,true);		
-		
+		setFileFullPermission(configFilePath,true,true);	
+		createEmptyFile(configFile,true);
+		setFileFullPermission(configFile,true,true);	
+
+		String removeAria2Shell=configFilePath+"/remove_aria2_file.sh";
 		addTextInFileEnd("rm \"$3.aria2\"",removeAria2Shell,true);		
 		setFileFullPermission(removeAria2Shell,true,true);		
-
-		createEmptyFile(configFile,true);
-		setFileFullPermission(configFile,true,true);
+		
+		String sessionFile=configFilePath+"/aria2.session";
+		createEmptyFile(sessionFile,true);
+		setFileFullPermission(sessionFile,true,true);
 		//RPC
 		modifyConfigFile( configFile,  "enable-rpc",  "true",true);
 		modifyConfigFile( configFile,  "rpc-listen-all",  "true",true);
+		modifyConfigFile( configFile,  "rpc-listen-port",  "6800",true);
 		modifyConfigFile( configFile,  "rpc-allow-origin-all",  "true",true);
+		modifyConfigFile( configFile,  "rpc-secret",  host.password,true);		
 		modifyConfigFile( configFile,  "event-poll",  "select",true);
+		
 		//速度
 		modifyConfigFile(configFile, "max-concurrent-downloads", "5",true);
 		modifyConfigFile(configFile, "max-connection-per-server", "10",true);
@@ -224,7 +230,7 @@ public class PrivateCloud extends LinuxAutomation{
 		modifyConfigFile(configFile, "input-file", configFilePath + "/aria2.session",true);
 		modifyConfigFile(configFile, "log", configFilePath + "/aria2.log",true);
 		modifyConfigFile(configFile, "force-save", "true",true);
-		modifyConfigFile(configFile, "save-session-interval", "30",true);	
+		modifyConfigFile(configFile, "save-session-interval", "10",true);	
 		modifyConfigFile(configFile, "on-download-complete ", " " + configFilePath + "/remove_aria2_file.sh ",true);
 		
 		//BT
@@ -253,11 +259,15 @@ public class PrivateCloud extends LinuxAutomation{
 		String configFilePath="/etc/aria2";
 		String configFile=configFilePath+"/aria2.conf";
 		String removeAria2Shell=configFilePath+"/remove_aria2_file.sh";
+		String sessionFile=configFilePath+"/aria2.session";
 		
 		killProgram("aria2c",1000,true);
+		
+		deleteFile(sessionFile,true);
 		deleteFile(removeAria2Shell,true);
 		deleteFile(configFile,true);
-		cancelAutostart("service cron start",true);	
+		
+//		cancelAutostart("service cron start",true);	
 		deleteFile("/etc/cron.d/aria2",true);
 		cancelAutostart("/usr/bin/aria2c",true);			
 		uninstallPackageByAptget("aria2",true);
@@ -296,23 +306,27 @@ public class PrivateCloud extends LinuxAutomation{
 	}
 	/**安装OwnCloud*/
 	public void installOwnCloud(){
-		//installPackageByAptget("apache2",true);
-		installPackageByAptget("php7.0 php7.0-mysql",true);
-		installPackageByAptget("php7.0-gd php7.0-json php7.0-curl php7.0-intl php7.0-mcrypt php-imagick",true);
-
+		installPackageByAptget("apache2",true);
+		installPackageByAptget("php php-mysql",true);
+		installPackageByAptget("php-gd php-json php-curl php-intl php-mcrypt php-imagick",true);
+		installPackageByAptget("php-zip php-xml php-mbstring",true);
 
 		addMySqlServerDatabase(mySqlServerDatabase);
 
-		downloadFile("http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_16.04/Release.key",true);
+//		downloadFile("http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_16.04/Release.key",true);
+		downloadFile("https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/Release.key",true);
 		addAptKey("Release.key",true);
 		createEmptyFile("/etc/apt/sources.list.d/owncloud.list",true);
-		addTextInFileEnd("deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_16.04/ /", "/etc/apt/sources.list.d/owncloud.list",true);
-
-		installPackageByAptget("ownCloud",true);		
+//		addTextInFileEnd("deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_16.04/ /", "/etc/apt/sources.list.d/owncloud.list",true);
+		addTextInFileEnd("deb http://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/ /", "/etc/apt/sources.list.d/owncloud.list",true);
 		
-		makeDirectory(pathOwncloudData,"www-data","www-data",true);
-		setFileFullPermission(pathOwncloudData,true,true);
-		linkPath(publicPathToShare,pathOwncloudData+"/smt/files",true);
+		updateAptRepository(true);
+		installPackageByAptget("owncloud-files",true);		
+		linkPath("/var/owncloud","/var/html/",true);
+		
+//		makeDirectory(pathOwncloudData,"www-data","www-data",true);
+//		setFileFullPermission(pathOwncloudData,true,true);
+//		linkPath(publicPathToShare,pathOwncloudData+"/smt/files",true);
 	}
 	/**卸载OwnCloud*/
 	public void uninstallOwnCloud(){
@@ -321,17 +335,17 @@ public class PrivateCloud extends LinuxAutomation{
 	}
 	/**安装所有私有云相关软件*/
 	public void installAllSoftware()	{
-//		addMountInFstab("/dev/sda1","/mnt/usb","ext4","defaults","0","0",true);
-//		installPackageByAptget("jq crudini", true);
-////		installTeamViewer();
-//		installFtp();
-//		installSamba();
+		addMountInFstab("/dev/sda1","/mnt/usb","ext4","defaults","0","0",true);
+		installPackageByAptget("jq crudini", true);
+		installTeamViewer();
+		installFtp();
+		installSamba();
 		installAria2();
-//		installYaaw();
+		installYaaw();
 //		installXware();
-//		installMySqlServer();
+		installMySqlServer();
 		//手动安装mysqlserver
-//		installOwnCloud();
+		installOwnCloud();
 
 	}
 	/**卸载所有私有云相关软件*/
@@ -342,18 +356,12 @@ public class PrivateCloud extends LinuxAutomation{
 		uninstallAria2();
 		uninstallYaaw();
 		uninstallXware();
-//		uninstallMySqlServer();
+		uninstallMySqlServer();
 		uninstallOwnCloud();
 
 	}
 	public void addMySqlServerDatabase(MySqlServerDatabase mySqlServerDatabase){
-//		runSshCommand("mysql -u root -p",
-//				rootPassword+"\n"
-//				+ "CREATE USER '"+mySqlServerDatabase.owncloudUserName+"'@'"+mySqlServerDatabase.hostname+"' IDENTIFIED BY '"+mySqlServerDatabase.owncloudUserPassword+"';\n"
-//				+ "CREATE DATABASE "+mySqlServerDatabase.owncloudDatabase+";\n"
-//				+ "GRANT ALL ON "+mySqlServerDatabase.owncloudDatabase+".* TO '"+mySqlServerDatabase.owncloudUserName+"'@'"+mySqlServerDatabase.hostname+"';\n"
-//				+ "FLUSH PRIVILEGES;\n"
-//				+ "exit\n",true);
+
 		runSshCommand("mysql -u" + host.rootUsername + " -p" + host.rootPassword + " -e\"" + "CREATE USER '"
 				+ mySqlServerDatabase.userName + "'@'" + mySqlServerDatabase.hostname + "' IDENTIFIED BY '"
 				+ mySqlServerDatabase.password+"'\"",true);
@@ -370,12 +378,13 @@ public class PrivateCloud extends LinuxAutomation{
 	/**测试代码*/
 	public void test_code()
 	{
-		uninstallFtp();
+//		addMySqlServerDatabase(mySqlServerDatabase);
+//		uninstallFtp();
 //		uninstallSamba();
 //		uninstallAria2();
 //		uninstallYaaw();
 //		
-		installFtp();
+//		installFtp();
 //		installSamba();
 //		installAria2();
 //		installYaaw();
@@ -384,7 +393,7 @@ public class PrivateCloud extends LinuxAutomation{
 //		unlinkPath("/home/smt/SmtOwncloudData/smt/files/share",true);
 ////
 //		makeDirectory(pathOwncloudData,"www-data","www-data",true);
-//		setFileFullPermission(pathOwncloudData,true,true);
+////		setFileFullPermission(pathOwncloudData,true,true);
 //		linkPath(publicPathToShare,pathOwncloudData+"/smt/files",true);
 	}
 
